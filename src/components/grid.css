@@ -1,0 +1,15 @@
+/* amirsalmani/grid — one auto-fit grid with a minimum-width knob.
+ *
+ * Requires tokens.css. There are no breakpoints: set --as-grid-min and the
+ * column count follows from the space available (brand.md §3, everything
+ * spatial is fluid).
+ */
+
+.as-grid {
+  display: grid;
+  gap: var(--gap-l);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--as-grid-min, 16rem)), 1fr));
+}
+.as-grid--tight { gap: var(--gap-m); }
+.as-grid--wide  { --as-grid-min: 22rem; }
+.as-grid--narrow { --as-grid-min: 11rem; }

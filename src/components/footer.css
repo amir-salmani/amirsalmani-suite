@@ -1,0 +1,38 @@
+/* amirsalmani/footer — the colophon.
+ *
+ * Requires tokens.css. Two lines that are not the same claim: the legal line
+ * says who is liable, the maker line says who built it. Keep them apart.
+ */
+
+.as-colophon {
+  padding-block: var(--gap-xl);
+  padding-inline: var(--pad-x);
+  border-top: 1px solid var(--rule);
+}
+.as-colophon__inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-s) var(--gap-m);
+}
+.as-colophon__legal {
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.as-colophon__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-m);
+  font-size: .9rem;
+}
+
+@media (max-width: 40rem) {
+  .as-colophon__inner { flex-direction: column; align-items: flex-start; }
+}

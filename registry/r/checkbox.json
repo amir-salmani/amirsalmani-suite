@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:file",
+  "title": "Checkbox & radio",
+  "description": "Checked inverts rather than filling with a hue. The 44px target is on the label, not the 20px box, so the hit area is the whole row.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "controls"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/checkbox.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-checkbox.css",
+      "content": "/* amirsalmani/checkbox — and the radio, which is the same control rounded.\n *\n * Requires tokens.css. The tick is the suite's own `check` icon path, drawn\n * with the same round caps as the mark, and the checked state inverts rather\n * than fills with a hue.\n *\n * The 44px target is on the label, not the 20px box, so the hit area is the\n * whole row.\n */\n\n.as-check {\n  display: inline-flex;\n  align-items: center;\n  gap: .65rem;\n  min-height: 44px;\n  cursor: pointer;\n  font-size: 1rem;\n  line-height: 1.4;\n  color: var(--fg);\n}\n.as-check input {\n  appearance: none;\n  -webkit-appearance: none;\n  flex: none;\n  width: 1.25rem;\n  height: 1.25rem;\n  margin: 0;\n  border: 1px solid var(--glass-edge);\n  border-radius: 5px;\n  background: var(--wash);\n  cursor: pointer;\n  display: grid;\n  place-content: center;\n  transition: background var(--fast) var(--ease-out), border-color var(--fast) var(--ease-out);\n}\n.as-check input[type=\"radio\"] { border-radius: 999px; }\n.as-check input::before {\n  content: \"\";\n  width: .7rem;\n  height: .7rem;\n  transform: scale(0);\n  transition: transform var(--fast) var(--ease-out);\n  background: var(--bg);\n  clip-path: polygon(13% 52%, 8% 62%, 38% 88%, 92% 22%, 82% 14%, 37% 70%);\n}\n.as-check input[type=\"radio\"]::before { clip-path: circle(50%); width: .5rem; height: .5rem; }\n.as-check input:checked { background: var(--fg); border-color: var(--fg); }\n.as-check input:checked::before { transform: scale(1); }\n.as-check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n.as-check input[disabled] { opacity: .5; cursor: not-allowed; }\n.as-check:has(input[disabled]) { opacity: .6; cursor: not-allowed; }\n\n@media (prefers-contrast: more) { .as-check input { background: var(--bg); border-color: var(--fg); } }\n"
+    }
+  ]
+}

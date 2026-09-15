@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "type": "registry:file",
+  "title": "Switch",
+  "description": "The knob position is a custom property from 0 to 1, so it can be handed to motion.js and re-targeted mid-flight. Without JS it falls back to a transition.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "controls"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/switch.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-switch.css",
+      "content": "/* amirsalmani/switch — a physical switch, not an icon button.\n *\n * Requires tokens.css. Extracted from the theme toggle on amirsalmani.com. The\n * knob position is a custom property `--t` (0..1), so it can be driven by a CSS\n * transition or handed to the spring in motion.js and re-targeted mid-flight —\n * which is the whole reason it is not a transform keyframe.\n */\n\n.as-switch {\n  --t: 0;\n  --knob: 1.375rem;\n  position: relative;\n  flex: none;\n  width: 3.25rem;\n  height: 1.875rem;\n  padding: 0;\n  border: 1px solid var(--glass-edge);\n  border-radius: 999px;\n  background: var(--glass);\n  -webkit-backdrop-filter: blur(14px) saturate(150%);\n          backdrop-filter: blur(14px) saturate(150%);\n  color: var(--fg);\n  cursor: pointer;\n  transition: border-color var(--fast) var(--ease-out);\n}\n.as-switch::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: .1875rem;\n  width: var(--knob);\n  height: var(--knob);\n  border-radius: 999px;\n  background: var(--fg);\n  transform: translate(calc(var(--t) * (3.25rem - var(--knob) - .5rem)), -50%);\n}\n.as-switch:hover, .as-switch:focus-visible { border-color: var(--accent); }\n.as-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n.as-switch[aria-checked=\"true\"] { --t: 1; }\n\n/* Without JS the knob still has to move, so the fallback is a transition. With\n   motion.js driving --t the spring owns it and this never fires. */\n.as-switch:not([data-spring])::after { transition: transform var(--med) var(--ease-out); }\n\n@media (prefers-reduced-transparency: reduce) {\n  .as-switch { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--fg) 9%, var(--bg)); }\n}\n@media (prefers-contrast: more) { .as-switch { background: var(--bg); border-color: var(--fg); } }\n"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+<div class="as-row spring-demo">
+  <button class="as-switch" role="switch" aria-checked="false" aria-label="Spring-driven switch" data-spring></button>
+  <span class="as-label">damping 1 &middot; response 0.32s</span>
+</div>
+<script type="module">
+  /* Adjust the path to wherever the registry put motion.js in your project. */
+  import { Spring, SPRING } from './lib/motion.js';
+  const el = document.querySelector('.spring-demo .as-switch');
+  const s = new Spring(0, t => el.style.setProperty('--t', t.toFixed(4)), SPRING.knob);
+  el.addEventListener('click', () => {
+    const on = el.getAttribute('aria-checked') !== 'true';
+    el.setAttribute('aria-checked', String(on));
+    s.to(on ? 1 : 0);
+  });
+</script>

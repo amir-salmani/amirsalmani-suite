@@ -1,72 +1,83 @@
 #!/usr/bin/env node
-// Render every primitive on both grounds, then again under each accessibility
+// Render every item's demo on both grounds, then again under each accessibility
 // preference. A component that only works on one ground, or that dies when
 // transparency is off, is not finished.
-import { readFile, writeFile, rm } from 'node:fs/promises';
+//
+//   node tools/component-proof.mjs   →  docs/proof-components.png, docs/proof-prefs-transparency.png
+
+import { readFile, writeFile, readdir, rm } from 'node:fs/promises';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
+import { ITEMS } from '../src/manifest.mjs';
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const css = async f => readFile(path.join(ROOT, 'src', f), 'utf8');
-const [tokens, prims, madeby] = await Promise.all(
-  [css('components/tokens.css'), css('components/primitives.css'), css('made-by/made-by.css')]);
-const mark = await readFile(path.join(ROOT, 'src/marks/frame.svg'), 'utf8');
-const heart = await readFile(path.join(ROOT, 'src/marks/heart.svg'), 'utf8');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const read = p => readFile(path.join(ROOT, p), 'utf8');
 
-const specimen = `
-  <p class="as-label">Section 02 · Evidence</p>
-  <div class="row">
-    <button class="as-btn">Read the record</button>
-    <button class="as-btn as-btn--solid">Start</button>
-    <a class="as-link" href="#">an underlined link</a>
-  </div>
-  <div class="as-glass pad">
-    <div class="as-figure">
-      <span class="as-figure__value">11.82:1</span>
-      <span class="as-figure__label">Foreground contrast, both grounds</span>
-      <span class="as-figure__source">Measured · WCAG 2.1 relative luminance</span>
-    </div>
-  </div>
-  <span class="made-by">${mark.replace('<svg','<svg class="made-by__mark"')}<span>Made with ${heart.replace('<svg','<svg class="made-by__glyph"')} and good tools by <a class="as-link" href="#">Amir Salmani</a></span></span>`;
+const css = [];
+for (const item of ITEMS) if (item.css) css.push(await read(`src/components/${item.css}`));
+css.push(await read('src/made-by/made-by.css'));
 
-const panel = (title, attrs) => `
-  <section ${attrs}>
-    <h3 class="as-label as-label--faint">${title}</h3>
-    ${specimen}
-  </section>`;
+// A demo's <script> is behaviour, not surface; the proof is about what it looks
+// like, and a module script will not run from file:// anyway.
+const strip = s => s.replace(/<script[\s\S]*?<\/script>/g, '');
 
-const html = `<!doctype html><meta charset=utf-8>
-<style>${tokens}${prims}${madeby}
-  body{margin:0;font-family:var(--sans)}
-  section{background:var(--bg);color:var(--fg);padding:26px 30px 34px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
-  .row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-  .pad{padding:20px 24px}
-  h3{margin:0 0 4px}
-</style>
-${panel('Dark ground — the default', 'data-theme="dark"')}
-${panel('Light ground', 'data-theme="light"')}
-${panel('Light ground, inverted band (same element)', 'data-theme="light" class="band band--alt"')}
-<div data-theme="light">${panel('Light ground, inverted band (nested — the normal case)', 'class="band band--alt"')}</div>`;
-
-const tmp = path.join(ROOT, 'docs', '_c.html');
-await writeFile(tmp, html);
-const b = await chromium.launch({ args: ['--hide-scrollbars','--disable-gpu'] });
-for (const [name, media] of [
-  ['components', []],
-  ['components-prefs', [['prefers-reduced-transparency','reduce'], ['prefers-contrast','more']]],
-]) {
-  const p = await b.newPage({ viewport: { width: 760, height: 900 }, deviceScaleFactor: 2 });
-  if (media.length) await p.emulateMedia({ forcedColors: 'none' });
-  // Playwright cannot emulate these two, so force them by rewriting the query.
-  const src = media.length
-    ? html.replaceAll('@media (prefers-reduced-transparency: reduce)', '@media all')
-          .replaceAll('@media (prefers-contrast: more)', '@media all')
-    : html;
-  await writeFile(tmp, src);
-  await p.goto(pathToFileURL(tmp).href, { waitUntil: 'load' });
-  await p.screenshot({ path: path.join(ROOT, `docs/${name}.png`), fullPage: true });
-  await p.close();
-  console.log(`docs/${name}.png`);
+async function svgDemo(dir) {
+  const d = path.join(ROOT, 'src', dir);
+  const names = (await readdir(d)).filter(f => f.endsWith('.svg') && !f.endsWith('-bold.svg')).sort();
+  const cells = await Promise.all(names.map(async f =>
+    (await readFile(path.join(d, f), 'utf8')).replace(/<svg /, '<svg style="width:2rem;height:2rem" ')));
+  return `<div style="display:flex;gap:1rem;flex-wrap:wrap">${cells.join('')}</div>`;
 }
-await b.close(); await rm(tmp, { force: true });
+
+const demos = [];
+for (const item of ITEMS) {
+  if (!item.demo) continue;
+  const body = item.special === 'svgdir'
+    ? await svgDemo(item.dir)
+    : strip(await read(`src/demos/${item.demo}.html`));
+  demos.push({ name: item.name, title: item.title, body });
+}
+
+// Both grounds render the same markup twice, so a radio group would span the
+// two panels and the second copy would silently steal the first's selection —
+// which reads as a component bug and is not one.
+const scope = (body, tag) => body.replace(/name="([^"]+)"/g, `name="$1-${tag}"`);
+
+const pair = d => `
+  <div class="pair">
+    <h3 class="cap">${d.title}</h3>
+    <div class="grounds">
+      <div class="band" data-theme="dark"><div class="pad">${scope(d.body, 'd')}</div></div>
+      <div class="band" data-theme="light"><div class="pad">${scope(d.body, 'l')}</div></div>
+    </div>
+  </div>`;
+
+const page = (subset) => `<!doctype html><meta charset="utf-8">
+<style>
+${css.join('\n')}
+body { margin: 0; font-family: var(--sans); background: #0b0d16; }
+.cap { font-family: var(--mono); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase;
+       color: #8d93a8; margin: 0 0 .4rem; padding-left: .2rem; }
+.pair { margin-bottom: 1.4rem; }
+.grounds { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #2a2f42; }
+.pad { padding: 1.5rem; }
+.wrap { padding: 1.5rem; }
+</style>
+<div class="wrap">${subset.map(pair).join('')}</div>`;
+
+const browser = await chromium.launch();
+const shot = async (file, opts = {}) => {
+  const ctx = await browser.newContext({ viewport: { width: 1200, height: 900 }, deviceScaleFactor: 2, ...opts });
+  const p = await ctx.newPage();
+  await p.setContent(page(demos), { waitUntil: 'load' });
+  await p.screenshot({ path: path.join(ROOT, 'docs', file), fullPage: true });
+  await ctx.close();
+};
+
+await shot('proof-components.png');
+await shot('proof-prefs-transparency.png', { reducedMotion: 'reduce', forcedColors: 'none', contrast: 'more' });
+await browser.close();
+
+console.log(`docs/proof-components.png — ${demos.length} items, both grounds`);
+console.log(`docs/proof-prefs-transparency.png — the same under prefers-contrast: more`);

@@ -29,6 +29,17 @@
   --radius: 14px;
   --radius-s: 10px;
 
+  /* Everything spatial is fluid (brand.md §3), so a 390px phone and a 27"
+     display share one rhythm rather than a set of patched breakpoints. */
+  --pad-x:  clamp(1.25rem, 4.5vw, 2.75rem);
+  --band-y: clamp(3rem, 6.5vw, 5.25rem);
+  --gap-xs: .5rem;
+  --gap-s:  .875rem;
+  --gap-m:  1.5rem;
+  --gap-l:  clamp(1.75rem, 4vw, 3rem);
+  --gap-xl: clamp(2.5rem, 6vw, 4.5rem);
+  --maxw:   72rem;
+
   --ease-out: cubic-bezier(.22, .8, .24, 1);
   --fast: 140ms;
   --med: 280ms;
@@ -58,6 +69,18 @@
   }
 }
 
+/* The family is a token like any other, and a component that inherits it needs
+   somebody to have set it. :where() puts this at zero specificity, so a host
+   application's own base rule wins without having to fight it. Without it, body
+   prose silently falls back to the UA serif — which is what rendering the
+   catalogue showed and reading the CSS did not. */
+:where(:root) {
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
 /* Derived from the local --fg, so a component inside an inverted band adapts
    with no second set of rules. Never hard-code one of these. */
 :where(:root, [data-theme], .band) {
@@ -65,6 +88,9 @@
   --glass-edge: color-mix(in srgb, var(--fg) 15%, transparent);
   --glass-top:  color-mix(in srgb, var(--fg) 26%, transparent);
   --rule:       color-mix(in srgb, var(--fg) 13%, transparent);
+  /* 9% is not a free parameter. Muted text on a washed cream ground measures
+     4.51:1 — AA with 0.01 to spare. Darkening this breaks it; tools/contrast.mjs
+     is what says so. */
   --wash:       color-mix(in srgb, var(--fg) 9%, transparent);
 }
 

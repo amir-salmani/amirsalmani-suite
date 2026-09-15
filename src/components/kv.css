@@ -1,0 +1,29 @@
+/* amirsalmani/kv — key and value, which is most of what a status page is.
+ *
+ * Requires tokens.css. The key is mono (a machine would emit it), the value is
+ * sans if it is a word and mono if it is an identifier — use .as-kv__v--id for
+ * the second case. Rules between rows, never zebra striping.
+ */
+
+.as-kv { display: grid; grid-template-columns: max-content 1fr; gap: 0; width: 100%; }
+.as-kv__k, .as-kv__v { padding: .7rem 0; border-top: 1px solid var(--rule); }
+.as-kv__k {
+  padding-right: var(--gap-m);
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.as-kv__v { color: var(--fg); font-size: .95rem; line-height: 1.5; }
+.as-kv__v--id { font-family: var(--mono); font-size: .875rem; letter-spacing: .01em; word-break: break-all; }
+.as-kv > :nth-child(1), .as-kv > :nth-child(2) { border-top: 0; }
+
+@media (max-width: 34rem) {
+  .as-kv { grid-template-columns: 1fr; }
+  .as-kv__k { padding-bottom: 0; border-top-width: 1px; }
+  .as-kv__v { padding-top: .2rem; border-top: 0; }
+  .as-kv > :nth-child(2) { border-top: 0; }
+}

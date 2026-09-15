@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section",
+  "type": "registry:file",
+  "title": "Section",
+  "description": "Fluid vertical rhythm and a heading row whose rule expands to fill whatever the title leaves. Sits inside a .band, which tokens.css owns.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "layout"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/section.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-section.css",
+      "content": "/* amirsalmani/section — the band rhythm and the section head.\n *\n * Requires tokens.css, which owns .band and .band--alt. This file is the\n * spacing and the heading rule that sit inside one.\n */\n\n.as-section { padding-block: var(--band-y); padding-inline: var(--pad-x); }\n.as-section__inner { max-width: var(--maxw); margin-inline: auto; }\n\n.as-sec-head {\n  display: flex;\n  flex-wrap: wrap;\n  align-items: baseline;\n  gap: var(--gap-s) var(--gap-m);\n  margin-bottom: var(--gap-l);\n}\n.as-sec-head h2, .as-sec-head .as-sec-head__title {\n  font-family: var(--sans);\n  font-size: clamp(1.5rem, 3.2vw, 2.3rem);\n  font-weight: 700;\n  letter-spacing: -.025em;\n  line-height: 1.08;\n  color: var(--fg);\n  margin: 0;\n}\n.as-sec-head__rule {               /* takes the slack, so the head is one line */\n  flex: 1 1 4rem;\n  height: 1px;\n  min-width: 2rem;\n  background: var(--rule);\n  align-self: center;\n}\n"
+    }
+  ]
+}

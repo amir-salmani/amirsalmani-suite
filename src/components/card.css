@@ -1,0 +1,37 @@
+/* amirsalmani/card — a bordered block, or a whole link.
+ *
+ * Requires tokens.css. A card is a rule and some padding: no shadow, no
+ * gradient, no glass. Glass is reserved for things that float (brand.md §4),
+ * and a card in a grid does not float.
+ */
+
+.as-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+  padding: clamp(1.35rem, 2.6vw, 1.9rem) clamp(1.2rem, 2.2vw, 1.6rem);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: transparent;
+}
+.as-card--wash { background: var(--wash); }
+.as-card__title {
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  color: var(--fg);
+  margin: 0;
+}
+.as-card__body { color: var(--muted); line-height: 1.7; margin: 0; }
+.as-card__foot { margin-top: auto; padding-top: var(--gap-s); }
+
+a.as-card {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--fast) var(--ease-out), background var(--fast) var(--ease-out);
+}
+a.as-card:hover, a.as-card:focus-visible { border-color: var(--accent); background: var(--wash); }
+a.as-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (prefers-contrast: more) { .as-card { border-color: var(--fg); } }

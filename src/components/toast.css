@@ -1,0 +1,53 @@
+/* amirsalmani/toast — floating chrome, so it is the one place glass belongs.
+ *
+ * Requires tokens.css and glass.css. It enters with opacity and 6px of travel
+ * and nothing else; a notification that slides across the viewport is asking
+ * for attention it has not earned.
+ *
+ * Under reduced motion it cross-fades in place — gentler feedback, not none
+ * (brand.md §4).
+ */
+
+.as-toasts {
+  position: fixed;
+  z-index: 60;
+  inset: auto var(--pad-x) var(--pad-x) auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
+  width: min(24rem, calc(100vw - 2 * var(--pad-x)));
+  pointer-events: none;
+}
+.as-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .85rem 1rem;
+  border-radius: var(--radius-s);
+  box-shadow: var(--shadow);
+  animation: as-toast-in var(--med) var(--ease-out) both;
+}
+.as-toast__body { flex: 1; font-size: .95rem; line-height: 1.5; color: var(--fg); }
+.as-toast__title { display: block; font-weight: 700; letter-spacing: -.01em; }
+.as-toast__close {
+  flex: none;
+  padding: .1rem .35rem;
+  border: 0;
+  background: none;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: .8rem;
+  cursor: pointer;
+  transition: color var(--fast) var(--ease-out);
+}
+.as-toast__close:hover, .as-toast__close:focus-visible { color: var(--fg); }
+.as-toast__close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@keyframes as-toast-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  @keyframes as-toast-in { from { opacity: 0; } to { opacity: 1; } }
+}

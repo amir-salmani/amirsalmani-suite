@@ -1,0 +1,33 @@
+/* amirsalmani/field — the wrapper every control shares.
+ *
+ * Requires tokens.css and label.css. A hint is prose and stays sans; an error
+ * is a machine verdict and goes mono, which is the same rule the type system
+ * uses everywhere else (brand.md §3).
+ *
+ * There is no red. The error is carried by a full-strength left bar and
+ * full-strength text against muted siblings — emphasis by contrast, not hue.
+ */
+
+.as-field { display: flex; flex-direction: column; gap: .4rem; }
+.as-field__hint { font-size: .85rem; line-height: 1.55; color: var(--muted); }
+.as-field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.as-field__error::before {
+  content: "";
+  flex: none;
+  width: 2px;
+  align-self: stretch;
+  min-height: 1em;
+  background: var(--accent);
+}
+.as-field[data-invalid] .as-input,
+.as-field[data-invalid] .as-select { border-color: var(--accent); }

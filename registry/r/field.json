@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "type": "registry:file",
+  "title": "Field",
+  "description": "A hint is prose and stays sans; an error is a machine verdict and goes mono. The error is carried by a full-strength bar and full-strength text, because there is no red to reach for.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "controls"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "label"
+  ],
+  "files": [
+    {
+      "path": "styles/field.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-field.css",
+      "content": "/* amirsalmani/field — the wrapper every control shares.\n *\n * Requires tokens.css and label.css. A hint is prose and stays sans; an error\n * is a machine verdict and goes mono, which is the same rule the type system\n * uses everywhere else (brand.md §3).\n *\n * There is no red. The error is carried by a full-strength left bar and\n * full-strength text against muted siblings — emphasis by contrast, not hue.\n */\n\n.as-field { display: flex; flex-direction: column; gap: .4rem; }\n.as-field__hint { font-size: .85rem; line-height: 1.55; color: var(--muted); }\n.as-field__error {\n  display: flex;\n  align-items: flex-start;\n  gap: .5rem;\n  font-family: var(--mono);\n  font-size: .7rem;\n  font-weight: 500;\n  letter-spacing: .1em;\n  text-transform: uppercase;\n  color: var(--fg);\n}\n.as-field__error::before {\n  content: \"\";\n  flex: none;\n  width: 2px;\n  align-self: stretch;\n  min-height: 1em;\n  background: var(--accent);\n}\n.as-field[data-invalid] .as-input,\n.as-field[data-invalid] .as-select { border-color: var(--accent); }\n"
+    }
+  ]
+}

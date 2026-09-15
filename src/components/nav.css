@@ -1,0 +1,60 @@
+/* amirsalmani/nav — floating chrome.
+ *
+ * Requires tokens.css. Mono uppercase, because a nav label is a key rather
+ * than prose (brand.md §3). The active item carries a full-strength bar, which
+ * is how emphasis is made without a hue (brand.md §2).
+ */
+
+.as-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 1.9rem);
+  padding: .75rem var(--pad-x);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+          backdrop-filter: blur(18px) saturate(150%);
+  border-bottom: 1px solid var(--rule);
+}
+.as-nav--static { position: static; border-radius: var(--radius-s); border: 1px solid var(--rule); }
+
+.as-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--fg);
+  text-decoration: none;
+}
+.as-nav__brand svg { width: 1.45rem; height: 1.45rem; flex: none; }
+.as-nav__links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 1.9rem);
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.as-nav__links a { color: var(--muted); text-decoration: none; transition: color var(--fast) var(--ease-out); }
+.as-nav__links a:hover, .as-nav__links a:focus-visible { color: var(--fg); }
+.as-nav__links a[aria-current] { color: var(--fg); }
+.as-nav__links a[aria-current]::after {
+  content: "";
+  display: block;
+  height: 2px;
+  margin-top: .3rem;
+  background: var(--accent);
+}
+.as-nav__links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .as-nav { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--bg); }
+}
+@media (prefers-contrast: more) { .as-nav { background: var(--bg); border-bottom-color: var(--fg); } }

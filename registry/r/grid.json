@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grid",
+  "type": "registry:file",
+  "title": "Grid",
+  "description": "Set --as-grid-min and the column count follows from the space available. There are no media queries in this file and there do not need to be.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "layout"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/grid.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-grid.css",
+      "content": "/* amirsalmani/grid — one auto-fit grid with a minimum-width knob.\n *\n * Requires tokens.css. There are no breakpoints: set --as-grid-min and the\n * column count follows from the space available (brand.md §3, everything\n * spatial is fluid).\n */\n\n.as-grid {\n  display: grid;\n  gap: var(--gap-l);\n  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--as-grid-min, 16rem)), 1fr));\n}\n.as-grid--tight { gap: var(--gap-m); }\n.as-grid--wide  { --as-grid-min: 22rem; }\n.as-grid--narrow { --as-grid-min: 11rem; }\n"
+    }
+  ]
+}

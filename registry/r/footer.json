@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "footer",
+  "type": "registry:file",
+  "title": "Footer — the colophon",
+  "description": "The legal line names the entity that is liable. The maker line names the person. Keeping them apart is the point of the component.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "layout"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "made-by"
+  ],
+  "files": [
+    {
+      "path": "styles/footer.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-footer.css",
+      "content": "/* amirsalmani/footer — the colophon.\n *\n * Requires tokens.css. Two lines that are not the same claim: the legal line\n * says who is liable, the maker line says who built it. Keep them apart.\n */\n\n.as-colophon {\n  padding-block: var(--gap-xl);\n  padding-inline: var(--pad-x);\n  border-top: 1px solid var(--rule);\n}\n.as-colophon__inner {\n  max-width: var(--maxw);\n  margin-inline: auto;\n  display: flex;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: space-between;\n  gap: var(--gap-s) var(--gap-m);\n}\n.as-colophon__legal {\n  font-family: var(--mono);\n  font-size: .68rem;\n  font-weight: 500;\n  letter-spacing: .12em;\n  text-transform: uppercase;\n  color: var(--faint);\n}\n.as-colophon__links {\n  display: flex;\n  flex-wrap: wrap;\n  gap: var(--gap-m);\n  font-size: .9rem;\n}\n\n@media (max-width: 40rem) {\n  .as-colophon__inner { flex-direction: column; align-items: flex-start; }\n}\n"
+    }
+  ]
+}

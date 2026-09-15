@@ -1,0 +1,32 @@
+/* amirsalmani/section — the band rhythm and the section head.
+ *
+ * Requires tokens.css, which owns .band and .band--alt. This file is the
+ * spacing and the heading rule that sit inside one.
+ */
+
+.as-section { padding-block: var(--band-y); padding-inline: var(--pad-x); }
+.as-section__inner { max-width: var(--maxw); margin-inline: auto; }
+
+.as-sec-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--gap-s) var(--gap-m);
+  margin-bottom: var(--gap-l);
+}
+.as-sec-head h2, .as-sec-head .as-sec-head__title {
+  font-family: var(--sans);
+  font-size: clamp(1.5rem, 3.2vw, 2.3rem);
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.08;
+  color: var(--fg);
+  margin: 0;
+}
+.as-sec-head__rule {               /* takes the slack, so the head is one line */
+  flex: 1 1 4rem;
+  height: 1px;
+  min-width: 2rem;
+  background: var(--rule);
+  align-self: center;
+}

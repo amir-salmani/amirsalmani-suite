@@ -3,8 +3,11 @@
   "name": "icons",
   "type": "registry:file",
   "title": "Icons",
-  "description": "Drawn in the mark’s own grammar: straight strokes, round caps, filled nodes at termini, hexagons for anything mechanical.",
+  "description": "Straight strokes, round caps, filled nodes at termini, hexagons for anything mechanical. A filled node is a terminus; an open node is a working end.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "brand"
+  ],
   "files": [
     {
       "path": "icons/check-bold.svg",

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "type": "registry:file",
+  "title": "Label",
+  "description": "Mono, uppercase, wide tracking. Mono is for what a machine would emit, so this and only this carries indices, keys and attributions.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "type"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/label.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-label.css",
+      "content": "/* amirsalmani/label — the eyebrow, section number, status key and source line.\n *\n * Requires tokens.css. Mono is for what a machine would emit (brand.md §3), so\n * this and only this carries indices, keys and attributions. Prose is never\n * mono; metadata is never sans.\n */\n\n.as-label {\n  font-family: var(--mono);\n  font-size: .7rem;\n  font-weight: 500;\n  letter-spacing: .18em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n.as-label--faint { color: var(--faint); }\n"
+    }
+  ]
+}

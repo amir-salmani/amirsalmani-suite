@@ -1,0 +1,48 @@
+/* amirsalmani/switch — a physical switch, not an icon button.
+ *
+ * Requires tokens.css. Extracted from the theme toggle on amirsalmani.com. The
+ * knob position is a custom property `--t` (0..1), so it can be driven by a CSS
+ * transition or handed to the spring in motion.js and re-targeted mid-flight —
+ * which is the whole reason it is not a transform keyframe.
+ */
+
+.as-switch {
+  --t: 0;
+  --knob: 1.375rem;
+  position: relative;
+  flex: none;
+  width: 3.25rem;
+  height: 1.875rem;
+  padding: 0;
+  border: 1px solid var(--glass-edge);
+  border-radius: 999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+          backdrop-filter: blur(14px) saturate(150%);
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color var(--fast) var(--ease-out);
+}
+.as-switch::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: .1875rem;
+  width: var(--knob);
+  height: var(--knob);
+  border-radius: 999px;
+  background: var(--fg);
+  transform: translate(calc(var(--t) * (3.25rem - var(--knob) - .5rem)), -50%);
+}
+.as-switch:hover, .as-switch:focus-visible { border-color: var(--accent); }
+.as-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.as-switch[aria-checked="true"] { --t: 1; }
+
+/* Without JS the knob still has to move, so the fallback is a transition. With
+   motion.js driving --t the spring owns it and this never fires. */
+.as-switch:not([data-spring])::after { transition: transform var(--med) var(--ease-out); }
+
+@media (prefers-reduced-transparency: reduce) {
+  .as-switch { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--fg) 9%, var(--bg)); }
+}
+@media (prefers-contrast: more) { .as-switch { background: var(--bg); border-color: var(--fg); } }

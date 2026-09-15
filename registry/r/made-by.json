@@ -2,9 +2,12 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "made-by",
   "type": "registry:component",
-  "title": "Made by — attribution lockup",
-  "description": "Made with ♥ and good tools by Amir Salmani. Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule.",
+  "title": "Made by — the attribution lockup",
+  "description": "Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule. React and plain CSS, because not every site has a build step.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "brand"
+  ],
   "registryDependencies": [
     "tokens"
   ],

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "select",
+  "type": "registry:file",
+  "title": "Select",
+  "description": "Two straight strokes with the mark’s own geometry, drawn in gradients so they flip with the ground rather than shipping two images.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "controls"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "input"
+  ],
+  "files": [
+    {
+      "path": "styles/select.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-select.css",
+      "content": "/* amirsalmani/select — the native control, re-skinned.\n *\n * Requires tokens.css and input.css. The chevron is drawn in the mark's own\n * grammar — two straight strokes, round caps — and inherits currentColor via a\n * data URI, so it flips with the ground like everything else.\n */\n\n.as-select {\n  width: 100%;\n  min-height: 44px;\n  padding: .7rem 2.4rem .7rem .9rem;\n  border: 1px solid var(--rule);\n  border-radius: var(--radius-s);\n  background: var(--wash);\n  color: var(--fg);\n  font-family: var(--sans);\n  font-size: 1rem;\n  line-height: 1.4;\n  cursor: pointer;\n  appearance: none;\n  -webkit-appearance: none;\n  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%, currentColor calc(50% + 1.4px), transparent calc(50% + 1.4px)),\n                    linear-gradient(-45deg, transparent 50%, currentColor 50%, currentColor calc(50% + 1.4px), transparent calc(50% + 1.4px));\n  background-position: calc(100% - 1.15rem) 55%, calc(100% - .75rem) 55%;\n  background-size: .4rem .4rem;\n  background-repeat: no-repeat;\n  transition: border-color var(--fast) var(--ease-out);\n}\n.as-select:hover { border-color: var(--glass-edge); }\n.as-select:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }\n.as-select[disabled] { opacity: .5; cursor: not-allowed; }\n.as-select option { background: var(--bg); color: var(--fg); }\n\n@media (prefers-contrast: more) { .as-select { background-color: var(--bg); border-color: var(--fg); } }\n"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty",
+  "type": "registry:file",
+  "title": "Empty state",
+  "description": "The glyph slot takes a mark from the suite at faint, so it reads as furniture rather than an illustration. There is no cartoon.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "feedback"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/empty.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-empty.css",
+      "content": "/* amirsalmani/empty — the state a list is in most often at the start.\n *\n * Requires tokens.css. An empty state names what is missing and what to do; it\n * does not apologise and it does not draw a cartoon. The glyph slot takes a\n * mark from the suite, at --faint so it reads as furniture.\n */\n\n.as-empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: var(--gap-s);\n  padding: var(--gap-xl) var(--pad-x);\n  text-align: center;\n  border: 1px dashed var(--rule);\n  border-radius: var(--radius);\n}\n.as-empty__glyph { width: 2rem; height: 2rem; color: var(--faint); }\n.as-empty__title { font-family: var(--sans); font-size: 1.0625rem; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin: 0; }\n.as-empty__body { color: var(--muted); line-height: 1.7; max-width: 42ch; margin: 0; }\n.as-empty__action { margin-top: var(--gap-xs); }\n\n@media (prefers-contrast: more) { .as-empty { border-color: var(--fg); border-style: solid; } }\n"
+    }
+  ]
+}

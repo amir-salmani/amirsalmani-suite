@@ -1,0 +1,33 @@
+/* amirsalmani/glass — a floating functional layer, never a mood.
+ *
+ * Requires tokens.css. Translucency is used where Apple uses it — floating
+ * chrome and elevated surfaces (brand.md §4). Never stack two.
+ */
+
+.as-glass {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+          backdrop-filter: blur(22px) saturate(150%);
+}
+.as-glass::before {                 /* light catching the top edge */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-top) 22%, var(--glass-top) 78%, transparent);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .as-glass {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    background: color-mix(in srgb, var(--fg) 9%, var(--bg));
+  }
+}
+@media (prefers-contrast: more) {
+  .as-glass { background: var(--bg); border-color: var(--fg); }
+  .as-glass::before { display: none; }
+}

@@ -3,12 +3,12 @@
   "formatVersion": "0.2",
   "name": "amirsalmani-suite",
   "title": "The Amir Salmani suite",
-  "description": "The attribution lockup that goes under everything Amir builds, and an icon set drawn in the mark's own geometry. Distributed as a shadcn registry.",
-  "version": "0.1.0",
+  "description": "A shadcn registry of 30 items drawn to one brand — two grounds, no accent hue — with a static catalogue in front of it at amirsalmani.com/suite.",
+  "version": "0.2.0",
   "created": "2026-09-15",
   "updated": "2026-09-15",
   "owner": "Amir-Salmani",
-  "visibility": "private",
+  "visibility": "public",
   "entry": "index.md",
   "log": "log.md",
   "upstream": {
@@ -22,11 +22,16 @@
     {
       "path": "registry/",
       "by": "tools/build-registry.mjs",
-      "note": "shadcn registry. Served from amirsalmani.com/r/. Never hand-edited."
+      "note": "shadcn registry, one JSON per item. Served from amirsalmani.com/r/. Never hand-edited."
     },
     {
-      "path": "docs/proof-marks.png, docs/proof-icons.png",
-      "by": "tools/proof.mjs",
+      "path": "dist/",
+      "by": "tools/build-site.mjs",
+      "note": "the catalogue and the served registry. Copied into amirsalmani-com/site/. Never hand-edited."
+    },
+    {
+      "path": "docs/proof.png, docs/proof-components.png, docs/proof-prefs-transparency.png, docs/catalogue-*.png",
+      "by": "tools/proof.mjs, tools/component-proof.mjs, tools/catalogue-proof.mjs",
       "note": "render proofs. Regenerate rather than edit."
     },
     {
@@ -41,16 +46,24 @@
   ],
   "authored": [
     {
+      "path": "src/manifest.mjs",
+      "note": "the one dataset. The registry, the catalogue and the proofs all read this and nothing else."
+    },
+    {
       "path": "src/components/",
-      "note": "tokens.css and the five primitives. Derived from amirsalmani.com's stylesheet, which stays the source of truth."
+      "note": "one CSS file per registry item. Nothing below tokens.css contains a hex."
     },
     {
-      "path": "src/marks/",
-      "note": "the three marks, regular weight. Hand-drawn on the canonical grid."
+      "path": "src/demos/",
+      "note": "one HTML fragment per item — the live preview and the copy-paste snippet are the same file, so they cannot disagree."
     },
     {
-      "path": "src/icons/",
-      "note": "the icon set, regular weight."
+      "path": "src/motion/motion.js",
+      "note": "the spring, extracted from amirsalmani.com/app.js, which stays the source of truth."
+    },
+    {
+      "path": "src/marks/, src/icons/",
+      "note": "hand-drawn on the canonical grid, regular weight."
     },
     {
       "path": "src/made-by/",
@@ -63,13 +76,17 @@
     {
       "path": "docs/using-the-mark.md",
       "note": "where the lockup goes and why it stays small."
+    },
+    {
+      "path": "docs/catalogue.md",
+      "note": "why the catalogue is shaped the way it is, and what it took from where."
     }
   ],
   "checks": [
     {
       "id": "contrast",
       "run": "node tools/contrast.mjs",
-      "asserts": "every foreground role clears AA on every surface the tokens can produce"
+      "asserts": "100 checks: every foreground role against the ground it actually lands on, with the alpha chain composited, on every surface the tokens can produce"
     },
     {
       "id": "proof",
@@ -79,17 +96,35 @@
     {
       "id": "component-proof",
       "run": "node tools/component-proof.mjs",
-      "asserts": "primitives render on both grounds, in an inverted band, and under reduced-transparency and more-contrast"
+      "asserts": "every item's demo renders on both grounds and under prefers-contrast: more"
+    },
+    {
+      "id": "catalogue-proof",
+      "run": "node tools/build-site.mjs && node tools/catalogue-proof.mjs",
+      "asserts": "the catalogue loads with no console error under the CSP amirsalmani.com actually serves — script-src 'self', style-src 'self', no unsafe-inline"
     },
     {
       "id": "registry",
       "run": "node tools/build-registry.mjs",
-      "asserts": "the registry regenerates from src/"
+      "asserts": "the registry regenerates from src/manifest.mjs, and refuses to emit an unresolved dependency"
     },
     {
       "id": "okf-lint",
       "run": "python3 ~/.claude/skills/okf/scripts/okf.py lint .",
       "asserts": "types in vocabulary, every link resolves"
+    }
+  ],
+  "licence": "MIT",
+  "downstream": [
+    {
+      "path": "../amirsalmani-com",
+      "receives": [
+        "site/r/",
+        "site/suite/",
+        "the made-by lockup in every colophon",
+        "the made-by rules appended to site/styles.css"
+      ],
+      "note": "Copied, not symlinked. `node tools/build-site.mjs && cp -r dist/r dist/suite ../amirsalmani-com/site/` is the whole deploy step."
     }
   ]
 }

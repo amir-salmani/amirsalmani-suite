@@ -1,0 +1,43 @@
+/* amirsalmani/headline — the tonal split.
+ *
+ * Requires tokens.css. The setup clause recedes in --muted at weight 500, the
+ * payoff lands in --fg at 800. One sentence, two voices (brand.md §3) — a
+ * typographic device, not decoration.
+ *
+ * Tracking is size-specific, so each role carries its own value rather than
+ * one --tracking that is wrong somewhere.
+ */
+
+.as-headline {
+  font-family: var(--sans);
+  font-size: clamp(2.3rem, 6.2vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -.038em;
+  line-height: .99;
+  color: var(--fg);
+  margin: 0;
+  text-wrap: balance;
+}
+.as-headline__setup {
+  display: block;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.as-title {                        /* the page head, one step down */
+  font-family: var(--sans);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.02;
+  color: var(--fg);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.as-lede {
+  font-size: clamp(1.02rem, 1.35vw, 1.175rem);
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 44ch;
+}

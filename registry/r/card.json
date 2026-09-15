@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card",
+  "type": "registry:file",
+  "title": "Card",
+  "description": "Glass is reserved for things that float, and a card in a grid does not float. Works as a whole link, in which case the border goes full strength on hover.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "layout"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/card.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-card.css",
+      "content": "/* amirsalmani/card — a bordered block, or a whole link.\n *\n * Requires tokens.css. A card is a rule and some padding: no shadow, no\n * gradient, no glass. Glass is reserved for things that float (brand.md §4),\n * and a card in a grid does not float.\n */\n\n.as-card {\n  display: flex;\n  flex-direction: column;\n  gap: var(--gap-xs);\n  padding: clamp(1.35rem, 2.6vw, 1.9rem) clamp(1.2rem, 2.2vw, 1.6rem);\n  border: 1px solid var(--rule);\n  border-radius: var(--radius);\n  background: transparent;\n}\n.as-card--wash { background: var(--wash); }\n.as-card__title {\n  font-family: var(--sans);\n  font-size: 1.0625rem;\n  font-weight: 700;\n  letter-spacing: -.015em;\n  color: var(--fg);\n  margin: 0;\n}\n.as-card__body { color: var(--muted); line-height: 1.7; margin: 0; }\n.as-card__foot { margin-top: auto; padding-top: var(--gap-s); }\n\na.as-card {\n  text-decoration: none;\n  color: inherit;\n  transition: border-color var(--fast) var(--ease-out), background var(--fast) var(--ease-out);\n}\na.as-card:hover, a.as-card:focus-visible { border-color: var(--accent); background: var(--wash); }\na.as-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n\n@media (prefers-contrast: more) { .as-card { border-color: var(--fg); } }\n"
+    }
+  ]
+}

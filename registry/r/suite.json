@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "suite",
+  "type": "registry:file",
+  "title": "The whole suite",
+  "description": "Tokens, type, layout, controls, feedback, data and brand. Roughly 30KB of CSS before compression, and you own all of it on copy.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "bundles"
+  ],
+  "registryDependencies": [
+    "fonts",
+    "tokens",
+    "motion",
+    "headline",
+    "label",
+    "figure",
+    "section",
+    "stack",
+    "grid",
+    "card",
+    "glass",
+    "nav",
+    "footer",
+    "link",
+    "button",
+    "field",
+    "input",
+    "select",
+    "checkbox",
+    "switch",
+    "status",
+    "empty",
+    "toast",
+    "kv",
+    "code",
+    "made-by",
+    "marks",
+    "icons"
+  ]
+}

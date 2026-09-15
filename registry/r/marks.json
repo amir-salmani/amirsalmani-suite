@@ -3,8 +3,11 @@
   "name": "marks",
   "type": "registry:file",
   "title": "Marks",
-  "description": "The A-frame, the heart and the tool, in regular and bold weights. One 64-unit grid, one stroke weight, round caps, currentColor.",
+  "description": "One 64-unit grid, one stroke weight, round caps, currentColor. The heart is the frame inverted; the tool is a hexagonal ring spanner because a hexagon is straight lines.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "brand"
+  ],
   "files": [
     {
       "path": "marks/frame-bold.svg",

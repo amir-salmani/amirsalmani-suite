@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "type": "registry:file",
+  "title": "Input",
+  "description": "The value is what the reader typed, so it is sans; a placeholder is a hint and sits at faint. Focus is a full-strength border plus the standard outline.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "controls"
+  ],
+  "registryDependencies": [
+    "tokens"
+  ],
+  "files": [
+    {
+      "path": "styles/input.css",
+      "type": "registry:file",
+      "target": "styles/amirsalmani-input.css",
+      "content": "/* amirsalmani/input — a ruled well, not a box.\n *\n * Requires tokens.css. The value is what the reader typed, so it is sans; a\n * placeholder is a hint and sits at --faint. Focus is a full-strength border\n * plus the standard outline, because there is no accent hue to glow with.\n */\n\n.as-input {\n  width: 100%;\n  min-height: 44px;\n  padding: .7rem .9rem;\n  border: 1px solid var(--rule);\n  border-radius: var(--radius-s);\n  background: var(--wash);\n  color: var(--fg);\n  font-family: var(--sans);\n  font-size: 1rem;\n  line-height: 1.4;\n  transition: border-color var(--fast) var(--ease-out), background var(--fast) var(--ease-out);\n}\n.as-input::placeholder { color: var(--faint); }\n.as-input:hover { border-color: var(--glass-edge); }\n.as-input:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }\n.as-input[disabled] { opacity: .5; cursor: not-allowed; }\n.as-input[readonly] { background: transparent; }\n\ntextarea.as-input { min-height: 7rem; resize: vertical; }\n.as-input--mono { font-family: var(--mono); font-size: .95rem; letter-spacing: .01em; }\n\n@media (prefers-contrast: more) { .as-input { background: var(--bg); border-color: var(--fg); } }\n"
+    }
+  ]
+}

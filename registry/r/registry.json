@@ -4,34 +4,274 @@
   "homepage": "https://amirsalmani.com",
   "items": [
     {
-      "name": "made-by",
-      "type": "registry:component",
-      "title": "Made by — attribution lockup",
-      "description": "Made with ♥ and good tools by Amir Salmani. Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule."
+      "name": "fonts",
+      "type": "registry:file",
+      "title": "Fonts",
+      "description": "The @font-face block, subset by unicode-range. Not enough on its own: nothing is fetched from Google at runtime, so the four woff2 files have to be copied and served yourself.",
+      "categories": [
+        "foundation"
+      ]
     },
     {
       "name": "tokens",
       "type": "registry:file",
-      "title": "Tokens — the surface layer",
-      "description": "Two grounds, no accent hue, both themes first-class with a no-JS fallback. Every other item derives from these; nothing below this layer may contain a hex."
+      "title": "Tokens",
+      "description": "Two grounds, no accent hue, both themes first-class with a no-JS fallback. Every other item derives from these; nothing below this layer may contain a hex.",
+      "categories": [
+        "foundation"
+      ]
     },
     {
-      "name": "primitives",
+      "name": "motion",
+      "type": "registry:lib",
+      "title": "Motion — the spring",
+      "description": "A critically-damped spring, parameterised the way Apple parameterises it: damping ratio and response in seconds. Re-targeting keeps position and velocity, so a reversal blends instead of hitting a wall.",
+      "categories": [
+        "foundation"
+      ]
+    },
+    {
+      "name": "headline",
       "type": "registry:file",
-      "title": "Primitives — label, link, button, glass, figure",
-      "description": "The five surfaces the brand is actually made of. Emphasis by inversion because there is no accent hue; a figure carries its source because a number without one is a claim."
+      "title": "Headline",
+      "description": "One sentence, two voices. The setup clause is muted at weight 500, the payoff is full strength at 800 — a typographic device, not decoration. Tracking is size-specific because one value is wrong somewhere.",
+      "categories": [
+        "type"
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:file",
+      "title": "Label",
+      "description": "Mono, uppercase, wide tracking. Mono is for what a machine would emit, so this and only this carries indices, keys and attributions.",
+      "categories": [
+        "type"
+      ]
+    },
+    {
+      "name": "figure",
+      "type": "registry:file",
+      "title": "Figure",
+      "description": "Value, label, and a source line. The source is not optional decoration: it is what turns the number into evidence.",
+      "categories": [
+        "type"
+      ]
+    },
+    {
+      "name": "section",
+      "type": "registry:file",
+      "title": "Section",
+      "description": "Fluid vertical rhythm and a heading row whose rule expands to fill whatever the title leaves. Sits inside a .band, which tokens.css owns.",
+      "categories": [
+        "layout"
+      ]
+    },
+    {
+      "name": "stack",
+      "type": "registry:file",
+      "title": "Stack & row",
+      "description": "Two classes instead of a style attribute on every block that needs its children spaced. The sites this is built for ship style-src self with no unsafe-inline, so an inline style is not a shortcut — it is silently dropped.",
+      "categories": [
+        "layout"
+      ]
+    },
+    {
+      "name": "grid",
+      "type": "registry:file",
+      "title": "Grid",
+      "description": "Set --as-grid-min and the column count follows from the space available. There are no media queries in this file and there do not need to be.",
+      "categories": [
+        "layout"
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:file",
+      "title": "Card",
+      "description": "Glass is reserved for things that float, and a card in a grid does not float. Works as a whole link, in which case the border goes full strength on hover.",
+      "categories": [
+        "layout"
+      ]
+    },
+    {
+      "name": "glass",
+      "type": "registry:file",
+      "title": "Glass",
+      "description": "Translucency used where Apple uses it — floating chrome and elevated surfaces. Carries a lit top edge, and turns solid under prefers-reduced-transparency.",
+      "categories": [
+        "layout"
+      ]
+    },
+    {
+      "name": "nav",
+      "type": "registry:file",
+      "title": "Nav",
+      "description": "A nav label is a key rather than prose, so it is mono. The active item is marked by a bar at full strength — emphasis without a hue.",
+      "categories": [
+        "layout"
+      ]
+    },
+    {
+      "name": "footer",
+      "type": "registry:file",
+      "title": "Footer — the colophon",
+      "description": "The legal line names the entity that is liable. The maker line names the person. Keeping them apart is the point of the component.",
+      "categories": [
+        "layout"
+      ]
+    },
+    {
+      "name": "link",
+      "type": "registry:file",
+      "title": "Link",
+      "description": "There is no accent hue to change to, so the underline carries the state. Goes solid on hover and on focus.",
+      "categories": [
+        "controls"
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:file",
+      "title": "Button",
+      "description": "Three weights — glass, solid and quiet — where solid is simply the foreground and background swapped. 44px minimum height on every viewport.",
+      "categories": [
+        "controls"
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:file",
+      "title": "Field",
+      "description": "A hint is prose and stays sans; an error is a machine verdict and goes mono. The error is carried by a full-strength bar and full-strength text, because there is no red to reach for.",
+      "categories": [
+        "controls"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:file",
+      "title": "Input",
+      "description": "The value is what the reader typed, so it is sans; a placeholder is a hint and sits at faint. Focus is a full-strength border plus the standard outline.",
+      "categories": [
+        "controls"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:file",
+      "title": "Select",
+      "description": "Two straight strokes with the mark’s own geometry, drawn in gradients so they flip with the ground rather than shipping two images.",
+      "categories": [
+        "controls"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:file",
+      "title": "Checkbox & radio",
+      "description": "Checked inverts rather than filling with a hue. The 44px target is on the label, not the 20px box, so the hit area is the whole row.",
+      "categories": [
+        "controls"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:file",
+      "title": "Switch",
+      "description": "The knob position is a custom property from 0 to 1, so it can be handed to motion.js and re-targeted mid-flight. Without JS it falls back to a transition.",
+      "categories": [
+        "controls"
+      ]
+    },
+    {
+      "name": "status",
+      "type": "registry:file",
+      "title": "Status",
+      "description": "State is carried by fill: live is inverted, idle is outlined, retired is faint and dashed. The dot marks live only, and it does not pulse.",
+      "categories": [
+        "feedback"
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:file",
+      "title": "Empty state",
+      "description": "The glyph slot takes a mark from the suite at faint, so it reads as furniture rather than an illustration. There is no cartoon.",
+      "categories": [
+        "feedback"
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:file",
+      "title": "Toast",
+      "description": "Floating chrome, so it is the one place glass belongs. A notification that slides across the viewport is asking for attention it has not earned.",
+      "categories": [
+        "feedback"
+      ]
+    },
+    {
+      "name": "kv",
+      "type": "registry:file",
+      "title": "Key–value table",
+      "description": "The key is mono because a machine would emit it. The value is sans if it is a word and mono if it is an identifier.",
+      "categories": [
+        "data"
+      ]
+    },
+    {
+      "name": "code",
+      "type": "registry:file",
+      "title": "Code block",
+      "description": "A copy control in the corner, mono uppercase so it reads as a key rather than a button competing with the code. Always visible on touch.",
+      "categories": [
+        "data"
+      ]
+    },
+    {
+      "name": "made-by",
+      "type": "registry:component",
+      "title": "Made by — the attribution lockup",
+      "description": "Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule. React and plain CSS, because not every site has a build step.",
+      "categories": [
+        "brand"
+      ]
     },
     {
       "name": "marks",
       "type": "registry:file",
       "title": "Marks",
-      "description": "The A-frame, the heart and the tool, in regular and bold weights. One 64-unit grid, one stroke weight, round caps, currentColor."
+      "description": "One 64-unit grid, one stroke weight, round caps, currentColor. The heart is the frame inverted; the tool is a hexagonal ring spanner because a hexagon is straight lines.",
+      "categories": [
+        "brand"
+      ]
     },
     {
       "name": "icons",
       "type": "registry:file",
       "title": "Icons",
-      "description": "Drawn in the mark’s own grammar: straight strokes, round caps, filled nodes at termini, hexagons for anything mechanical."
+      "description": "Straight strokes, round caps, filled nodes at termini, hexagons for anything mechanical. A filled node is a terminus; an open node is a working end.",
+      "categories": [
+        "brand"
+      ]
+    },
+    {
+      "name": "primitives",
+      "type": "registry:file",
+      "title": "Primitives",
+      "description": "The five surfaces the brand is actually made of, installed together. Each is also available on its own.",
+      "categories": [
+        "bundles"
+      ]
+    },
+    {
+      "name": "suite",
+      "type": "registry:file",
+      "title": "The whole suite",
+      "description": "Tokens, type, layout, controls, feedback, data and brand. Roughly 30KB of CSS before compression, and you own all of it on copy.",
+      "categories": [
+        "bundles"
+      ]
     }
   ]
 }

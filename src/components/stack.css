@@ -1,0 +1,15 @@
+/* amirsalmani/stack — a row and a column, with the gap scale.
+ *
+ * Requires tokens.css. Two classes instead of an inline style on every block
+ * that needs its children spaced. There is no inline style anywhere in this
+ * suite, because the sites it is built for ship `style-src 'self'` with no
+ * unsafe-inline — a `style="…"` attribute is simply dropped.
+ */
+
+.as-stack { display: flex; flex-direction: column; gap: var(--gap-m); }
+.as-row   { display: flex; flex-wrap: wrap; align-items: center; gap: var(--gap-s) var(--gap-m); }
+.as-row--baseline { align-items: baseline; }
+.as-row--tight, .as-stack--tight { gap: var(--gap-xs); }
+.as-stack--s { gap: var(--gap-s); }
+.as-stack--l { gap: var(--gap-l); }
+.as-measure { max-width: 26rem; }

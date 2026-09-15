@@ -1,0 +1,23 @@
+/* amirsalmani/empty — the state a list is in most often at the start.
+ *
+ * Requires tokens.css. An empty state names what is missing and what to do; it
+ * does not apologise and it does not draw a cartoon. The glyph slot takes a
+ * mark from the suite, at --faint so it reads as furniture.
+ */
+
+.as-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-s);
+  padding: var(--gap-xl) var(--pad-x);
+  text-align: center;
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius);
+}
+.as-empty__glyph { width: 2rem; height: 2rem; color: var(--faint); }
+.as-empty__title { font-family: var(--sans); font-size: 1.0625rem; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin: 0; }
+.as-empty__body { color: var(--muted); line-height: 1.7; max-width: 42ch; margin: 0; }
+.as-empty__action { margin-top: var(--gap-xs); }
+
+@media (prefers-contrast: more) { .as-empty { border-color: var(--fg); border-style: solid; } }

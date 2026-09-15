@@ -1,0 +1,53 @@
+/* amirsalmani/button — emphasis by inversion, because there is no accent hue.
+ *
+ * Requires tokens.css. Buttons respond on :active (press), not on release
+ * (brand.md §4).
+ */
+
+.as-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .625rem;
+  min-height: 44px;                 /* a tap target, on every viewport */
+  padding: .875rem 1.5rem;
+  border: 1px solid var(--glass-edge);
+  border-radius: 999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+          backdrop-filter: blur(14px) saturate(150%);
+  color: var(--fg);
+  font-family: var(--mono);
+  font-size: .715rem;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color var(--fast) var(--ease-out),
+              background var(--fast) var(--ease-out),
+              color var(--fast) var(--ease-out);
+}
+.as-btn:hover, .as-btn:focus-visible { border-color: var(--accent); color: var(--accent); }
+.as-btn:active { background: var(--wash); }
+.as-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.as-btn[disabled], .as-btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
+
+.as-btn--solid { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.as-btn--solid:hover, .as-btn--solid:focus-visible { color: var(--bg); opacity: .88; }
+.as-btn--quiet { background: transparent; border-color: var(--rule); color: var(--muted); }
+.as-btn--quiet:hover, .as-btn--quiet:focus-visible { color: var(--fg); border-color: var(--fg); }
+
+@media (prefers-reduced-transparency: reduce) {
+  .as-btn {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    background: color-mix(in srgb, var(--fg) 9%, var(--bg));
+  }
+  .as-btn--solid { background: var(--fg); }
+  .as-btn--quiet { background: transparent; }
+}
+@media (prefers-contrast: more) {
+  .as-btn { background: var(--bg); border-color: var(--fg); color: var(--fg); }
+  .as-btn--solid { background: var(--fg); color: var(--bg); }
+}

@@ -1,0 +1,25 @@
+/* amirsalmani/figure — a number carries its source, or it is a claim.
+ *
+ * Requires tokens.css. brand.md §5: every figure names where it came from.
+ * The source line is not optional decoration; it is what makes the number
+ * evidence.
+ */
+
+.as-figure { display: flex; flex-direction: column; gap: .35rem; }
+.as-figure__value {
+  font-family: var(--sans);
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--fg);
+}
+.as-figure__label { font-size: .95rem; color: var(--muted); }
+.as-figure__source {
+  font-family: var(--mono);
+  font-size: .66rem;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}

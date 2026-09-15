@@ -1,32 +1,36 @@
 ---
 type: Index
 title: The Amir Salmani suite
-description: The attribution lockup that goes under everything Amir builds, and an icon set drawn in the mark's own geometry.
+description: Thirty items drawn to one brand — two grounds, no accent hue — served as a shadcn registry with a static catalogue in front of it.
 status: active
 created: 2026-09-15
 timestamp: 2026-09-15
 format: Open Knowledge Format
-tags: [brand, icons, design-system, registry]
+tags: [brand, icons, components, design-system, registry, catalogue]
 project:
   id: amirsalmani-suite
   owner: amir
   kind: tool
   lifecycle: active
-  visibility: private
-  hosting: none
+  visibility: public
+  hosting: cloudflare
   toolchain: node
 ---
 
 # The Amir Salmani suite
 
-**Made with ♥ and good tools by Amir Salmani** — drawn, not typed. The heart and
-the tool are built from the mark's own geometry, because
-[brand.md §7](../amirsalmani-com/docs/brand.md) forbids emoji and stock icons,
-and because a borrowed glyph beside a hand-drawn monogram looks exactly like
-what it is.
+**28 components, 2 bundles, 8 categories.** Two grounds, no accent hue, MIT.
+Browse it at [amirsalmani.com/suite](https://amirsalmani.com/suite/); install any
+of it with one command.
+
+```bash
+npx shadcn@latest add @amirsalmani/tokens    # first — everything derives from it
+npx shadcn@latest add @amirsalmani/suite     # or all of it at once
+```
 
 | | |
 |---|---|
+| [docs/catalogue](docs/catalogue.md) | Why the catalogue is shaped this way, what it refused, and how to add an item |
 | [docs/geometry](docs/geometry.md) | The three rules added to the mark, and the four shapes that were rejected |
 | [docs/using-the-mark](docs/using-the-mark.md) | Where the lockup goes, which variant, and why it stays small |
 | [../amirsalmani-com/docs/brand.md](../amirsalmani-com/docs/brand.md) | **The source of truth** — the mark, the palette, the type, the motion. Not restated here |
@@ -34,69 +38,84 @@ what it is.
 ## What is here
 
 ```
-src/components/  tokens.css      the surface layer — two grounds, no accent hue
-                 primitives.css  label · link · button · glass · figure
-src/made-by/     the lockup — React, and plain CSS for a site with no build step
-src/marks/       frame · heart · heart-solid · tool     (+ bold weights)
-src/icons/       node · stack · hex · check             (+ bold weights)
-registry/        generated: the shadcn registry served from amirsalmani.com/r/
+src/manifest.mjs   the one dataset — every item, its category, its dependencies
+src/components/    one CSS file per item. Nothing below tokens.css has a hex
+src/demos/         one HTML fragment per item — the live preview and the
+                   copy-paste snippet are the same file, so they cannot disagree
+src/motion/        the spring, extracted from amirsalmani.com/app.js
+src/marks/         frame · heart · heart-solid · tool     (+ bold weights)
+src/icons/         node · stack · hex · check             (+ bold weights)
+registry/          generated: the shadcn registry served from amirsalmani.com/r/
+dist/              generated: the catalogue, copied into amirsalmani-com/site/
 ```
 
-Nothing below `tokens.css` contains a hex. Every component derives its colours
-from the local `--fg`/`--bg`, which is why one rule works on cream, on indigo,
-and inside an inverted band.
+| Category | |
+|---|---|
+| **Foundation** 3 | fonts · tokens · motion |
+| **Type** 3 | headline · label · figure |
+| **Layout** 7 | section · stack · grid · card · glass · nav · footer |
+| **Controls** 7 | link · button · field · input · select · checkbox · switch |
+| **Feedback** 3 | status · empty · toast |
+| **Data** 2 | kv · code |
+| **Brand** 3 | made-by · marks · icons |
+| **Bundles** 2 | primitives · suite |
 
-## Install
+Every colour derives from the local `--fg`/`--bg`, which is why one rule works on
+cream, on indigo, and inside an inverted band. **There is no red in the error
+state and no green in the status pill**, because there is no accent hue to spend
+— state is carried by fill, weight and rules instead.
+
+## Prove before you ship
 
 ```bash
-npx shadcn@latest add @amirsalmani/tokens       # first — everything needs it
-npx shadcn@latest add @amirsalmani/primitives
-npx shadcn@latest add @amirsalmani/made-by
-npx shadcn@latest add @amirsalmani/icons
-npx shadcn@latest add @amirsalmani/marks
+node tools/contrast.mjs         # 100 checks; exits 1 on a failure
+node tools/proof.mjs            # every mark at 16/24/32/64, both grounds
+node tools/component-proof.mjs  # every item's demo, both grounds, and prefers-contrast
+node tools/build-site.mjs && node tools/catalogue-proof.mjs
+                                # the catalogue under the CSP the site actually serves
 ```
 
-The registry pattern is taken from `microkit.co`
+Three things in this suite exist because a render disagreed with the source:
+
+- **The inverted band was silently dark-on-dark.** The selector was
+  descendant-only, so `class="band band--alt"` on the theme element itself never
+  matched. Fixed with `:where()`, now covered by the contrast gate.
+- **Body prose fell back to the UA serif.** Nothing set a family on the root;
+  every component that declared one looked fine and every component that
+  inherited did not. `tokens.css` now sets it at zero specificity.
+- **The contrast gate was measuring against near-black.** Chromium serialises
+  `color-mix()` as `color(srgb 0.94 0.91 0.84 / 0.82)` — 0–1 channels — and the
+  parser read them as bytes. Every washed and glass ground was wrong, in both
+  directions, and every check still said `ok`.
+
+**A contrast number you have not watched fail is not evidence.** Both gates are
+run in their failing direction before a pass is believed.
+
+## Distribution
+
+A shadcn registry, taken from `microkit.co`
 ([teardown](../design-atelier/teardowns/microkit-co.md)): one JSON per item, no
-package to depend on, no version to track. The CLI copies source in and the
-consumer owns the result — which suits a suite that has to survive its author
-being unavailable.
+package to depend on, no version to track. The catalogue in front of it is taken
+from `opensourceui.in/components`
+([teardown](../design-atelier/teardowns/opensourceui-in-components.md)) — two
+indexes over one set — and is static, because that page pays 2796ms to first
+paint for a list of links.
 
 ## Who this says made it
 
 **Amir Salmani.** Rhinocloud is the Iranian legal and tax identity that certain
 products are operated under, because Zarinpal and eNamad require a registered
 Iranian entity. It is not a brand a reader needs introducing to, and it is not
-the maker. The entity belongs in the legal line; the maker belongs in the
-lockup.
-
-## Prove before you ship
-
-```bash
-node tools/contrast.mjs         # 15 checks; exits 1 on a failure
-node tools/proof.mjs            # every mark at 16/24/32/64, both grounds
-node tools/component-proof.mjs  # primitives on every surface, and under each preference
-node tools/lockup-proof.mjs     # the lockup variants at real size
-node tools/build-registry.mjs   # regenerate the registry
-```
-
-Three shapes changed because of what a render showed and not because of what the
-source said, and **the inverted band was silently dark-on-dark** until the
-component proof rendered it. The brand standard's *"do not redraw the mark by
-eye"* applies just as much to drawing beside it — and a contrast number you have
-not watched fail is not evidence.
+the maker. The entity belongs in the legal line; the maker belongs in the lockup.
 
 ## Not done
 
-- **The registry is not served yet.** `registry/r/` has to be copied into
-  `amirsalmani-com` and deployed before `npx shadcn add @amirsalmani/…`
-  resolves. Until then the files are local only.
+- **Nothing outside amirsalmani.com has it yet.** Vuhom and Lotusion.com are the
+  next two footers, and both follow the Lotusion designbook — so the lockup
+  transfers and the tokens do not.
 - **Four icons is a start, not a set.** Add one when a product actually needs
   it, and proof it against the grammar first.
-- **No motion utility yet.** `brand.md` §4 specifies a critically-damped spring
-  parameterised by damping and response; it lives in `amirsalmani-com/app.js`
-  and has not been extracted.
-- **No form controls.** Input, select and checkbox are the obvious next
-  primitives and none exist.
-- **No `made-by` is installed anywhere yet.** Vuhom, Lotusion.com and
-  amirsalmani.com itself are the first three footers.
+- **No form validation behaviour.** `field` styles an error; nothing decides
+  there is one.
+- **The React side is one component.** `made-by` is TSX; everything else is CSS
+  a React project can import but not a component it can render.
