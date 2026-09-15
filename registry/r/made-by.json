@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "made-by",
+  "type": "registry:component",
+  "title": "Made by — attribution lockup",
+  "description": "Made with ♥ and good tools by Amir Salmani. Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "files": [
+    {
+      "path": "components/made-by.tsx",
+      "type": "registry:component",
+      "target": "components/made-by.tsx",
+      "content": "// made-by — the attribution lockup.\n//\n// Colours derive from the surrounding foreground, so it adapts inside an\n// inverted band without a second set of rules. Never introduce a hex here.\n\ntype Variant = \"full\" | \"short\" | \"minimal\" | \"stacked\";\n\nconst Frame = (p: React.SVGProps<SVGSVGElement>) => (\n  <svg viewBox=\"6.2 6.2 51.6 51.6\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"4.6\"\n       strokeLinecap=\"round\" strokeLinejoin=\"round\" role=\"img\" aria-label=\"Amir Salmani\" {...p}>\n    <path d=\"M12 51 L32 13 L52 51\" /><path d=\"M20.5 35 H43.5\" />\n    <g fill=\"currentColor\" stroke=\"none\">\n      <circle cx=\"32\" cy=\"13\" r=\"3.8\" /><circle cx=\"12\" cy=\"51\" r=\"3.8\" /><circle cx=\"52\" cy=\"51\" r=\"3.8\" />\n    </g>\n  </svg>\n);\n\nconst Heart = (p: React.SVGProps<SVGSVGElement>) => (\n  <svg viewBox=\"6.2 6.2 51.6 51.6\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"4.6\"\n       strokeLinecap=\"round\" strokeLinejoin=\"round\" role=\"img\" aria-label=\"love\" {...p}>\n    <path d=\"M32 50 L14.5 32.5 A12.375 12.375 0 0 1 32 15 A12.375 12.375 0 0 1 49.5 32.5 Z\" />\n  </svg>\n);\n\nexport function MadeBy({\n  variant = \"full\",\n  href = \"https://amirsalmani.com\",\n  className = \"\",\n}: { variant?: Variant; href?: string; className?: string }) {\n  const name = <a href={href} className=\"made-by__link\">Amir Salmani</a>;\n  const heart = <Heart className=\"made-by__glyph\" />;\n\n  return (\n    <span className={`made-by${variant === \"stacked\" ? \" made-by--stacked\" : \"\"} ${className}`.trim()}>\n      <Frame className=\"made-by__mark\" />\n      {variant === \"minimal\" ? name : (\n        <span>\n          Made with {heart}\n          {variant === \"full\" || variant === \"stacked\" ? \" and good tools\" : \"\"} by {name}\n        </span>\n      )}\n    </span>\n  );\n}\n\nexport default MadeBy;\n"
+    },
+    {
+      "path": "components/made-by.css",
+      "type": "registry:file",
+      "target": "components/made-by.css",
+      "content": "/* made-by — the attribution lockup.\n   Every colour derives from the local --fg/--bg, so it adapts inside an inverted\n   band without a second rule. Never introduce a hex here. */\n.made-by {\n  display: inline-flex;\n  align-items: center;\n  gap: .5em;\n  font-family: var(--mono, ui-monospace, \"IBM Plex Mono\", monospace);\n  font-size: .72rem;\n  font-weight: 500;\n  letter-spacing: .08em;\n  line-height: 1;\n  color: var(--faint, color-mix(in srgb, currentColor 62%, transparent));\n}\n.made-by__mark { width: 1.15em; height: 1.15em; flex: none; }\n.made-by__glyph { width: 1em; height: 1em; vertical-align: -.14em; }\n.made-by a {\n  color: inherit;\n  text-decoration: underline;\n  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);\n  text-underline-offset: .22em;\n  transition: text-decoration-color 200ms cubic-bezier(.22,1,.36,1);\n}\n.made-by a:hover { color: var(--fg, currentColor); text-decoration-color: currentColor; }\n.made-by--stacked { flex-direction: column; align-items: flex-start; gap: .55em; }\n\n@media (prefers-reduced-motion: reduce) { .made-by a { transition-duration: 1ms; } }\n"
+    }
+  ]
+}

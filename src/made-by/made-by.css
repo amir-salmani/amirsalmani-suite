@@ -1,0 +1,27 @@
+/* made-by — the attribution lockup.
+   Every colour derives from the local --fg/--bg, so it adapts inside an inverted
+   band without a second rule. Never introduce a hex here. */
+.made-by {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  font-family: var(--mono, ui-monospace, "IBM Plex Mono", monospace);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  line-height: 1;
+  color: var(--faint, color-mix(in srgb, currentColor 62%, transparent));
+}
+.made-by__mark { width: 1.15em; height: 1.15em; flex: none; }
+.made-by__glyph { width: 1em; height: 1em; vertical-align: -.14em; }
+.made-by a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: .22em;
+  transition: text-decoration-color 200ms cubic-bezier(.22,1,.36,1);
+}
+.made-by a:hover { color: var(--fg, currentColor); text-decoration-color: currentColor; }
+.made-by--stacked { flex-direction: column; align-items: flex-start; gap: .55em; }
+
+@media (prefers-reduced-motion: reduce) { .made-by a { transition-duration: 1ms; } }

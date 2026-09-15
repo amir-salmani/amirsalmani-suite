@@ -1,0 +1,58 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icons",
+  "type": "registry:file",
+  "title": "Icons",
+  "description": "Drawn in the mark’s own grammar: straight strokes, round caps, filled nodes at termini, hexagons for anything mechanical.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "files": [
+    {
+      "path": "icons/check-bold.svg",
+      "type": "registry:file",
+      "target": "public/icons/check-bold.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"5.9 5.9 52.2 52.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"6.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"done\">\n  <path d=\"M14 34 L26 46 L50 18\"/>\n  <circle cx=\"50\" cy=\"18\" r=\"4.6\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    },
+    {
+      "path": "icons/check.svg",
+      "type": "registry:file",
+      "target": "public/icons/check.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"6.2 6.2 51.6 51.6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"done\">\n  <path d=\"M14 34 L26 46 L50 18\"/>\n  <circle cx=\"50\" cy=\"18\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    },
+    {
+      "path": "icons/hex-bold.svg",
+      "type": "registry:file",
+      "target": "public/icons/hex-bold.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"5.9 5.9 52.2 52.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"6.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"module\">\n  <path d=\"M32.00 12.00 L49.32 22.00 L49.32 42.00 L32.00 52.00 L14.68 42.00 L14.68 22.00 Z\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"6.2\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    },
+    {
+      "path": "icons/hex.svg",
+      "type": "registry:file",
+      "target": "public/icons/hex.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"6.2 6.2 51.6 51.6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"module\">\n  <path d=\"M32.00 12.00 L49.32 22.00 L49.32 42.00 L32.00 52.00 L14.68 42.00 L14.68 22.00 Z\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"5.2\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    },
+    {
+      "path": "icons/node-bold.svg",
+      "type": "registry:file",
+      "target": "public/icons/node-bold.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"5.9 5.9 52.2 52.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"6.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"node\">\n  <path d=\"M32 32 L32 13\"/>\n  <path d=\"M32 32 L14 48\"/>\n  <path d=\"M32 32 L50 48\"/>\n  <circle cx=\"32\" cy=\"13\" r=\"4.6\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"14\" cy=\"48\" r=\"4.6\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"50\" cy=\"48\" r=\"4.6\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"6.2\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    },
+    {
+      "path": "icons/node.svg",
+      "type": "registry:file",
+      "target": "public/icons/node.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"6.2 6.2 51.6 51.6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"node\">\n  <path d=\"M32 32 L32 13\"/>\n  <path d=\"M32 32 L14 48\"/>\n  <path d=\"M32 32 L50 48\"/>\n  <circle cx=\"32\" cy=\"13\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"14\" cy=\"48\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"50\" cy=\"48\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"32\" cy=\"32\" r=\"5.2\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    },
+    {
+      "path": "icons/stack-bold.svg",
+      "type": "registry:file",
+      "target": "public/icons/stack-bold.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"5.9 5.9 52.2 52.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"6.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"stack\">\n  <path d=\"M22 17 H42\"/>\n  <path d=\"M17 32 H47\"/>\n  <path d=\"M12 47 H52\"/>\n  <circle cx=\"22\" cy=\"17\" r=\"4.6\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"17\" cy=\"32\" r=\"4.6\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"12\" cy=\"47\" r=\"4.6\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    },
+    {
+      "path": "icons/stack.svg",
+      "type": "registry:file",
+      "target": "public/icons/stack.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"6.2 6.2 51.6 51.6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"4.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" role=\"img\" aria-label=\"stack\">\n  <path d=\"M22 17 H42\"/>\n  <path d=\"M17 32 H47\"/>\n  <path d=\"M12 47 H52\"/>\n  <circle cx=\"22\" cy=\"17\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"17\" cy=\"32\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n  <circle cx=\"12\" cy=\"47\" r=\"3.8\" fill=\"currentColor\" stroke=\"none\"/>\n</svg>\n"
+    }
+  ]
+}

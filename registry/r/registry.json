@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "amirsalmani",
+  "homepage": "https://amirsalmani.com",
+  "items": [
+    {
+      "name": "made-by",
+      "type": "registry:component",
+      "title": "Made by — attribution lockup",
+      "description": "Made with ♥ and good tools by Amir Salmani. Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule."
+    },
+    {
+      "name": "marks",
+      "type": "registry:file",
+      "title": "Marks",
+      "description": "The A-frame, the heart and the tool, in regular and bold weights. One 64-unit grid, one stroke weight, round caps, currentColor."
+    },
+    {
+      "name": "icons",
+      "type": "registry:file",
+      "title": "Icons",
+      "description": "Drawn in the mark’s own grammar: straight strokes, round caps, filled nodes at termini, hexagons for anything mechanical."
+    }
+  ]
+}

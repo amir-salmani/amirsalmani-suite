@@ -1,0 +1,81 @@
+{
+  "format": "okf",
+  "formatVersion": "0.2",
+  "name": "amirsalmani-suite",
+  "title": "The Amir Salmani suite",
+  "description": "The attribution lockup that goes under everything Amir builds, and an icon set drawn in the mark's own geometry. Distributed as a shadcn registry.",
+  "version": "0.1.0",
+  "created": "2026-09-15",
+  "updated": "2026-09-15",
+  "owner": "Amir-Salmani",
+  "visibility": "private",
+  "entry": "index.md",
+  "log": "log.md",
+  "upstream": {
+    "path": "../amirsalmani-com",
+    "owns": [
+      "docs/brand.md"
+    ],
+    "note": "The mark, the palette, the type and the motion rules live there and are not restated here. This suite adds three grammar rules and the shapes that follow from them."
+  },
+  "generated": [
+    {
+      "path": "registry/",
+      "by": "tools/build-registry.mjs",
+      "note": "shadcn registry. Served from amirsalmani.com/r/. Never hand-edited."
+    },
+    {
+      "path": "docs/proof-marks.png, docs/proof-icons.png",
+      "by": "tools/proof.mjs",
+      "note": "render proofs. Regenerate rather than edit."
+    },
+    {
+      "path": "docs/lockup.png",
+      "by": "tools/lockup-proof.mjs"
+    },
+    {
+      "path": "src/**/*-bold.svg",
+      "by": "the bold transform",
+      "note": "derived from the regular weights."
+    }
+  ],
+  "authored": [
+    {
+      "path": "src/marks/",
+      "note": "the three marks, regular weight. Hand-drawn on the canonical grid."
+    },
+    {
+      "path": "src/icons/",
+      "note": "the icon set, regular weight."
+    },
+    {
+      "path": "src/made-by/",
+      "note": "the lockup, React and plain CSS."
+    },
+    {
+      "path": "docs/geometry.md",
+      "note": "the three grammar rules, and what was rejected."
+    },
+    {
+      "path": "docs/using-the-mark.md",
+      "note": "where the lockup goes and why it stays small."
+    }
+  ],
+  "checks": [
+    {
+      "id": "proof",
+      "run": "node tools/proof.mjs",
+      "asserts": "every mark renders at 16/24/32/64 on both grounds"
+    },
+    {
+      "id": "registry",
+      "run": "node tools/build-registry.mjs",
+      "asserts": "the registry regenerates from src/"
+    },
+    {
+      "id": "okf-lint",
+      "run": "python3 ~/.claude/skills/okf/scripts/okf.py lint .",
+      "asserts": "types in vocabulary, every link resolves"
+    }
+  ]
+}
