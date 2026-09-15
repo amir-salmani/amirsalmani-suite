@@ -1,0 +1,94 @@
+/* amirsalmani/tokens — the surface layer everything else derives from.
+ *
+ * Extracted from amirsalmani.com, which remains the source of truth
+ * (amirsalmani-com/docs/brand.md §2). Both themes are first-class;
+ * `data-theme` on <html> is authoritative and the bare `:root` rule is the
+ * no-JS fallback, so nothing is ever unstyled.
+ *
+ * There is no accent hue. Two grounds are the whole palette and emphasis is
+ * carried by contrast, weight, scale and rules. `--accent` survives as a role
+ * name resolving to the full-strength foreground, so a component never has to
+ * know which ground it is on.
+ */
+
+:root {
+  --indigo:      #212842;
+  --indigo-deep: #141A2D;
+  --cream:       #F0E7D5;
+
+  --on-indigo-fg:    #F0E7D5;  /* 11.82:1 */
+  --on-indigo-muted: #A8AEC4;  /*  6.58:1 */
+  --on-indigo-faint: #9098AE;  /*  5.04:1 */
+  --on-cream-fg:     #212842;  /* 11.82:1 */
+  --on-cream-muted:  #565D75;  /*  5.31:1 */
+  --on-cream-faint:  #5D6478;  /*  4.80:1 */
+
+  --sans: "Schibsted Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --radius: 14px;
+  --radius-s: 10px;
+
+  --ease-out: cubic-bezier(.22, .8, .24, 1);
+  --fast: 140ms;
+  --med: 280ms;
+}
+
+:root, [data-theme="dark"] {
+  --bg: var(--indigo); --bg-alt: var(--indigo-deep);
+  --fg: var(--on-indigo-fg); --muted: var(--on-indigo-muted); --faint: var(--on-indigo-faint);
+  --accent: var(--on-indigo-fg);
+  --shadow: 0 30px 60px -32px rgb(0 0 0 / .85);
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  --bg: var(--cream); --bg-alt: var(--indigo);
+  --fg: var(--on-cream-fg); --muted: var(--on-cream-muted); --faint: var(--on-cream-faint);
+  --accent: var(--on-cream-fg);
+  --shadow: 0 26px 50px -30px rgb(33 40 66 / .38);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg: var(--cream); --bg-alt: var(--indigo);
+    --fg: var(--on-cream-fg); --muted: var(--on-cream-muted); --faint: var(--on-cream-faint);
+    --accent: var(--on-cream-fg);
+    --shadow: 0 26px 50px -30px rgb(33 40 66 / .38);
+    color-scheme: light;
+  }
+}
+
+/* Derived from the local --fg, so a component inside an inverted band adapts
+   with no second set of rules. Never hard-code one of these. */
+:where(:root, [data-theme], .band) {
+  --glass:      color-mix(in srgb, var(--fg) 6%, transparent);
+  --glass-edge: color-mix(in srgb, var(--fg) 15%, transparent);
+  --glass-top:  color-mix(in srgb, var(--fg) 26%, transparent);
+  --rule:       color-mix(in srgb, var(--fg) 13%, transparent);
+  --wash:       color-mix(in srgb, var(--fg) 9%, transparent);
+}
+
+/* An inverted band re-declares the surface rather than restyling its contents.
+   :where(...) matches the theme element itself as well as an ancestor, so a
+   band still inverts when both land on one element — which is otherwise a
+   silent dark-on-dark failure. */
+.band { background: var(--bg); color: var(--fg); }
+:where([data-theme="light"], [data-theme="light"] *).band--alt {
+  --bg: var(--indigo); --fg: var(--on-indigo-fg);
+  --muted: var(--on-indigo-muted); --faint: var(--on-indigo-faint); --accent: var(--on-indigo-fg);
+  background: var(--bg); color: var(--fg);
+}
+:where([data-theme="dark"], [data-theme="dark"] *, :root:not([data-theme]), :root:not([data-theme]) *).band--alt {
+  background: var(--bg-alt);
+}
+
+@media (prefers-contrast: more) {
+  :where(:root, .band) { --rule: var(--fg); --glass-edge: var(--fg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(*, *::before, *::after) {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}

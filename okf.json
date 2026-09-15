@@ -41,6 +41,10 @@
   ],
   "authored": [
     {
+      "path": "src/components/",
+      "note": "tokens.css and the five primitives. Derived from amirsalmani.com's stylesheet, which stays the source of truth."
+    },
+    {
       "path": "src/marks/",
       "note": "the three marks, regular weight. Hand-drawn on the canonical grid."
     },
@@ -63,9 +67,19 @@
   ],
   "checks": [
     {
+      "id": "contrast",
+      "run": "node tools/contrast.mjs",
+      "asserts": "every foreground role clears AA on every surface the tokens can produce"
+    },
+    {
       "id": "proof",
       "run": "node tools/proof.mjs",
       "asserts": "every mark renders at 16/24/32/64 on both grounds"
+    },
+    {
+      "id": "component-proof",
+      "run": "node tools/component-proof.mjs",
+      "asserts": "primitives render on both grounds, in an inverted band, and under reduced-transparency and more-contrast"
     },
     {
       "id": "registry",

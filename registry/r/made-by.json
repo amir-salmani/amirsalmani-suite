@@ -5,6 +5,9 @@
   "title": "Made by — attribution lockup",
   "description": "Made with ♥ and good tools by Amir Salmani. Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
+  "registryDependencies": [
+    "tokens"
+  ],
   "files": [
     {
       "path": "components/made-by.tsx",

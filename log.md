@@ -21,5 +21,13 @@ timestamp: 2026-09-15
   tool was a key, the lockup heart was too heavy beside a stroked `A`, and
   `stack` was a hamburger menu. A fourth, `link`, was dropped for saying
   nothing.
+- **Components added**: `tokens` and five primitives — label, link, button,
+  glass, figure — extracted from amirsalmani.com's stylesheet rather than
+  invented. Nothing below the token layer contains a hex.
+- **The inverted band was dark-on-dark** and nothing said so: the selector was
+  descendant-only, so `class="band band--alt"` on the theme element itself
+  silently failed. Found by rendering it. Fixed with `:where()` and now covered
+  by `tools/contrast.mjs`, which was run in its failing direction before it was
+  believed.
 - Distribution follows `microkit.co` — a shadcn registry, one JSON per item,
   `npx shadcn@latest add @amirsalmani/made-by`. No package, no version to track.

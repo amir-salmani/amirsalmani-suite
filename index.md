@@ -34,15 +34,23 @@ what it is.
 ## What is here
 
 ```
-src/marks/   frame · heart · heart-solid · tool      (+ bold weights)
-src/icons/   node · stack · hex · check              (+ bold weights)
-src/made-by/ the lockup — React, and plain CSS for a site with no build step
-registry/    generated: the shadcn registry served from amirsalmani.com/r/
+src/components/  tokens.css      the surface layer — two grounds, no accent hue
+                 primitives.css  label · link · button · glass · figure
+src/made-by/     the lockup — React, and plain CSS for a site with no build step
+src/marks/       frame · heart · heart-solid · tool     (+ bold weights)
+src/icons/       node · stack · hex · check             (+ bold weights)
+registry/        generated: the shadcn registry served from amirsalmani.com/r/
 ```
+
+Nothing below `tokens.css` contains a hex. Every component derives its colours
+from the local `--fg`/`--bg`, which is why one rule works on cream, on indigo,
+and inside an inverted band.
 
 ## Install
 
 ```bash
+npx shadcn@latest add @amirsalmani/tokens       # first — everything needs it
+npx shadcn@latest add @amirsalmani/primitives
 npx shadcn@latest add @amirsalmani/made-by
 npx shadcn@latest add @amirsalmani/icons
 npx shadcn@latest add @amirsalmani/marks
@@ -65,14 +73,18 @@ lockup.
 ## Prove before you ship
 
 ```bash
-node tools/proof.mjs           # every mark at 16/24/32/64, both grounds
-node tools/lockup-proof.mjs    # the lockup variants at real size
-node tools/build-registry.mjs  # regenerate the registry
+node tools/contrast.mjs         # 15 checks; exits 1 on a failure
+node tools/proof.mjs            # every mark at 16/24/32/64, both grounds
+node tools/component-proof.mjs  # primitives on every surface, and under each preference
+node tools/lockup-proof.mjs     # the lockup variants at real size
+node tools/build-registry.mjs   # regenerate the registry
 ```
 
-Three of the shapes here changed because of what a render showed and not because
-of what the source said. The brand standard's *"do not redraw the mark by eye"*
-applies just as much to drawing beside it.
+Three shapes changed because of what a render showed and not because of what the
+source said, and **the inverted band was silently dark-on-dark** until the
+component proof rendered it. The brand standard's *"do not redraw the mark by
+eye"* applies just as much to drawing beside it — and a contrast number you have
+not watched fail is not evidence.
 
 ## Not done
 
@@ -81,5 +93,10 @@ applies just as much to drawing beside it.
   resolves. Until then the files are local only.
 - **Four icons is a start, not a set.** Add one when a product actually needs
   it, and proof it against the grammar first.
+- **No motion utility yet.** `brand.md` §4 specifies a critically-damped spring
+  parameterised by damping and response; it lives in `amirsalmani-com/app.js`
+  and has not been extracted.
+- **No form controls.** Input, select and checkbox are the obvious next
+  primitives and none exist.
 - **No `made-by` is installed anywhere yet.** Vuhom, Lotusion.com and
   amirsalmani.com itself are the first three footers.

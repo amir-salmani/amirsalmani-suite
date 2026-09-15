@@ -38,10 +38,30 @@ await add({
   title: 'Made by — attribution lockup',
   description: 'Made with ♥ and good tools by Amir Salmani. Derives every colour from the surrounding foreground, so it adapts on either ground without a second rule.',
   author: 'Amir Salmani <hi@amirsalmani.com>',
+  registryDependencies: ['tokens'],
   files: [
     { path: 'components/made-by.tsx', type: 'registry:component', target: 'components/made-by.tsx', content: await read('src/made-by/made-by.tsx') },
     { path: 'components/made-by.css', type: 'registry:file', target: 'components/made-by.css', content: await read('src/made-by/made-by.css') },
   ],
+});
+
+await add({
+  name: 'tokens',
+  type: 'registry:file',
+  title: 'Tokens — the surface layer',
+  description: 'Two grounds, no accent hue, both themes first-class with a no-JS fallback. Every other item derives from these; nothing below this layer may contain a hex.',
+  author: 'Amir Salmani <hi@amirsalmani.com>',
+  files: [{ path: 'styles/tokens.css', type: 'registry:file', target: 'styles/amirsalmani-tokens.css', content: await read('src/components/tokens.css') }],
+});
+
+await add({
+  name: 'primitives',
+  type: 'registry:file',
+  title: 'Primitives — label, link, button, glass, figure',
+  description: 'The five surfaces the brand is actually made of. Emphasis by inversion because there is no accent hue; a figure carries its source because a number without one is a claim.',
+  author: 'Amir Salmani <hi@amirsalmani.com>',
+  registryDependencies: ['tokens'],
+  files: [{ path: 'styles/primitives.css', type: 'registry:file', target: 'styles/amirsalmani-primitives.css', content: await read('src/components/primitives.css') }],
 });
 
 const marks = await svgs('marks');
