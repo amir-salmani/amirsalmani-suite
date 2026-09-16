@@ -37,7 +37,7 @@ sits where one sits. It never gets its own band, its own colour, an animation,
 or a position above the fold.
 
 The same reasoning as the `بیا اینور بازار` button in
-[Bia Invare Bazar](../../biainvarebazar/docs/product/buyer-experience.md): across
+[Bia Invare Bazar](https://github.com/rhinocloud-ir/biainvarebazar/blob/main/docs/product/buyer-experience.md): across
 many surfaces it is the cheapest distribution there is, **and it only works if
 nobody resents it.**
 

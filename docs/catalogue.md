@@ -8,8 +8,8 @@ timestamp: 2026-09-15
 related:
   - ../index.md
   - geometry.md
-  - ../../design-atelier/teardowns/opensourceui-in-components.md
-  - ../../design-atelier/teardowns/microkit-co.md
+  - https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/opensourceui-in-components.md
+  - https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/microkit-co.md
 ---
 
 # The catalogue
@@ -22,8 +22,8 @@ Two teardowns, and they supply different halves:
 
 | | |
 |---|---|
-| [microkit.co](../../design-atelier/teardowns/microkit-co.md) | **Distribution.** A shadcn registry: one JSON per item, no package, no version, the consumer owns the copy |
-| [opensourceui.in/components](../../design-atelier/teardowns/opensourceui-in-components.md) | **The catalogue in front of it.** Two indexes over one set |
+| [microkit.co](https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/microkit-co.md) | **Distribution.** A shadcn registry: one JSON per item, no package, no version, the consumer owns the copy |
+| [opensourceui.in/components](https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/opensourceui-in-components.md) | **The catalogue in front of it.** Two indexes over one set |
 
 The second is the load-bearing one and it is worth stating plainly:
 

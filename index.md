@@ -94,10 +94,10 @@ run in their failing direction before a pass is believed.
 ## Distribution
 
 A shadcn registry, taken from `microkit.co`
-([teardown](../design-atelier/teardowns/microkit-co.md)): one JSON per item, no
+([teardown](https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/microkit-co.md)): one JSON per item, no
 package to depend on, no version to track. The catalogue in front of it is taken
 from `opensourceui.in/components`
-([teardown](../design-atelier/teardowns/opensourceui-in-components.md)) — two
+([teardown](https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/opensourceui-in-components.md)) — two
 indexes over one set — and is static, because that page pays 2796ms to first
 paint for a list of links.
 
