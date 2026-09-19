@@ -58,7 +58,18 @@ MSG
 fi
 chmod 600 "$BASE/gh-app.pem" "$BASE/app.env"
 
-sub() { sed -e "s#__SERVICE__#$SERVICE#g" -e "s#__REPO__#$REPO_DIR#g" -e "s#__HOST__#$HOST#g" -e "s#__RULE__#$RULE#g" "$1"; }
+# Bash, not sed. A sed replacement treats & as "the whole match", so the rule's
+# && expanded into two copies of the placeholder and Traefik rejected the router.
+# Parameter expansion has no metacharacters to escape.
+sub() {
+	local t
+	t=$(cat "$1")
+	t=${t//__SERVICE__/$SERVICE}
+	t=${t//__REPO__/$REPO_DIR}
+	t=${t//__HOST__/$HOST}
+	t=${t//__RULE__/$RULE}
+	printf '%s\n' "$t"
+}
 
 if [ "$ROUTE_ONLY" = 1 ]; then
 	# Refuse rather than take a working path down.
