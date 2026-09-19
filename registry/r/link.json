@@ -16,7 +16,7 @@
       "path": "styles/link.css",
       "type": "registry:file",
       "target": "styles/amirsalmani-link.css",
-      "content": "/* amirsalmani/link — underline at 40%, going solid.\n *\n * Requires tokens.css. Never a colour change on hover: there is no accent hue\n * to change to (brand.md §2).\n */\n\n.as-link {\n  color: inherit;\n  text-decoration: underline;\n  text-decoration-thickness: 1px;\n  text-underline-offset: .22em;\n  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);\n  transition: text-decoration-color var(--fast) var(--ease-out), color var(--fast) var(--ease-out);\n}\n.as-link:hover, .as-link:focus-visible { color: var(--accent); text-decoration-color: currentColor; }\n.as-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }\n"
+      "content": "/* amirsalmani/link — underline at 40%, going solid.\n *\n * Requires tokens.css. Never a colour change on hover: there is no accent hue\n * to change to (brand.md §2).\n */\n\n.as-link {\n  color: inherit;\n  text-decoration: underline;\n  text-decoration-thickness: 1px;\n  text-underline-offset: .22em;\n  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);\n  transition: text-decoration-color var(--fast) var(--ease-out), color var(--fast) var(--ease-out);\n}\n.as-link:hover, .as-link:focus-visible { color: var(--fg-accent); text-decoration-color: currentColor; }\n.as-link:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 3px; border-radius: 2px; }\n"
     }
   ]
 }

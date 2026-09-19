@@ -1,22 +1,40 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "input",
-  "type": "registry:file",
+  "type": "registry:ui",
   "title": "Input",
-  "description": "The value is what the reader typed, so it is sans; a placeholder is a hint and sits at faint. Focus is a full-strength border plus the standard outline.",
+  "description": "shadcn primitive, re-pointed onto the brand.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
   "categories": [
     "controls"
   ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
   "registryDependencies": [
-    "tokens"
+    "tokens",
+    "tokens-shadcn"
   ],
   "files": [
     {
-      "path": "styles/input.css",
-      "type": "registry:file",
-      "target": "styles/amirsalmani-input.css",
-      "content": "/* amirsalmani/input — a ruled well, not a box.\n *\n * Requires tokens.css. The value is what the reader typed, so it is sans; a\n * placeholder is a hint and sits at --faint. Focus is a full-strength border\n * plus the standard outline, because there is no accent hue to glow with.\n */\n\n.as-input {\n  width: 100%;\n  min-height: 44px;\n  padding: .7rem .9rem;\n  border: 1px solid var(--rule);\n  border-radius: var(--radius-s);\n  background: var(--wash);\n  color: var(--fg);\n  font-family: var(--sans);\n  font-size: 1rem;\n  line-height: 1.4;\n  transition: border-color var(--fast) var(--ease-out), background var(--fast) var(--ease-out);\n}\n.as-input::placeholder { color: var(--faint); }\n.as-input:hover { border-color: var(--glass-edge); }\n.as-input:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }\n.as-input[disabled] { opacity: .5; cursor: not-allowed; }\n.as-input[readonly] { background: transparent; }\n\ntextarea.as-input { min-height: 7rem; resize: vertical; }\n.as-input--mono { font-family: var(--mono); font-size: .95rem; letter-spacing: .01em; }\n\n@media (prefers-contrast: more) { .as-input { background: var(--bg); border-color: var(--fg); } }\n"
+      "path": "components/ui/input.tsx",
+      "type": "registry:ui",
+      "target": "@ui/input.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Input({ className, type, ...props }: React.ComponentProps<\"input\">) {\n  return (\n    <input\n      type={type}\n      data-slot=\"input\"\n      className={cn(\n        \"file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm\",\n        \"focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]\",\n        \"aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Input }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
     }
-  ]
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "1fa7deb4eecd"
+    }
+  }
 }

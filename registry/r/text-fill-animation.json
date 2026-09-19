@@ -1,0 +1,47 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-fill-animation",
+  "type": "registry:block",
+  "title": "Text Fill Animation",
+  "description": "React block, re-pointed onto the brand. Needs gsap.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "text"
+  ],
+  "dependencies": [
+    "clsx",
+    "gsap",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/block/text-fill-animation.css",
+      "type": "registry:file",
+      "target": "@components/block/text-fill-animation.css",
+      "content": "@keyframes obsidian-text-fill-color {\n  0% { color: var(--tfa-dim-color); }\n  30% { color: var(--tfa-primary-color); }\n  100% { color: var(--tfa-text-color); }\n}\n\n.obsidian-text-fill .split__wrapper .split-chars {\n  transition: color 0.4s;\n  color: var(--tfa-dim-color);\n}\n\n.obsidian-text-fill .split__wrapper .split-chars.show {\n  animation: obsidian-text-fill-color 0.5s;\n  color: var(--tfa-text-color);\n}\n\n.obsidian-text-fill .tfa-viewport { height: var(--tfa-viewport-height); }\n.obsidian-text-fill .tfa-text-wrapper { width: var(--tfa-text-width); }\n.obsidian-text-fill .tfa-heading { font-size: var(--tfa-text-size); color: var(--tfa-text-color); }\n.obsidian-text-fill .tfa-glow {\n  height: calc(var(--tfa-viewport-height) * 0.7);\n  width: calc(var(--tfa-viewport-height) * 0.7);\n  background: color-mix(in srgb, var(--tfa-primary-color) 5%, transparent);\n}\n\n@media (min-width: 768px) and (max-width: 1024px) {\n  .obsidian-text-fill .tfa-text-wrapper { width: var(--tfa-tablet-text-width); }\n  .obsidian-text-fill .tfa-heading { font-size: var(--tfa-tablet-text-size); }\n}\n\n@media (max-width: 767px) {\n  .obsidian-text-fill .tfa-text-wrapper { width: var(--tfa-mobile-text-width); }\n  .obsidian-text-fill .tfa-heading { font-size: var(--tfa-mobile-text-size); }\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .obsidian-text-fill { height: auto !important; }\n  .obsidian-text-fill .split__wrapper .split-chars {\n    animation: none;\n    transition: none;\n    color: var(--tfa-text-color);\n  }\n}\n"
+    },
+    {
+      "path": "components/block/text-fill-animation.jsx",
+      "type": "registry:block",
+      "target": "@components/block/text-fill-animation.jsx",
+      "content": "'use client';\n\nimport { useEffect, useId, useRef } from 'react';\nimport gsap from 'gsap';\nimport ScrollTrigger from 'gsap/ScrollTrigger';\nimport SplitText from 'gsap/SplitText';\nimport { cn } from '@/lib/utils';\nimport './text-fill-animation.css';\n\nconst SPLIT_CHARACTER_SELECTOR = '.split-chars';\n\nif (typeof window !== 'undefined') {\n  gsap.registerPlugin(ScrollTrigger, SplitText);\n}\n\n/**\n * @param {{\n *   text?: string, textColor?: string, primaryColor?: string, dimColor?: string,\n *   backgroundColor?: string, className?: string, id?: string,\n *   textSize?: string, textWidth?: string, containerClassName?: string,\n *   mobileTextSize?: string, mobileTextWidth?: string,\n *   tabletTextSize?: string, tabletTextWidth?: string,\n *   scroller?: HTMLElement | Window | import('react').RefObject<HTMLElement | null>,\n *   trigger?: HTMLElement | import('react').RefObject<HTMLElement | null>,\n *   start?: string, end?: string, scrub?: number | boolean,\n *   height?: string | number, viewportHeight?: string, showDetails?: boolean,\n *   style?: import('react').CSSProperties\n * }} props\n */\nexport function TextFillAnimation({\n  text = 'Build thoughtful interfaces, bring your ideas to life, and make every interaction feel right with ObsidianUI.',\n  textColor = 'var(--foreground)',\n  primaryColor = 'var(--fg)',\n  dimColor = 'color-mix(in srgb, var(--foreground) 20%, var(--background))',\n  backgroundColor = 'var(--background)',\n  className = '',\n  id,\n  textSize = '5vw',\n  textWidth = '80%',\n  containerClassName = '',\n  mobileTextSize = '8vw',\n  mobileTextWidth = '95%',\n  tabletTextSize = '6.5vw',\n  tabletTextWidth = '88%',\n  scroller,\n  trigger,\n  start = 'top top',\n  end = 'bottom bottom',\n  scrub = 0.25,\n  height = '250vh',\n  viewportHeight = '100vh',\n  showDetails = true,\n  style,\n}) {\n  // State and refs\n  const sectionRef = useRef(null);\n  const textRef = useRef(null);\n  const generatedId = useId();\n\n  // Effects\n  useEffect(() => {\n    const media = gsap.matchMedia();\n    media.add('(prefers-reduced-motion: no-preference)', () => {\n      const textElement = textRef.current;\n\n      if (!textElement) {\n        return;\n      }\n\n      const split = SplitText.create(textElement, {\n        type: 'words chars',\n        aria: 'auto',\n        tag: 'span',\n        charsClass: 'split-chars',\n      });\n\n      gsap.set(textElement, {\n        opacity: 1,\n      });\n\n      const characters = Array.from(\n        textElement.querySelectorAll(SPLIT_CHARACTER_SELECTOR)\n      );\n\n      gsap\n        .timeline({\n          scrollTrigger: {\n            trigger: (trigger?.current !== undefined ? trigger.current : trigger) ?? sectionRef.current,\n            scroller: scroller?.current !== undefined ? scroller.current : scroller,\n            start,\n            end,\n            scrub,\n            invalidateOnRefresh: true,\n          },\n        })\n        .to(\n          characters,\n          {\n            className: 'split-chars show',\n            duration: 0.4,\n            stagger: 0.05,\n            ease: 'power2.inOut',\n          },\n          0\n        );\n\n      return () => {\n        split.revert();\n      };\n    }, sectionRef);\n\n    return () => {\n      media.revert();\n    };\n  }, [\n    text,\n    trigger,\n    scroller,\n    start,\n    end,\n    scrub,\n  ]);\n\n  // Return\n  return (\n    <section\n      id={id ?? `obsidian-text-fill-${generatedId}`}\n      ref={sectionRef}\n      className={cn('obsidian-text-fill relative w-full font-body text-foreground', containerClassName)}\n      style={{\n        backgroundColor,\n        height,\n        '--tfa-viewport-height': viewportHeight,\n        '--tfa-text-color': textColor,\n        '--tfa-primary-color': primaryColor,\n        '--tfa-dim-color': dimColor,\n        '--tfa-text-size': textSize,\n        '--tfa-text-width': textWidth,\n        '--tfa-tablet-text-size': tabletTextSize,\n        '--tfa-tablet-text-width': tabletTextWidth,\n        '--tfa-mobile-text-size': mobileTextSize,\n        '--tfa-mobile-text-width': mobileTextWidth,\n        ...style,\n      }}\n    >\n      <div className=\"tfa-viewport sticky top-0 flex items-center justify-center overflow-x-hidden\">\n        <div aria-hidden=\"true\" className=\"tfa-glow pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl\" />\n\n        {showDetails && (\n          <>\n            <div className=\"absolute left-[5vw] top-[5vh]\">\n              <p className=\"text-xs uppercase tracking-[0.35em] text-muted-foreground max-md:text-sm max-sm:text-xs\">\n                Design Philosophy\n              </p>\n            </div>\n    \n            <div className=\"absolute right-[5vw] top-[5vh] text-right\">\n              <p className=\"text-xs uppercase tracking-[0.35em] text-muted-foreground max-md:text-sm max-sm:text-xs\">\n                Scroll ↓\n              </p>\n            </div>\n    \n            <div className=\"absolute bottom-[6vh] left-[5vw] max-w-55\">\n              <p className=\"text-sm leading-relaxed text-muted-foreground max-md:text-lg max-sm:text-sm\">\n                Less friction.\n                <br />\n                More building.\n              </p>\n            </div>\n    \n            <div className=\"absolute bottom-[6vh] right-[5vw] text-right\">\n              <div className=\"space-y-1\">\n                <p className=\"text-sm text-muted-foreground max-md:text-lg max-sm:text-sm\">\n                  Systems\n                </p>\n                <p className=\"text-sm text-muted-foreground max-md:text-lg max-sm:text-sm\">\n                  Motion\n                </p>\n                <p className=\"text-sm text-muted-foreground max-md:text-lg max-sm:text-sm\">\n                  Clarity\n                </p>\n              </div>\n            </div>\n          </>\n        )}\n\n        <div className=\"split__wrapper tfa-text-wrapper relative z-10 mx-auto text-center\">\n          <h2\n            ref={textRef}\n            className={cn('tfa-heading font-heading font-medium leading-[1.18] tracking-[-0.03em]', className)}\n          >\n            {text}\n          </h2>\n        </div>\n      </div>\n    </section>\n  );\n}\n\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "af006186aa35"
+    }
+  }
+}

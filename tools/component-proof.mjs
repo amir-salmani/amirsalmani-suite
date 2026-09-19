@@ -9,13 +9,13 @@ import { readFile, writeFile, readdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
-import { ITEMS } from '../src/manifest.mjs';
+import { ITEMS, RETIRED } from '../src/manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = p => readFile(path.join(ROOT, p), 'utf8');
 
 const css = [];
-for (const item of ITEMS) if (item.css) css.push(await read(`src/components/${item.css}`));
+for (const item of [...ITEMS, ...RETIRED]) if (item.css && !item.tier) css.push(await read(`src/components/${item.css}`));
 css.push(await read('src/made-by/made-by.css'));
 
 // A demo's <script> is behaviour, not surface; the proof is about what it looks
@@ -31,7 +31,7 @@ async function svgDemo(dir) {
 }
 
 const demos = [];
-for (const item of ITEMS) {
+for (const item of [...ITEMS, ...RETIRED]) {
   if (!item.demo) continue;
   const body = item.special === 'svgdir'
     ? await svgDemo(item.dir)

@@ -1,22 +1,42 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "checkbox",
-  "type": "registry:file",
-  "title": "Checkbox & radio",
-  "description": "Checked inverts rather than filling with a hue. The 44px target is on the label, not the 20px box, so the hit area is the whole row.",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "shadcn primitive, re-pointed onto the brand. Needs @radix-ui/react-checkbox, lucide-react.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
   "categories": [
     "controls"
   ],
+  "dependencies": [
+    "@radix-ui/react-checkbox",
+    "clsx",
+    "lucide-react",
+    "tailwind-merge"
+  ],
   "registryDependencies": [
-    "tokens"
+    "tokens",
+    "tokens-shadcn"
   ],
   "files": [
     {
-      "path": "styles/checkbox.css",
-      "type": "registry:file",
-      "target": "styles/amirsalmani-checkbox.css",
-      "content": "/* amirsalmani/checkbox — and the radio, which is the same control rounded.\n *\n * Requires tokens.css. The tick is the suite's own `check` icon path, drawn\n * with the same round caps as the mark, and the checked state inverts rather\n * than fills with a hue.\n *\n * The 44px target is on the label, not the 20px box, so the hit area is the\n * whole row.\n */\n\n.as-check {\n  display: inline-flex;\n  align-items: center;\n  gap: .65rem;\n  min-height: 44px;\n  cursor: pointer;\n  font-size: 1rem;\n  line-height: 1.4;\n  color: var(--fg);\n}\n.as-check input {\n  appearance: none;\n  -webkit-appearance: none;\n  flex: none;\n  width: 1.25rem;\n  height: 1.25rem;\n  margin: 0;\n  border: 1px solid var(--glass-edge);\n  border-radius: 5px;\n  background: var(--wash);\n  cursor: pointer;\n  display: grid;\n  place-content: center;\n  transition: background var(--fast) var(--ease-out), border-color var(--fast) var(--ease-out);\n}\n.as-check input[type=\"radio\"] { border-radius: 999px; }\n.as-check input::before {\n  content: \"\";\n  width: .7rem;\n  height: .7rem;\n  transform: scale(0);\n  transition: transform var(--fast) var(--ease-out);\n  background: var(--bg);\n  clip-path: polygon(13% 52%, 8% 62%, 38% 88%, 92% 22%, 82% 14%, 37% 70%);\n}\n.as-check input[type=\"radio\"]::before { clip-path: circle(50%); width: .5rem; height: .5rem; }\n.as-check input:checked { background: var(--fg); border-color: var(--fg); }\n.as-check input:checked::before { transform: scale(1); }\n.as-check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n.as-check input[disabled] { opacity: .5; cursor: not-allowed; }\n.as-check:has(input[disabled]) { opacity: .6; cursor: not-allowed; }\n\n@media (prefers-contrast: more) { .as-check input { background: var(--bg); border-color: var(--fg); } }\n"
+      "path": "components/ui/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "@ui/checkbox.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as CheckboxPrimitive from \"@radix-ui/react-checkbox\"\nimport { CheckIcon } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Checkbox({\n  className,\n  ...props\n}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {\n  return (\n    <CheckboxPrimitive.Root\n      data-slot=\"checkbox\"\n      className={cn(\n        \"peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      <CheckboxPrimitive.Indicator\n        data-slot=\"checkbox-indicator\"\n        className=\"grid place-content-center text-current transition-none\"\n      >\n        <CheckIcon className=\"size-3.5\" />\n      </CheckboxPrimitive.Indicator>\n    </CheckboxPrimitive.Root>\n  )\n}\n\nexport { Checkbox }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
     }
-  ]
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "cd39771de3b7"
+    }
+  }
 }

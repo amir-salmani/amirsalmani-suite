@@ -1,0 +1,162 @@
+{
+  "apple-spotlight": {
+    "description": "A macOS-style spotlight search component with animated shortcuts and search results. Features a beautiful blur effect, animated shortcut buttons, and live search results.",
+    "demo": "import { AppleSpotlight } from '@/components/block/apple-spotlight'\nimport { useState } from 'react'\n\nexport default function Demo() {\nconst [isOpen, setIsOpen] = useState(false)\n\nreturn (\n  <>\n    <button onClick={() => setIsOpen(true)}>Open Spotlight</button>\n    <AppleSpotlight isOpen={isOpen} handleClose={() => setIsOpen(false)} />\n  </>\n)\n}\n"
+  },
+  "arrow-fill-button": {
+    "description": "A rounded button with an expanding color fill and a sliding arrow on hover or keyboard focus.",
+    "demo": "\"use client\";\nimport { ArrowFillButton } from \"@/components/block/arrow-fill-button\";\n\nexport default function Demo() {\n  return <ArrowFillButton href=\"/components\">Explore ObsidianUI</ArrowFillButton>;\n}\n"
+  },
+  "art-gallery": {
+    "description": "A lensed photo grid you can drag through, with barrel distortion and infinite tiled studies.",
+    "demo": "import { ArtGallery } from \"@/components/block/art-gallery\";\n\nexport default function Demo() {\n  return <ArtGallery className=\"h-[400px]\" />;\n}\n"
+  },
+  "book-flip": {
+    "description": "A tactile 3D book with bending pages, realistic light, and interactive page turns.",
+    "demo": "import { BookFlip } from \"@/components/block/book-flip\";\n\nexport default function Demo() {\n  return <BookFlip className=\"h-[400px]\" />;\n}\n"
+  },
+  "butterfly-trail-cursor": {
+    "description": "Animated butterflies lift away from the pointer with soft wing motion and fading trails.",
+    "demo": "\"use client\";\nimport { ButterflyTrailCursor } from \"@/components/block/butterfly-trail-cursor\";\n\nexport default function Demo() {\n  return <ButterflyTrailCursor height={400} text=\"ObsidianUI, in flight.\" />;\n}\n"
+  },
+  "circle-menu": {
+    "description": "A radial navigation menu that expands in a circular pattern with smooth spring animations and hover effects.",
+    "demo": "import { CircleMenu } from '@/components/block/circle-menu'\nimport { Home, User, Settings, Mail, Heart } from 'lucide-react'\n\nexport default function Demo() {\nreturn (\n  <CircleMenu items={[\n    { label: \"Home\", icon: <Home size={18} /> },\n    { label: \"User\", icon: <User size={18} /> },\n    { label: \"Settings\", icon: <Settings size={18} /> },\n    { label: \"Mail\", icon: <Mail size={18} /> },\n    { label: \"Favorites\", icon: <Heart size={18} /> }\n  ]} />\n)\n}\n"
+  },
+  "colorful-cursor-aura": {
+    "description": "Three colored masks follow the pointer through bold typography with staggered easing.",
+    "demo": "\"use client\";\nimport { ColorfulCursorAura } from \"@/components/block/colorful-cursor-aura\";\n\nexport default function Demo() {\n  return <ColorfulCursorAura height={400} text=\"ObsidianUI, in full color.\" />;\n}\n"
+  },
+  "curved-plane": {
+    "description": "An image carousel whose edges curve and stretch with your drag and scroll velocity.",
+    "demo": "import { CurvedPlane } from \"@/components/block/curved-plane\";\n\nexport default function Demo() {\n  return <CurvedPlane className=\"h-[400px]\" />;\n}\n"
+  },
+  "dither-canvas": {
+    "description": "A video becomes a bright blue and cyan dither texture on white, with fluid distortion that follows your pointer.",
+    "demo": "\"use client\";\nimport { DitherCanvas } from \"@/components/block/dither-canvas\";\n\nexport default function Demo() {\n  return <DitherCanvas className=\"h-[400px] w-full rounded-lg\" />;\n}\n"
+  },
+  "dotted-grid": {
+    "description": "An animated dot field transforms between geometric shapes and responds to your cursor with a glowing trail.",
+    "demo": "\"use client\";\nimport { DottedGrid } from \"@/components/block/dotted-grid\";\n\nexport default function Demo() {\n  return <DottedGrid className=\"h-[400px] w-full rounded-lg\" />;\n}\n"
+  },
+  "draggable-marquee": {
+    "description": "A continuous image marquee with drag momentum and a seamless looping track.",
+    "demo": "\"use client\";\nimport { DraggableMarquee } from \"@/components/block/draggable-marquee\";\n\nconst items = [\n  {\n    \"id\": 1,\n    \"src\": \"https://cdn-new.obsidianui.dev/effects/draggable-marquee/draggable-marquee-img01.jpg?v=3\",\n    \"alt\": \"Landscape photograph 1\",\n    \"width\": 420,\n    \"height\": 520,\n    \"imageClassName\": \"h-[260px] w-[200px] rounded-2xl object-cover\"\n  },\n  {\n    \"id\": 2,\n    \"src\": \"https://cdn-new.obsidianui.dev/effects/draggable-marquee/draggable-marquee-img02.jpg?v=3\",\n    \"alt\": \"Landscape photograph 2\",\n    \"width\": 420,\n    \"height\": 520,\n    \"imageClassName\": \"h-[260px] w-[200px] rounded-2xl object-cover\"\n  },\n  {\n    \"id\": 3,\n    \"src\": \"https://cdn-new.obsidianui.dev/effects/draggable-marquee/draggable-marquee-img03.jpg?v=3\",\n    \"alt\": \"Landscape photograph 3\",\n    \"width\": 420,\n    \"height\": 520,\n    \"imageClassName\": \"h-[260px] w-[200px] rounded-2xl object-cover\"\n  },\n  {\n    \"id\": 4,\n    \"src\": \"https://cdn-new.obsidianui.dev/effects/draggable-marquee/draggable-marquee-img04.jpg?v=3\",\n    \"alt\": \"Landscape photograph 4\",\n    \"width\": 420,\n    \"height\": 520,\n    \"imageClassName\": \"h-[260px] w-[200px] rounded-2xl object-cover\"\n  }\n];\n\nexport default function Demo() {\n  return <DraggableMarquee items={items} speed={1} className=\"py-8\" />;\n}\n"
+  },
+  "flip-scroll": {
+    "description": "A scroll-triggered flip animation where elements rotate and transform as you scroll. Creates a dynamic, engaging scroll experience.",
+    "demo": "import FlipScroll from '@/components/block/flip-scroll'\n\nexport default function Demo() {\nconst items = [\n  { image: '/images/one.jpg' },\n  { image: '/images/two.jpg' },\n  { image: '/images/three.jpg' },\n  { image: '/images/four.jpg' },\n]\n\nreturn <div className=\"h-[600px]\"><FlipScroll items={items} /></div>\n}\n"
+  },
+  "flip-text": {
+    "description": "An animated text component where each character flips and rotates on hover. Creates a playful, interactive typography effect.",
+    "demo": "import FlipText from '@/components/block/flip-text'\n\nexport default function Demo() {\nreturn (\n  <FlipText className=\"text-4xl font-bold\">\n    Hover Me\n  </FlipText>\n)\n}\n"
+  },
+  "flow-scroll": {
+    "description": "A smooth scroll-driven animation where elements flow and transform as you scroll through the page. Creates a cinematic experience.",
+    "demo": "import FlowScroll from '@/components/block/flow-scroll'\n\nexport default function Demo() {\nreturn (\n  <div className=\"h-[600px]\">\n    <FlowScroll images={[\"/images/one.jpg\", \"/images/two.jpg\", \"/images/three.jpg\", \"/images/four.jpg\", \"/images/five.jpg\", \"/images/six.jpg\"]} />\n  </div>\n)\n}\n"
+  },
+  "folder-preview": {
+    "description": "An interactive 3D folder that opens to reveal image contents.",
+    "demo": "import { FolderPreview } from '@/components/block/folder-preview'\n\nexport default function Demo() {\nreturn <FolderPreview images={[\"/1.jpg\", \"/2.jpg\"]} label=\"Photos\" />\n}\n"
+  },
+  "fractal-glass": {
+    "description": "Glass strips refract an image with fractal distortion and pointer-driven parallax.",
+    "demo": "import { FractalGlass } from \"@/components/block/fractal-glass\";\n\nexport default function Demo() {\n  return <FractalGlass className=\"h-[400px]\" stripesFrequency={8} glassStrength={0.8} />;\n}\n"
+  },
+  "glowing-scroll-indicator": {
+    "description": "An animated scroll progress indicator with glowing bars that light up as you scroll.",
+    "demo": "import { GlowingScrollIndicator } from '@/components/block/glowing-scroll-indicator'\n\nexport default function Demo() {\nreturn (\n  <>\n    <GlowingScrollIndicator scrollContainerId=\"scroll-area\" />\n    <div id=\"scroll-area\" className=\"h-[400px] overflow-y-auto\">\n      {/* Scrollable content */}\n    </div>\n  </>\n)\n}\n"
+  },
+  "grid-lift": {
+    "description": "A fine grid lifts into a dimensional text or SVG mask around your pointer.",
+    "demo": "import { GridLift } from \"@/components/block/grid-lift\";\n\nexport default function Demo() {\n  return <GridLift className=\"h-[400px]\" text=\"OBSIDIANUI\" />;\n}\n"
+  },
+  "horizontal-scroll": {
+    "description": "A smooth horizontal scrolling section that transforms vertical scroll into horizontal movement. Perfect for portfolios, galleries, and feature showcases.",
+    "demo": "import HorizontalScroll from '@/components/block/horizontal-scroll'\n\nexport default function Demo() {\nreturn (\n  <div className=\"h-[600px]\">\n    <HorizontalScroll items={[{ image: \"/images/one.jpg\" }, { image: \"/images/two.jpg\" }, { image: \"/images/three.jpg\" }, { image: \"/images/four.jpg\" }]} />\n  </div>\n)\n}\n"
+  },
+  "hover-img": {
+    "description": "A stunning hover-based image preview component. When users hover over project titles, a smooth mouse-following thumbnail appears showcasing the corresponding image. Perfect for portfolios, project showcases, and creative agency websites.",
+    "demo": "import { HoverImg } from '@/components/block/hover-img'\n\nexport default function Demo() {\nreturn (\n  <HoverImg\n    projects={[\n      { title: \"Shree Krishna\", label: \"The Supreme Personality of Godhead\", imageSrc: \"/cdn/hover-img/hover-img-img01-alt.jpg?v=3\" },\n      { title: \"Radha Krishna\", label: \"The Divine Couple\", imageSrc: \"/cdn/hover-img/hover-img-img02.jpg?v=3\" },\n      { title: \"Divine Love\", label: \"Eternal Bond\", imageSrc: \"/cdn/hover-img/hover-img-img03.jpg?v=3\" },\n    ]}\n  />\n)\n}\n"
+  },
+  "interactive-arrows": {
+    "description": "Six canvas arrow and line patterns respond to the pointer with rotation, spacing, and opacity.",
+    "demo": "\"use client\";\nimport { InteractiveArrows } from \"@/components/block/interactive-arrows\";\n\nexport default function Demo() {\n  return <InteractiveArrows height={400} variant=\"arrows\" showControls />;\n}\n"
+  },
+  "interactive-blur-reveal": {
+    "description": "A frosted image becomes clear beneath a fluid cursor trail, with noise distortion and subtle grain.",
+    "demo": "\"use client\";\nimport { InteractiveBlurReveal } from \"@/components/block/interactive-blur-reveal\";\n\nexport default function Demo() {\n  return <InteractiveBlurReveal className=\"h-[400px] w-full rounded-lg\" />;\n}\n"
+  },
+  "interactive-hover-slider": {
+    "description": "An editorial list reveals a curved image stack with elastic image transitions.",
+    "demo": "import { InteractiveHoverSlider } from \"@/components/block/interactive-hover-slider\";\n\nexport default function Demo() {\n  return <InteractiveHoverSlider className=\"h-[400px]\" />;\n}\n"
+  },
+  "jelly-loader": {
+    "description": "A beautiful loading animation with stacked, rotating elliptical shapes that create a mesmerizing jelly-like effect. Uses a gradient color palette from light pink to deep magenta.",
+    "demo": "import JellyLoader from '@/components/block/jelly-loader'\n\nexport default function Demo() {\nreturn <JellyLoader />\n}\n"
+  },
+  "magnet-tabs": {
+    "description": "Animated tab navigation with magnetic hover effect and smooth indicator transitions.",
+    "demo": "import { MagnetTabs } from '@/components/block/magnet-tabs'\nimport { useState } from 'react'\n\nexport default function Demo() {\nconst [activeTab, setActiveTab] = useState(\"All\")\nreturn (\n  <MagnetTabs\n    slug=\"demo\"\n    options={[\"All\", \"Latest\", \"Popular\", \"Featured\"]}\n    activeTab={activeTab}\n    onSelect={setActiveTab}\n  />\n)\n}\n"
+  },
+  "magnetic-image-trail": {
+    "description": "A cluster of images follows your cursor with magnetic momentum and a diagonal orbit.",
+    "demo": "\"use client\";\nimport { MagneticImageTrail } from \"@/components/block/magnetic-image-trail\";\n\nexport default function Demo() {\n  return <MagneticImageTrail height=\"400px\" className=\"w-full rounded-lg\" />;\n}\n"
+  },
+  "mask-cursor-effect": {
+    "description": "A cursor-following mask effect that reveals hidden content on hover. Creates an engaging reveal experience.",
+    "demo": "import { MaskCursorEffect } from '@/components/block/mask-cursor-effect'\n\nexport default function Demo() {\nreturn (\n  <MaskCursorEffect\n    hiddenComponent={<h1 className=\"text-6xl font-bold\">SECRET</h1>}\n    backgroundColor=\"#EA5A47\"\n  >\n    <h1 className=\"text-6xl font-bold\">HOVER ME</h1>\n  </MaskCursorEffect>\n)\n}\n"
+  },
+  "masonry-grid": {
+    "description": "A responsive masonry-style image grid with hover animations and lightbox support.",
+    "demo": "import { MasonryGrid } from '@/components/block/masonry-grid'\n\nexport default function Demo() {\nreturn (\n  <MasonryGrid\n    items={[{ image: \"/image1.jpg\", title: \"Mountains\", description: \"A view from the summit\" }, { image: \"/image2.jpg\", title: \"Coast\", description: \"The shoreline at sunset\" }]}\n  />\n)\n}\n"
+  },
+  "otp-input": {
+    "description": "An animated 6-digit OTP verification input with success/error states and smooth animations.",
+    "demo": "import { OTPInput } from '@/components/block/otp-input'\n\nexport default function Demo() {\nreturn <OTPInput correctOTP=\"424242\" />\n}\n"
+  },
+  "parallax-gallery": {
+    "description": "A framed gallery with rotating photographs, moving side thumbnails, and scroll snapping.",
+    "demo": "\"use client\";\nimport { useRef } from \"react\";\nimport { ParallaxGallery } from \"@/components/block/parallax-gallery\";\n\nconst images = [\n  \"/cdn/effects/parallax-gallery/parallax-gallery-img01.jpg?v=3\",\n  \"/cdn/effects/parallax-gallery/parallax-gallery-img02.jpg?v=3\",\n  \"/cdn/effects/parallax-gallery/parallax-gallery-img03.jpg?v=3\",\n  \"/cdn/effects/parallax-gallery/parallax-gallery-img04.jpg?v=3\"\n];\nexport default function Demo() {\n  const scroller = useRef<HTMLDivElement>(null);\n  return <div ref={scroller} tabIndex={0} aria-label=\"Scroll effect preview\" className=\"relative h-[400px] overflow-y-auto overscroll-contain\" style={{ containerType: \"size\" }}>\n    <ParallaxGallery images={images} scroller={scroller} viewportHeight=\"100cqh\" frameWidth={240} frameHeight={280} thumbnailWidth={90} thumbnailHeight={130} />\n  </div>;\n}\n"
+  },
+  "pixelated-carousel": {
+    "description": "An image carousel with a unique pixelated transition effect. Images dissolve into pixels and reassemble for the next slide.",
+    "demo": "import { PixelatedCarousel } from '@/components/block/pixelated-carousel'\n\nexport default function Demo() {\nconst images = [\n  '/images/slide1.jpg',\n  '/images/slide2.jpg',\n  '/images/slide3.jpg',\n]\n\nreturn <PixelatedCarousel images={images} pixelSize={100} />\n}\n"
+  },
+  "rectangular-text-reveal": {
+    "description": "Colored rectangles sweep across each line before revealing the text underneath.",
+    "demo": "\"use client\";\nimport { RectangularTextReveal } from \"@/components/block/rectangular-text-reveal\";\n\nexport default function Demo() {\n  return (\n    <RectangularTextReveal className=\"text-3xl leading-tight text-foreground\" overlayColor=\"var(--background)\">\n      Design less.<br />Ship better.\n    </RectangularTextReveal>\n  );\n}\n"
+  },
+  "rope-cursor": {
+    "description": "A smooth segmented rope follows the pointer with progressively delayed motion.",
+    "demo": "\"use client\";\nimport { RopeCursor } from \"@/components/block/rope-cursor\";\n\nexport default function Demo() {\n  return <RopeCursor height={400} ropeColor=\"#d0b88c\" ropeWidth={3} className=\"bg-[#151714]\">\n    <p className=\"pointer-events-none grid h-full place-items-center text-3xl text-[#d0b88c]\">Follow your curiosity.</p>\n  </RopeCursor>;\n}\n"
+  },
+  "scroll-effect": {
+    "description": "A stacking card scroll effect where cards stack on top of each other as you scroll.",
+    "demo": "import { ScrollEffect } from '@/components/block/scroll-effect'\n\nexport default function Demo() {\nreturn <ScrollEffect images={{ start: [\"/images/one.jpg\", \"/images/two.jpg\"], middle: [\"/images/three.jpg\", \"/images/four.jpg\"], featured: \"/images/featured.jpg\" }} />\n}\n"
+  },
+  "scroll-stack": {
+    "description": "Successive cards scale into focus and fade as the next section takes their place.",
+    "demo": "\"use client\";\nimport { useRef } from \"react\";\nimport { ScrollStack } from \"@/components/block/scroll-stack\";\n\nconst cards = [\n  {\n    \"id\": \"design\",\n    \"title\": \"Start with an idea.\",\n    \"description\": \"Give your next interface a clear purpose and room to breathe.\",\n    \"bgColor\": \"#e6d5f7\",\n    \"textColor\": \"#30233c\"\n  },\n  {\n    \"id\": \"motion\",\n    \"title\": \"Make it feel right.\",\n    \"description\": \"Use motion to guide attention and connect every interaction.\",\n    \"bgColor\": \"#d5e8b5\",\n    \"textColor\": \"#24351c\"\n  },\n  {\n    \"id\": \"build\",\n    \"title\": \"Make it yours.\",\n    \"description\": \"Build something worth sharing with ObsidianUI.\",\n    \"bgColor\": \"#f7c698\",\n    \"textColor\": \"#432d1c\"\n  }\n];\nexport default function Demo() {\n  const scroller = useRef<HTMLDivElement>(null);\n  return <div ref={scroller} tabIndex={0} aria-label=\"Scroll effect preview\" className=\"relative h-[400px] overflow-y-auto overscroll-contain\" style={{ containerType: \"size\" }}>\n    <ScrollStack cards={cards} scroller={scroller} viewportHeight=\"100cqh\" contained />\n  </div>;\n}\n"
+  },
+  "svg-path-marquee": {
+    "description": "Images follow a looping SVG curve with drag momentum and scroll-responsive speed.",
+    "demo": "\"use client\";\nimport { SvgPathMarquee } from \"@/components/block/svg-path-marquee\";\n\nconst path = \"M1 209.434C58.5872 255.935 387.926 325.938 482.583 209.434C600.905 63.8051 525.516 -43.2211 427.332 19.9613C329.149 83.1436 352.902 242.723 515.041 267.302C644.752 286.966 943.56 181.94 995 156.5\";\nconst images = [\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img01.png?v=3\",\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img02.png?v=3\",\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img03.png?v=3\",\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img04.png?v=3\",\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img05.png?v=3\",\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img06.png?v=3\",\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img07.png?v=3\",\n  \"https://cdn-new.obsidianui.dev/effects/svg-path-marquee/svg-path-marquee-img08.png?v=3\"\n];\n\nexport default function Demo() {\n  return <SvgPathMarquee path={path} viewBox=\"0 0 996 330\" className=\"h-[400px] w-full overflow-hidden bg-black\" responsive draggable grabCursor baseVelocity={8} repeat={2}>\n    {images.map((src, index) => <img key={src} src={src} alt={`Landscape ${index + 1}`} width={100} height={140} draggable={false} />)}\n  </SvgPathMarquee>;\n}\n"
+  },
+  "svg-pixel-reveal": {
+    "description": "An SVG pixel filter dissolves into a crisp photograph as it enters the scroll area.",
+    "demo": "\"use client\";\nimport { useRef } from \"react\";\nimport { SvgPixelReveal } from \"@/components/block/svg-pixel-reveal\";\n\n\nexport default function Demo() {\n  const scroller = useRef<HTMLDivElement>(null);\n  return <div ref={scroller} tabIndex={0} aria-label=\"Scroll effect preview\" className=\"relative h-[400px] overflow-y-auto overscroll-contain\" style={{ containerType: \"size\" }}>\n    <div className=\"flex h-[45cqh] items-center justify-center\">Scroll to reveal</div>\n    <SvgPixelReveal src=\"/cdn/effects/svg-pixel-reveal/svg-pixel-reveal-img01.png?v=3\" alt=\"Landscape photograph\" scroller={scroller} start=\"top 35%\" style={{ width: \"86%\", height: \"70cqh\", margin: \"0 auto\" }} />\n    <div className=\"h-[50cqh]\" />\n  </div>;\n}\n"
+  },
+  "text-fill-animation": {
+    "description": "A scroll-driven color sweep brings text into focus one character at a time.",
+    "demo": "\"use client\";\nimport { useRef } from \"react\";\nimport { TextFillAnimation } from \"@/components/block/text-fill-animation\";\n\nexport default function Demo() {\n  const scroller = useRef(null);\n  return (\n    <div ref={scroller} tabIndex={0} aria-label=\"Scroll to preview the text fill\" className=\"h-[400px] overflow-y-auto overscroll-contain\">\n      <TextFillAnimation\n        scroller={scroller}\n        height=\"850px\"\n        viewportHeight=\"400px\"\n        showDetails={false}\n        text=\"Make something worth remembering. Build your next idea with ObsidianUI.\"\n        textSize=\"2rem\"\n        mobileTextSize=\"1.6rem\"\n        tabletTextSize=\"2rem\"\n      />\n    </div>\n  );\n}\n"
+  },
+  "text-stream": {
+    "description": "A continuous vertical text stream changes speed and direction with your scroll.",
+    "demo": "\"use client\";\nimport { TextStream } from \"@/components/block/text-stream\";\n\nexport default function Demo() {\n  return <TextStream items={[\"Create\", \"Explore\", \"Build\", \"Ship\"]} prefix=\"Let’s\" height=\"400px\" fontSize=\"2.25rem\" />;\n}\n"
+  },
+  "trading-card": {
+    "description": "A 3D interactive trading card with perspective transforms that respond to mouse movement. Features smooth reveal animations and a premium holographic feel.",
+    "demo": "import TradingCard from '@/components/block/trading-card'\n\nexport default function Demo() {\nreturn (\n  <TradingCard \n    imageUrl=\"https://images.unsplash.com/photo-1534528741775-53994a69daeb\"\n    rank={1}\n    name=\"Elena Martinez\"\n    description=\"World Champion 2024\"\n  />\n)\n}\n"
+  }
+}

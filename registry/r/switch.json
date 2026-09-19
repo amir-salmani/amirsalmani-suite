@@ -1,22 +1,41 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "switch",
-  "type": "registry:file",
+  "type": "registry:ui",
   "title": "Switch",
-  "description": "The knob position is a custom property from 0 to 1, so it can be handed to motion.js and re-targeted mid-flight. Without JS it falls back to a transition.",
+  "description": "shadcn primitive, re-pointed onto the brand. Needs @radix-ui/react-switch.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
   "categories": [
     "controls"
   ],
+  "dependencies": [
+    "@radix-ui/react-switch",
+    "clsx",
+    "tailwind-merge"
+  ],
   "registryDependencies": [
-    "tokens"
+    "tokens",
+    "tokens-shadcn"
   ],
   "files": [
     {
-      "path": "styles/switch.css",
-      "type": "registry:file",
-      "target": "styles/amirsalmani-switch.css",
-      "content": "/* amirsalmani/switch — a physical switch, not an icon button.\n *\n * Requires tokens.css. Extracted from the theme toggle on amirsalmani.com. The\n * knob position is a custom property `--t` (0..1), so it can be driven by a CSS\n * transition or handed to the spring in motion.js and re-targeted mid-flight —\n * which is the whole reason it is not a transform keyframe.\n */\n\n.as-switch {\n  --t: 0;\n  --knob: 1.375rem;\n  position: relative;\n  flex: none;\n  width: 3.25rem;\n  height: 1.875rem;\n  padding: 0;\n  border: 1px solid var(--glass-edge);\n  border-radius: 999px;\n  background: var(--glass);\n  -webkit-backdrop-filter: blur(14px) saturate(150%);\n          backdrop-filter: blur(14px) saturate(150%);\n  color: var(--fg);\n  cursor: pointer;\n  transition: border-color var(--fast) var(--ease-out);\n}\n.as-switch::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: .1875rem;\n  width: var(--knob);\n  height: var(--knob);\n  border-radius: 999px;\n  background: var(--fg);\n  transform: translate(calc(var(--t) * (3.25rem - var(--knob) - .5rem)), -50%);\n}\n.as-switch:hover, .as-switch:focus-visible { border-color: var(--accent); }\n.as-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n.as-switch[aria-checked=\"true\"] { --t: 1; }\n\n/* Without JS the knob still has to move, so the fallback is a transition. With\n   motion.js driving --t the spring owns it and this never fires. */\n.as-switch:not([data-spring])::after { transition: transform var(--med) var(--ease-out); }\n\n@media (prefers-reduced-transparency: reduce) {\n  .as-switch { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--fg) 9%, var(--bg)); }\n}\n@media (prefers-contrast: more) { .as-switch { background: var(--bg); border-color: var(--fg); } }\n"
+      "path": "components/ui/switch.tsx",
+      "type": "registry:ui",
+      "target": "@ui/switch.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as SwitchPrimitive from \"@radix-ui/react-switch\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Switch({\n  className,\n  ...props\n}: React.ComponentProps<typeof SwitchPrimitive.Root>) {\n  return (\n    <SwitchPrimitive.Root\n      data-slot=\"switch\"\n      className={cn(\n        \"peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      <SwitchPrimitive.Thumb\n        data-slot=\"switch-thumb\"\n        className={cn(\n          \"bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0\"\n        )}\n      />\n    </SwitchPrimitive.Root>\n  )\n}\n\nexport { Switch }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
     }
-  ]
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "248ee6bc304f"
+    }
+  }
 }

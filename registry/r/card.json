@@ -1,22 +1,40 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "card",
-  "type": "registry:file",
+  "type": "registry:ui",
   "title": "Card",
-  "description": "Glass is reserved for things that float, and a card in a grid does not float. Works as a whole link, in which case the border goes full strength on hover.",
+  "description": "shadcn primitive, re-pointed onto the brand.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
   "categories": [
-    "layout"
+    "data"
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
   ],
   "registryDependencies": [
-    "tokens"
+    "tokens",
+    "tokens-shadcn"
   ],
   "files": [
     {
-      "path": "styles/card.css",
-      "type": "registry:file",
-      "target": "styles/amirsalmani-card.css",
-      "content": "/* amirsalmani/card — a bordered block, or a whole link.\n *\n * Requires tokens.css. A card is a rule and some padding: no shadow, no\n * gradient, no glass. Glass is reserved for things that float (brand.md §4),\n * and a card in a grid does not float.\n */\n\n.as-card {\n  display: flex;\n  flex-direction: column;\n  gap: var(--gap-xs);\n  padding: clamp(1.35rem, 2.6vw, 1.9rem) clamp(1.2rem, 2.2vw, 1.6rem);\n  border: 1px solid var(--rule);\n  border-radius: var(--radius);\n  background: transparent;\n}\n.as-card--wash { background: var(--wash); }\n.as-card__title {\n  font-family: var(--sans);\n  font-size: 1.0625rem;\n  font-weight: 700;\n  letter-spacing: -.015em;\n  color: var(--fg);\n  margin: 0;\n}\n.as-card__body { color: var(--muted); line-height: 1.7; margin: 0; }\n.as-card__foot { margin-top: auto; padding-top: var(--gap-s); }\n\na.as-card {\n  text-decoration: none;\n  color: inherit;\n  transition: border-color var(--fast) var(--ease-out), background var(--fast) var(--ease-out);\n}\na.as-card:hover, a.as-card:focus-visible { border-color: var(--accent); background: var(--wash); }\na.as-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n\n@media (prefers-contrast: more) { .as-card { border-color: var(--fg); } }\n"
+      "path": "components/ui/card.tsx",
+      "type": "registry:ui",
+      "target": "@ui/card.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Card({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card\"\n      className={cn(\n        \"bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction CardHeader({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-header\"\n      className={cn(\n        \"@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction CardTitle({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-title\"\n      className={cn(\"leading-none font-semibold\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction CardDescription({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-description\"\n      className={cn(\"text-muted-foreground text-sm\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction CardAction({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-action\"\n      className={cn(\n        \"col-start-2 row-span-2 row-start-1 self-start justify-self-end\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction CardContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-content\"\n      className={cn(\"px-6\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction CardFooter({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-footer\"\n      className={cn(\"flex items-center px-6 [.border-t]:pt-6\", className)}\n      {...props}\n    />\n  )\n}\n\nexport {\n  Card,\n  CardHeader,\n  CardFooter,\n  CardTitle,\n  CardAction,\n  CardDescription,\n  CardContent,\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
     }
-  ]
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "8dd02b3ca800"
+    }
+  }
 }

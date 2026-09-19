@@ -1,22 +1,41 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "label",
-  "type": "registry:file",
+  "type": "registry:ui",
   "title": "Label",
-  "description": "Mono, uppercase, wide tracking. Mono is for what a machine would emit, so this and only this carries indices, keys and attributions.",
+  "description": "shadcn primitive, re-pointed onto the brand. Needs @radix-ui/react-label.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
   "categories": [
-    "type"
+    "controls"
+  ],
+  "dependencies": [
+    "@radix-ui/react-label",
+    "clsx",
+    "tailwind-merge"
   ],
   "registryDependencies": [
-    "tokens"
+    "tokens",
+    "tokens-shadcn"
   ],
   "files": [
     {
-      "path": "styles/label.css",
-      "type": "registry:file",
-      "target": "styles/amirsalmani-label.css",
-      "content": "/* amirsalmani/label — the eyebrow, section number, status key and source line.\n *\n * Requires tokens.css. Mono is for what a machine would emit (brand.md §3), so\n * this and only this carries indices, keys and attributions. Prose is never\n * mono; metadata is never sans.\n */\n\n.as-label {\n  font-family: var(--mono);\n  font-size: .7rem;\n  font-weight: 500;\n  letter-spacing: .18em;\n  text-transform: uppercase;\n  color: var(--muted);\n}\n.as-label--faint { color: var(--faint); }\n"
+      "path": "components/ui/label.tsx",
+      "type": "registry:ui",
+      "target": "@ui/label.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as LabelPrimitive from \"@radix-ui/react-label\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Label({\n  className,\n  ...props\n}: React.ComponentProps<typeof LabelPrimitive.Root>) {\n  return (\n    <LabelPrimitive.Root\n      data-slot=\"label\"\n      className={cn(\n        \"flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
     }
-  ]
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "72612c5b0eb0"
+    }
+  }
 }

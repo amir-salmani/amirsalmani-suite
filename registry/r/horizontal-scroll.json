@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "horizontal-scroll",
+  "type": "registry:block",
+  "title": "Horizontal Scroll",
+  "description": "React block, re-pointed onto the brand. Needs motion.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "scroll"
+  ],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/block/horizontal-scroll.tsx",
+      "type": "registry:block",
+      "target": "@components/block/horizontal-scroll.tsx",
+      "content": "'use client';\n\nimport React, { useRef } from 'react';\nimport { motion, MotionValue, useScroll, useTransform, useReducedMotion } from 'motion/react';\n\nconst HorizontalScrollItem = ({\n    image,\n    index,\n    isLeft,\n    scrollYProgress,\n    totalItems\n}: {\n    image: string;\n    index: number;\n    isLeft: boolean;\n    scrollYProgress: MotionValue<number>;\n    totalItems: number;\n}) => {\n    const direction = isLeft ? -1 : 1;\n    const position = index / totalItems;\n\n    const reduceMotion = useReducedMotion();\n    const translateX = useTransform(\n        scrollYProgress,\n        [0, position, 1],\n        [-index * 500 * direction, 0, (totalItems - index) * 500 * direction]\n    );\n    const rotateY = useTransform(\n        scrollYProgress,\n        [0, position, 1],\n        [index * 35 * direction, 0, (totalItems - index) * -35 * direction]\n    );\n    const blur = useTransform(scrollYProgress, [0, position, 1], [index * 2, 0, (totalItems - index) * 2]);\n    const contrast = useTransform(scrollYProgress, [0, position, 1], [index * 0.5, 1, (totalItems - index) * 0.5]);\n\n    const translateY = useTransform(\n        scrollYProgress,\n        [0, position, 1],\n        [(totalItems - index) * 20, totalItems * 20, index * 20]\n    );\n\n    const filter = useTransform([blur, contrast], ([blur, contrast]) => `blur(${blur}px) contrast(${contrast})`);\n\n    return (\n        <motion.div\n            style={{\n                translateX,\n                filter: reduceMotion ? 'none' : filter,\n                translateY: useTransform(translateY, (value) => `${reduceMotion ? -400 : value - 400}px`),\n                perspective: reduceMotion ? 'none' : 1000,\n                transformStyle: 'preserve-3d'\n            }}\n            className=\"h-[300px] max-w-sm w-full absolute rounded-xl overflow-visible\"\n        >\n            <motion.div style={{ rotateY: reduceMotion ? 0 : rotateY }}>\n                <img src={image} alt={image} width={1000} height={1000} className=\"object-cover h-[300px] w-full rounded-xl\" />\n            </motion.div>\n        </motion.div>\n    );\n};\n\ninterface HorizontalScrollProps {\n    items: { image: string }[];\n}\n\nexport function HorizontalScroll({ items }: HorizontalScrollProps) {\n    const ref = useRef<HTMLDivElement>(null);\n\n    const { scrollYProgress } = useScroll({\n        container: ref,\n        offset: ['start start', 'end end']\n    });\n\n    return (\n        <div ref={ref} className=\"h-full w-full overflow-y-auto relative\" style={{ minHeight: '400px' }}>\n            <div className=\"h-full w-full absolute top-0 left-0\">\n                <div className=\"w-full\" style={{ height: (items.length - 3) * 300 }} />\n            </div>\n            <div className=\"grid grid-cols-1 gap-12 h-full w-full sticky top-0 left-0\">\n                <div className=\"flex flex-col h-full justify-center w-full items-center relative\">\n                    {items.map((image, index) => (\n                        <HorizontalScrollItem\n                            key={`horizontal-scroll-item-${index}`}\n                            image={image.image}\n                            index={index}\n                            isLeft={true}\n                            scrollYProgress={scrollYProgress}\n                            totalItems={items.length}\n                        />\n                    ))}\n                </div>\n            </div>\n        </div>\n    );\n}\n\nexport default HorizontalScroll;\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "87227d96580e"
+    }
+  }
+}

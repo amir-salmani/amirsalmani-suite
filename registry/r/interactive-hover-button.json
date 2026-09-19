@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "interactive-hover-button",
+  "type": "registry:block",
+  "title": "Interactive Hover Button",
+  "description": "React block, re-pointed onto the brand. Needs lucide-react.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "controls"
+  ],
+  "dependencies": [
+    "clsx",
+    "lucide-react",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/block/interactive-hover-button.tsx",
+      "type": "registry:block",
+      "target": "@components/block/interactive-hover-button.tsx",
+      "content": "import { ArrowRight } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nexport function InteractiveHoverButton({\n  children,\n  className,\n  ...props\n}: React.ButtonHTMLAttributes<HTMLButtonElement>) {\n  return (\n    <button\n      className={cn(\n        \"group bg-background relative w-auto cursor-pointer overflow-hidden rounded-full border p-2 px-6 text-center font-semibold\",\n        className\n      )}\n      {...props}\n    >\n      <div className=\"flex items-center gap-2\">\n        <div className=\"bg-primary h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-[100.8]\"></div>\n        <span className=\"inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0\">\n          {children}\n        </span>\n      </div>\n      <div className=\"text-primary-foreground absolute top-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 opacity-0 transition-all duration-300 group-hover:-translate-x-5 group-hover:opacity-100\">\n        <span>{children}</span>\n        <ArrowRight />\n      </div>\n    </button>\n  )\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "fa9b9a52626b"
+    }
+  }
+}

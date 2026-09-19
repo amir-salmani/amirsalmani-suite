@@ -1,0 +1,40 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ripple-pulse-loader",
+  "type": "registry:ui",
+  "title": "Ripple Pulse Loader",
+  "description": "shadcn primitive, re-pointed onto the brand.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "feedback"
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/ui/ripple-pulse-loader.tsx",
+      "type": "registry:ui",
+      "target": "@ui/ripple-pulse-loader.tsx",
+      "content": "\"use client\";\n\nimport type { CSSProperties } from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nconst logoSrc = \"https://cdn-new.obsidianui.dev/logo/bg-less.png?v=3\";\n\ntype RipplePulseLoaderProps = {\n  className?: string;\n  size?: number;\n};\n\nexport function RipplePulseLoader({ className, size = 150 }: RipplePulseLoaderProps) {\n  return (\n    <div\n      className={cn(\"ripple-pulse-loader\", className)}\n      style={{ \"--ripple-size\": `${size}px` } as CSSProperties}\n      role=\"status\"\n      aria-label=\"Loading\"\n    >\n      <div className=\"box\">\n        <div className=\"logo\">\n          <img src={logoSrc} alt=\"\" className=\"svg\" />\n        </div>\n      </div>\n      <div className=\"box\" />\n      <div className=\"box\" />\n      <div className=\"box\" />\n      <div className=\"box\" />\n    </div>\n  );\n}\n\nexport default RipplePulseLoader;\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "7e1aa22065a0"
+    }
+  }
+}
