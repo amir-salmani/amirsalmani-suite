@@ -19,7 +19,7 @@ export const Experience = ({
  {...orbitControls}
  />
  <Book images={images} pageColors={pageColors} pathPattern={pathPattern} {...props} />
- <Environment files="/cdn/effects/book-flip/studio.hdr?v=3" />
+ <ambientLight intensity={1.4} />
  <directionalLight
  position={[2, 5, 2]}
  intensity={2.5}

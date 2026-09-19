@@ -7,20 +7,20 @@ import { PageProvider, usePage } from "@/lib/effects/book-flip/PageContext";
 import { WebGLSurface, useEffectReducedMotion } from "@/lib/effects/shared/webgl-surface";
 
 const defaultPageColors = [
-  "#1e1b4b",
-  "#7c3aed",
-  "#7c3aed",
-  "#0ea5e9",
-  "#0ea5e9",
-  "#10b981",
-  "#10b981",
-  "#f59e0b",
-  "#f59e0b",
-  "#ef4444",
-  "#ef4444",
-  "#ec4899",
-  "#ec4899",
-  "#0f172a",
+  "#1a1a1a",
+  "#8a8a8a",
+  "#8a8a8a",
+  "#a6a6a6",
+  "#a6a6a6",
+  "#9b9b9b",
+  "#9b9b9b",
+  "#c4c4c4",
+  "#c4c4c4",
+  "#7a7a7a",
+  "#7a7a7a",
+  "#8f8f8f",
+  "#8f8f8f",
+  "#0f0f0f",
 ];
 const defaultCameraDistance = { mobile: 5.5, desktop: 4 };
 

@@ -109,6 +109,29 @@ The recordings are filmed on the component tier's own ground, `#000`, so each
 tile declares that ground rather than letting a dark recording read as an empty
 box on indigo.
 
+### The plates
+
+Twelve of the imported usage examples want photographs — four point at
+`/images/one.jpg` and friends, which exist in upstream's own application and
+nowhere else, and the rest at upstream's CDN. Both leave a recording that is
+either an empty frame or a picture of someone else's content, and upstream's own
+agent guide says to replace them.
+
+`tools/build-plates.mjs` draws twelve instead: the mark at one stroke weight on
+a lightness ramp, in the grammar [geometry](geometry.md) already sets out. They
+do not pretend to be photographs — a gallery of them reads as a gallery, which
+is all a demo of a masonry grid has to show. Each distinct path maps to a plate
+deterministically, so a gallery of four gets four different plates.
+
+**`book-flip` is the case that had to be re-argued.** Its six page spreads and
+two covers were allowed as artwork in the first pass. Rendering it showed why
+that was wrong: a navy book on the obsidian ground is the accent hue arriving
+through the back door, on a component that ships in the catalogue. The pages
+keep their separation as six steps of the ramp and lose their colour. Its
+environment map — a private path on upstream's CDN that 404s for everyone else —
+became an ambient light, so the component no longer needs someone else's host to
+light a scene.
+
 ## Adding an item
 
 1. Write `src/components/<name>.css`. Derive every colour from the local
