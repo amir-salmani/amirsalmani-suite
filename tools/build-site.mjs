@@ -69,7 +69,7 @@ cssParts.push(await read('src/made-by/made-by.css'));
 const counts = Object.fromEntries(CATEGORIES.map(([c]) => [c, ITEMS.filter(i => i.category === c).length]));
 
 const rail = CATEGORIES.map(([cat, note]) => `
-      <div class="rail__group">
+      <div class="rail__group" id="cat-${cat.toLowerCase()}">
         <span class="rail__cat">${esc(cat)}<span class="rail__n">${counts[cat]}</span></span>
         <p class="rail__note">${esc(note)}</p>
         <ul class="rail__items">
@@ -141,24 +141,24 @@ const depsOf = item => item.bundle === 'all'
 const recorded = new Set(await readdir(path.join(ROOT, 'src', 'demos-video')).then(
   f => f.filter(n => n.endsWith('.webm')).map(n => n.replace('.webm', '')), () => []));
 
-/* Four, out of 120. The landing page withholds the rest — which is the whole
- * restraint being borrowed from obsidianui.dev, and it costs nothing. One per
- * category so the four say "there are kinds of thing here". */
-const featured = (() => {
-  const seen = new Set();
-  return az.filter(i => recorded.has(i.name) && !seen.has(i.category) && seen.add(i.category)).slice(0, 4);
-})();
-
-const tile = i => `
-        <a class="tile" href="docs/${i.name}/">
-          <span class="tile__media">
-            <video class="tile__video" src="demos/${i.name}.webm" poster="demos/${i.name}.png"
-                   muted loop autoplay playsinline preload="none" aria-hidden="true"></video>
+/* No showcase grid.
+ *
+ * Four recordings were tried and the honest result was four black rectangles:
+ * most of these components are a small control on a large ground, and the
+ * shader pieces are greyscale on #000 by the brand's own rule — fractal-glass
+ * films as a white line on black. Choosing four better ones only moves the
+ * problem, because the thin ones are thin by construction.
+ *
+ * So the landing shows what it can state plainly: what kinds of thing are here,
+ * and how many. Recordings live on the item pages, where they are large and in
+ * context. */
+const catTile = ([cat, note]) => `
+        <a class="cat" href="components/#cat-${cat.toLowerCase()}">
+          <span class="cat__head">
+            <span class="cat__name">${esc(cat)}</span>
+            <span class="cat__n">${counts[cat]}</span>
           </span>
-          <span class="tile__meta">
-            <span class="tile__name">${esc(i.title)}</span>
-            <span class="tile__cat">${esc(i.category)}</span>
-          </span>
+          <span class="cat__note">${esc(note)}</span>
         </a>`;
 
 const FAQ = [
@@ -203,11 +203,15 @@ npx shadcn@latest add @amirsalmani/suite</code></pre>
 <section class="as-section">
   <div class="as-section__inner">
     <div class="as-sec-head">
-      <h2 class="as-sec-head__title">A few of them</h2>
+      <h2 class="as-sec-head__title">What is in it</h2>
       <span class="as-sec-head__rule"></span>
     </div>
-    <p class="as-lede">Four of ${components.length}. The rest are in <a class="as-link" href="components/">the catalogue</a>.</p>
-    <div class="tiles">${featured.map(tile).join('')}
+    <p class="as-lede">
+      ${components.length} items across ${CATEGORIES.length} categories. Every one has
+      <a class="as-link" href="docs/">its own page</a>, with a live specimen or a
+      recording of it moving.
+    </p>
+    <div class="cats">${CATEGORIES.filter(([c]) => c !== 'Bundles' && counts[c]).map(catTile).join('')}
     </div>
   </div>
 </section>
@@ -502,31 +506,17 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
    widths on each page is what made the FAQ read as unfinished. */
 .as-lede, .faq__a, .doc__p { max-width: 68ch; }
 
-.tiles { display: grid; gap: var(--gap-m); grid-template-columns: 1fr 1fr; margin-top: var(--gap-l); }
-@media (max-width: 40rem) { .tiles { grid-template-columns: 1fr; } }
-.tile {
-  display: grid; gap: .625rem; text-decoration: none; color: inherit;
-  padding: .75rem .75rem .875rem; border: 1px solid var(--rule);
-  border-radius: var(--radius); background: var(--glass);
-  transition: border-color var(--fast) var(--ease-out),
-              background var(--fast) var(--ease-out),
-              transform var(--fast) var(--ease-out);
+.cats { display: grid; gap: var(--gap-s); grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); margin-top: var(--gap-l); }
+.cat {
+  display: grid; gap: .3rem; align-content: start; text-decoration: none; color: inherit;
+  padding: .875rem 1rem; border: 1px solid var(--rule); border-radius: var(--radius);
+  transition: border-color var(--fast) var(--ease-out), background var(--fast) var(--ease-out);
 }
-.tile:hover { border-color: var(--glass-top); background: var(--glass-edge); transform: translateY(-2px); }
-@media (prefers-reduced-motion: reduce) { .tile:hover { transform: none; } }
-.tile__meta { display: flex; align-items: baseline; justify-content: space-between; gap: var(--gap-s); padding-inline: .125rem; }
-.tile__media {
-  display: block; aspect-ratio: 8 / 5; overflow: hidden;
-  border-radius: var(--radius-s);
-  /* Recordings are filmed on the component tier's own ground, which is #000 —
-     so the frame declares that ground rather than letting a dark recording read
-     as an empty box on indigo. */
-  background: var(--obsidian);
-  border: 1px solid var(--rule);
-}
-.tile__video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.tile__name { font-weight: 600; }
-.tile__cat { font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-faint); }
+.cat:hover { border-color: var(--glass-top); background: var(--glass); }
+.cat__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--gap-s); }
+.cat__name { font-weight: 600; }
+.cat__n { font-family: var(--mono); font-size: .75rem; color: var(--fg-faint); }
+.cat__note { color: var(--fg-muted); font-size: .8125rem; line-height: 1.5; }
 
 .faq { display: grid; gap: 0; margin-top: var(--gap-m); border-top: 1px solid var(--rule); }
 .faq__item { border-bottom: 1px solid var(--rule); }
@@ -634,7 +624,7 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
 .cat-head .as-card__body { margin: .35rem 0 0; }
 
 .item { display: flex; flex-direction: column; gap: var(--gap-s); scroll-margin-top: 5rem; }
-.index, .cat-head { scroll-margin-top: 5rem; }
+.index, .cat-head, .rail__group { scroll-margin-top: 6rem; }
 .item__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--gap-s); }
 .item__title { font-family: var(--sans); font-size: clamp(1.3rem, 2.4vw, 1.75rem); font-weight: 700; letter-spacing: -.022em; margin: 0; color: var(--fg); }
 .item__desc { margin: 0; max-width: 62ch; line-height: 1.7; color: var(--fg-muted); }
@@ -655,8 +645,10 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
 .glyph { display: flex; flex-direction: column; align-items: center; gap: .5rem; margin: 0; color: var(--fg); }
 .glyph svg { width: 2rem; height: 2rem; }
 
-.hero { max-width: 46rem; }
-.hero__install { max-width: 42rem; margin-top: var(--gap-s); }
+/* The single-page hero's caps used to live here — max-width 46rem on .hero and
+   42rem on the install line. Against the two-column hero they held it to two
+   thirds of the band and left the last third empty, which read as a layout
+   mistake because it was one. The columns are the measure now. */
 .hero__figures { margin-top: var(--gap-l); }
 .index__note { margin-bottom: var(--gap-l); }
 .index__find { margin-bottom: var(--gap-m); }
@@ -697,7 +689,7 @@ await cp(path.join(ROOT, 'src', 'motion', 'motion.js'), path.join(OUT, 'suite', 
 
 const kb = n => (n / 1024).toFixed(1) + 'KB';
 console.log(`${path.relative(ROOT, OUT)}/`);
-console.log(`  suite/index.html            ${kb(landing.length)}  · ${featured.length} featured of ${components.length}`);
+console.log(`  suite/index.html            ${kb(landing.length)}  · ${CATEGORIES.length - 1} categories, ${components.length} items`);
 console.log(`  suite/components/index.html ${kb(catalogue.length)}  · ${ITEMS.length} items, ${CATEGORIES.length} categories`);
 console.log(`  suite/docs/                 ${ITEMS.length + 1} pages · ${recorded.size} with a recording`);
 console.log(`  suite/suite.css   ${kb(cssParts.join('').length + shellCss.length)}`);
