@@ -53,10 +53,11 @@ await rm(TMP, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
 
 const browser = await chromium.launch();
-/* 16:10, and deliberately small. A demo filmed at 1280 and shown in a 480px
- * tile renders its own type at a third the size — the grid read as a wall of
- * empty black boxes. Filming closer makes the component the frame's subject. */
-const W = 900, H = 563;
+/* 8:5, and deliberately small. A demo filmed at 1280 and shown in a 480px tile
+ * renders its own type at a third the size — the grid read as a wall of empty
+ * black boxes. Filming close makes the component the frame's subject rather
+ * than a detail inside a page. */
+const W = 720, H = 450;
 let done = 0;
 const failed = [];
 

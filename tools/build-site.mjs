@@ -134,6 +134,10 @@ ${stripScript(demo).split('\n').map(l => '            ' + l).join('\n')}
  * they had arrived at.
  */
 
+const depsOf = item => item.bundle === 'all'
+  ? ITEMS.filter(i => !i.bundle && (i.tier ?? 'brand') === (item.tier ?? 'brand')).map(i => i.name)
+  : [...new Set([...(item.deps ?? []), ...(item.bundle ?? [])])];
+
 const recorded = new Set(await readdir(path.join(ROOT, 'src', 'demos-video')).then(
   f => f.filter(n => n.endsWith('.webm')).map(n => n.replace('.webm', '')), () => []));
 
@@ -151,8 +155,10 @@ const tile = i => `
             <video class="tile__video" src="demos/${i.name}.webm" poster="demos/${i.name}.png"
                    muted loop autoplay playsinline preload="none" aria-hidden="true"></video>
           </span>
-          <span class="tile__name">${esc(i.title)}</span>
-          <span class="tile__cat">${esc(i.category)}</span>
+          <span class="tile__meta">
+            <span class="tile__name">${esc(i.title)}</span>
+            <span class="tile__cat">${esc(i.category)}</span>
+          </span>
         </a>`;
 
 const FAQ = [
@@ -184,13 +190,13 @@ const landing = `${head({
           from then on — there is no package to depend on and no version to
           track.
         </p>
-        <pre class="as-code hero__install"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/tokens
-npx shadcn@latest add @amirsalmani/suite</code></pre>
         <p class="hero__actions">
           <a class="as-btn as-btn--solid" href="components/">Browse components</a>
           <a class="as-btn" href="docs/">Read the docs</a>
         </p>
       </div>
+      <pre class="as-code hero__install"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/tokens
+npx shadcn@latest add @amirsalmani/suite</code></pre>
     </div>
 </header>
 
@@ -320,7 +326,22 @@ ${DOC_SECTIONS.map(([t, body]) => `
 </main>
 ${footer()}${close({ up: 1 })}`;
 
-const itemPage = (item, demo) => `${head({
+/* Every item page shows something. A brand-tier item has a live demo — the same
+ * fragment that is its copy-paste snippet, so the thing on screen and the thing
+ * you copy cannot disagree. An imported item shows its recording, or failing
+ * that the files it installs, because a page that is a title and an install line
+ * is not documentation. */
+/* What an item puts in your project: file targets for a component, the items it
+ * resolves to for a bundle. Five pages were a title and an install line before
+ * this — the bundles, and the two foundation items with no demo. */
+const installs = item => item.bundle
+  ? depsOf(item)
+  : item.files?.length ? item.files.map(f => f.target)
+  : item.css ? [item.target ?? `styles/amirsalmani-${item.css}`]
+  : item.js ? [item.target ?? `lib/${item.js}`]
+  : [];
+
+const itemPage = (item, demo, preview) => `${head({
   title: `${item.title} — the suite | Amir Salmani`,
   description: item.blurb ?? item.description ?? item.title,
   canonical: `/suite/docs/${item.name}/`, up: 2,
@@ -328,22 +349,39 @@ const itemPage = (item, demo) => `${head({
 <main class="page">
   <div class="page__inner">
     <p class="item__back"><a class="as-link" href="../../components/">&lsaquo; All ${ITEMS.length} components</a></p>
-    <span class="as-label">${esc(item.category)}</span>
-    <h1 class="as-headline">${esc(item.title)}</h1>
-    <p class="as-lede">${esc(item.description ?? item.blurb ?? '')}</p>
+    <div class="item__head">
+      <span class="as-label">${esc(item.category)}</span>
+      <h1 class="as-headline">${esc(item.title)}</h1>
+      <p class="as-lede">${esc(item.description ?? item.blurb ?? '')}</p>
+      <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/${item.name}</code></pre>
+      <div class="item__facts">
+${item.npm?.length ? `        <p class="item__deps"><span class="as-label as-label--fg-faint">Needs</span> ${item.npm.map(d => `<code>${esc(d)}</code>`).join('<span class="item__sep">,</span> ')}</p>` : ''}
+${item.upstream ? `        <p class="as-label as-label--fg-faint">Imported from ObsidianUI on ${esc(item.upstream.imported)} · ${esc(item.upstream.sha)}</p>` : ''}
+      </div>
+    </div>
 
+    ${preview ? `<div class="item__preview"><span class="as-label as-label--fg-faint item__tag">Live</span>
+${stripScript(preview)}
+    </div>` : ''}
     ${recorded.has(item.name) ? `<div class="item__media">
       <video src="../../demos/${item.name}.webm" poster="../../demos/${item.name}.png"
              muted loop autoplay playsinline preload="none" aria-label="${attr(item.title)} in motion"></video>
     </div>` : ''}
 
-    <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/${item.name}</code></pre>
 
-    ${item.npm?.length ? `<p class="item__deps"><span class="as-label as-label--fg-faint">Needs</span> ${item.npm.map(d => `<code>${esc(d)}</code>`).join('<span class="item__sep">,</span> ')}</p>` : ''}
-    ${item.upstream ? `<p class="as-label as-label--fg-faint">Imported from ObsidianUI on ${esc(item.upstream.imported)} · ${esc(item.upstream.sha)}</p>` : ''}
+    ${demo ? `<section class="item__sec"><div class="as-sec-head"><h2 class="as-sec-head__title">Usage</h2><span class="as-sec-head__rule"></span></div>
+    <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>${esc(demo)}</code></pre></section>` : ''}
 
-    ${demo ? `<div class="as-sec-head"><h2 class="as-sec-head__title">Usage</h2><span class="as-sec-head__rule"></span></div>
-    <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>${esc(demo)}</code></pre>` : ''}
+    ${preview ? `<section class="item__sec"><div class="as-sec-head"><h2 class="as-sec-head__title">Markup</h2><span class="as-sec-head__rule"></span></div>
+    <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>${esc(preview)}</code></pre></section>` : ''}
+
+    ${!demo && !preview && installs(item).length ? `<section class="item__sec"><div class="as-sec-head"><h2 class="as-sec-head__title">${item.bundle ? 'Installs' : 'Files'}</h2><span class="as-sec-head__rule"></span></div>
+    <p class="doc__p">${item.bundle
+      ? `One command, ${installs(item).length} items. Each is also available on its own.`
+      : 'Copied into your project at these paths, resolved through your <code>components.json</code>:'}</p>
+    <ul class="item__files">${installs(item).map(f => item.bundle
+      ? `<li><a class="as-link" href="../${f}/">${esc(byName[f]?.title ?? f)}</a></li>`
+      : `<li><code>${esc(f)}</code></li>`).join('')}</ul></section>` : ''}
   </div>
 </main>
 ${footer()}${close({ up: 2 })}`;
@@ -452,9 +490,10 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
    lede made it break every six words. */
 .hero .as-lede { max-width: none; }
 
-/* A command line is one line. Let it scroll rather than clip, and never wrap —
-   a copied command broken across lines is a command that does not run. */
-.hero__install { overflow-x: auto; }
+/* The install line spans both columns. Inside a half-width one it was cut
+   mid-package-name behind a scrollbar, which is the worst way to show a command
+   somebody is meant to copy. */
+.hero__install { grid-column: 1 / -1; overflow-x: auto; }
 .hero__install code { white-space: pre; }
 .hero__actions { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--gap-m); margin-top: var(--gap-l); }
 @media (max-width: 30rem) { .hero__actions { flex-wrap: wrap; } }
@@ -466,14 +505,18 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
 .tiles { display: grid; gap: var(--gap-m); grid-template-columns: 1fr 1fr; margin-top: var(--gap-l); }
 @media (max-width: 40rem) { .tiles { grid-template-columns: 1fr; } }
 .tile {
-  display: grid; gap: .375rem; text-decoration: none; color: inherit;
-  padding: .75rem; border: 1px solid var(--rule); border-radius: var(--radius);
-  background: var(--glass);
-  transition: border-color var(--fast) var(--ease-out);
+  display: grid; gap: .625rem; text-decoration: none; color: inherit;
+  padding: .75rem .75rem .875rem; border: 1px solid var(--rule);
+  border-radius: var(--radius); background: var(--glass);
+  transition: border-color var(--fast) var(--ease-out),
+              background var(--fast) var(--ease-out),
+              transform var(--fast) var(--ease-out);
 }
-.tile:hover { border-color: var(--glass-top); }
+.tile:hover { border-color: var(--glass-top); background: var(--glass-edge); transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .tile:hover { transform: none; } }
+.tile__meta { display: flex; align-items: baseline; justify-content: space-between; gap: var(--gap-s); padding-inline: .125rem; }
 .tile__media {
-  display: block; aspect-ratio: 16 / 10; overflow: hidden;
+  display: block; aspect-ratio: 8 / 5; overflow: hidden;
   border-radius: var(--radius-s);
   /* Recordings are filmed on the component tier's own ground, which is #000 —
      so the frame declares that ground rather than letting a dark recording read
@@ -493,7 +536,21 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
 .faq__item[open] .faq__q::after { content: '\\2212'; }
 .faq__a { padding: 0 0 1.25rem; color: var(--fg-muted); }
 
-.item__back { margin-bottom: var(--gap-s); }
+/* The head is one block — label, title, lede, the command, the facts — so they
+   read as one statement. The page's own gap separates sections, not sentences. */
+.item__head { display: flex; flex-direction: column; gap: var(--gap-s); }
+.item__head .as-headline { margin-block: .25rem; }
+.item__head .as-code { margin-top: var(--gap-s); }
+.item__facts { display: flex; flex-direction: column; gap: .25rem; }
+.item__back { margin-bottom: 0; }
+.item__sec { display: flex; flex-direction: column; gap: var(--gap-s); }
+.item__preview {
+  position: relative; margin: var(--gap-m) 0; padding: var(--gap-l) var(--gap-m) var(--gap-m);
+  border: 1px solid var(--rule); border-radius: var(--radius); background: var(--wash);
+}
+.item__tag { position: absolute; top: .625rem; right: .875rem; }
+.item__files { display: flex; flex-direction: column; gap: .25rem; list-style: none; padding: 0; }
+.item__files code { font-family: var(--mono); font-size: .8125rem; color: var(--fg-muted); }
 .item__deps { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; color: var(--fg-muted); }
 .item__sep { margin-left: -.4rem; }
 .item__media { margin: var(--gap-m) 0; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; background: var(--bg-alt); }
@@ -625,7 +682,8 @@ await writeFile(path.join(OUT, 'suite', 'docs', 'index.html'), docsIndex);
 const usage = await readFile(path.join(ROOT, 'src', 'demos-usage.json'), 'utf8').then(JSON.parse).catch(() => ({}));
 for (const item of ITEMS) {
   await mkdir(path.join(OUT, 'suite', 'docs', item.name), { recursive: true });
-  await writeFile(path.join(OUT, 'suite', 'docs', item.name, 'index.html'), itemPage(item, usage[item.name]));
+  await writeFile(path.join(OUT, 'suite', 'docs', item.name, 'index.html'),
+    itemPage(item, usage[item.name], await demoFor(item)));
 }
 
 // The plates the demos draw, and the recordings, beside the pages that use them.
