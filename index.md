@@ -13,7 +13,7 @@ project:
   kind: tool
   lifecycle: active
   visibility: public
-  hosting: cloudflare
+  hosting: rhinocloud
   toolchain: node
 ---
 

@@ -1,0 +1,22 @@
+# Serves the baked site and nothing else. No TLS and no redirects here — Traefik
+# terminates and canonicalises at the edge, and doing it twice is how a redirect
+# loop happens.
+:80 {
+	root * /srv
+	encode zstd gzip
+	file_server {
+		precompressed br gzip
+	}
+
+	# The healthcheck compose and Docker both read. Deliberately not a file, so
+	# it cannot be shadowed by the site's own content.
+	respond /healthz 200 {
+		body "ok"
+		close
+	}
+
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+}

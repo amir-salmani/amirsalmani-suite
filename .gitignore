@@ -3,4 +3,11 @@ dist/
 verify/src/suite/
 verify/src/demos/
 verify/src/demos.generated.ts
+verify/public/suite/plates/
 .record-tmp/
+
+# Produced by CI and baked into the image (templates/deploy). Committing them
+# rewrote 2.6MB of binaries into history on every re-record.
+src/demos-video/
+src/plates/
+src/demos-usage.json

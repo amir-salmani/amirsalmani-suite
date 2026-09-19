@@ -1,0 +1,6 @@
+# The build context is the repository. Without this it is the repository plus
+# every node_modules in it, which is minutes of upload for bytes the image
+# never sees.
+*
+!deploy/Caddyfile
+!dist

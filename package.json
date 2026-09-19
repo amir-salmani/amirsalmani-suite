@@ -19,7 +19,8 @@
     "verify": "node tools/verify-scaffold.mjs && node tools/build-demos.mjs && node tools/stage.mjs && npm --prefix verify run build",
     "docs": "node tools/fetch-docs.mjs",
     "demos": "node tools/build-demos.mjs",
-    "record": "node tools/build-demos.mjs && node tools/verify-scaffold.mjs && node tools/stage.mjs && npm --prefix verify run build && node tools/record-demos.mjs"
+    "record": "node tools/build-demos.mjs && node tools/verify-scaffold.mjs && node tools/stage.mjs && npm --prefix verify run build && node tools/record-demos.mjs",
+    "ci": "node tools/import-obsidian.mjs --offline && node tools/repoint.mjs && node tools/build-plates.mjs && node tools/fetch-docs.mjs --offline && node tools/build-demos.mjs && node tools/verify-scaffold.mjs && node tools/stage.mjs && npm --prefix verify ci && npm --prefix verify run build && node tools/record-demos.mjs && node tools/build-registry.mjs && node tools/build-site.mjs && npm run proof"
   },
   "devDependencies": {
     "playwright": "^1.62.0"

@@ -1,0 +1,21 @@
+# Rotated by deploy/reconcile.sh, which passes IMAGE and SERVICE. Nothing here
+# is a literal: the same file serves every service that adopts this template.
+services:
+  site:
+    image: ${IMAGE:?set by reconcile.sh}
+    container_name: ${SERVICE:?set by reconcile.sh}
+    restart: unless-stopped
+    # No published port. Traefik reaches it on the shared network, so the box
+    # exposes 80 and 443 and nothing else.
+    networks: [edge]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+networks:
+  edge:
+    external: true
+    name: edge

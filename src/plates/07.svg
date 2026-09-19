@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Plate 7">
-  <rect width="800" height="800" fill="rgb(115,115,115)"/>
-  <path d="M60 90 H740" stroke="rgb(20,20,20)" stroke-width="1" opacity=".28"/><path d="M60 214 H740" stroke="rgb(20,20,20)" stroke-width="1" opacity=".28"/><path d="M60 338 H740" stroke="rgb(20,20,20)" stroke-width="1" opacity=".28"/><path d="M60 462 H740" stroke="rgb(20,20,20)" stroke-width="1" opacity=".28"/><path d="M60 586 H740" stroke="rgb(20,20,20)" stroke-width="1" opacity=".28"/>
-  <g transform="translate(400 400) rotate(138) scale(6.93) translate(-32 -32)"
-     fill="none" stroke="rgb(20,20,20)" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 51 L32 13 L52 51 M20.5 35 H43.5"/>
-    <circle cx="32" cy="13" r="3.8" fill="rgb(20,20,20)" stroke="none"/><circle cx="12" cy="51" r="3.8" fill="rgb(20,20,20)" stroke="none"/><circle cx="52" cy="51" r="3.8" fill="rgb(20,20,20)" stroke="none"/>
-  </g>
-</svg>

@@ -1,0 +1,104 @@
+# Build here, never on the box.
+#
+# The box is in Frankfurt and the person pushing is often on an Iranian
+# connection, where a deploy that has already succeeded can look like a timeout
+# (estate 8ea54b5). So the whole pipeline runs in Actions and the box only ever
+# pulls: checks, build, image, release asset, then a pin committed to main.
+# deploy/reconcile.sh finds the pin within two minutes and rotates.
+#
+# Nothing inbound. The only credential is the run's own GITHUB_TOKEN.
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false      # never cancel a run that may already have pinned
+
+permissions:
+  contents: write                # the release asset, and the pin commit
+  packages: write                # GHCR, for provenance only — nothing reads it
+
+jobs:
+  ship:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: cfg
+        name: Read deploy/service.env
+        run: cat deploy/service.env | grep -E '^[A-Z]+=' | sed 's/ *#.*//' >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci || npm install
+
+      # The runner has no browsers. A service whose checks never open one pays
+      # about fifteen seconds for this and nothing else.
+      - name: Browsers
+        run: npx --yes playwright install --with-deps chromium
+
+      # Everything the repository can prove about itself, before anything is
+      # built. A failure here never reaches the box, because the pin is the last
+      # thing written.
+      - name: Checks
+        run: npm run ci
+
+      - name: Build image
+        run: |
+          docker build \
+            --build-arg OUTDIR="$OUTDIR" \
+            -f deploy/Dockerfile \
+            -t "ghcr.io/${OWNER}:${GITHUB_SHA}" .
+
+      # zstd because the box decompresses it in a pipe into docker load, and the
+      # sha256 below is of these exact bytes.
+      - name: Package
+        id: pkg
+        run: |
+          docker save "ghcr.io/${OWNER}:${GITHUB_SHA}" | zstd -19 -T0 -o image.tar.zst
+          echo "sha256=$(sha256sum image.tar.zst | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+          ls -lh image.tar.zst
+
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "deploy-${GITHUB_SHA}" image.tar.zst \
+            --title "deploy ${GITHUB_SHA}" \
+            --notes "sha256 ${{ steps.pkg.outputs.sha256 }}"
+
+      # Provenance only. The box cannot pull this: GitHub declines App tokens for
+      # user-owned packages, which is why the release asset above exists.
+      - name: Push to GHCR
+        run: |
+          echo "${{ github.token }}" | docker login ghcr.io -u "${GITHUB_ACTOR}" --password-stdin
+          docker push "ghcr.io/${OWNER}:${GITHUB_SHA}" || echo "GHCR push failed — provenance only, continuing"
+
+      # The pin, and the last thing that happens. Until this commit lands the box
+      # is serving the previous image and nothing has changed.
+      - name: Pin
+        run: |
+          cat > deploy/release.env <<EOF
+          # Written by .github/workflows/deploy.yml. This file is the deploy
+          # trigger — changing it is what makes the box rotate.
+          #
+          # SHA256 is the pin that matters: the box verifies the bytes it
+          # downloaded against it before loading them.
+          IMAGE=ghcr.io/${OWNER}:${GITHUB_SHA}
+          RELEASE=deploy-${GITHUB_SHA}
+          SHA256=${{ steps.pkg.outputs.sha256 }}
+          EOF
+          git config user.name  "Amir-Salmani"
+          git config user.email "hi@amirsalmani.com"
+          git add deploy/release.env
+          git commit -m "Pin ${GITHUB_SHA:0:7}" || { echo "nothing to pin"; exit 0; }
+          git push origin main

@@ -1,0 +1,11 @@
+# Installed as <SERVICE>-reconcile.service by deploy/bootstrap.sh, which
+# substitutes SERVICE and the repository path.
+[Unit]
+Description=Reconcile __SERVICE__ to the image pinned in git
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=__REPO__/deploy/reconcile.sh
+TimeoutStartSec=300
