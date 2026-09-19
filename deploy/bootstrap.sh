@@ -29,9 +29,15 @@ TRAEFIK=${TRAEFIK_DYNAMIC:-/opt/traefik/dynamic}
 
 # The rule. A service owning path prefixes shares its host with another service,
 # so it must match on both and outrank the host's own catch-all.
+# Traefik v3's PathPrefix takes exactly one argument — PathPrefix(`/a`,`/b`) is
+# rejected as "unexpected number of parameters" — so several prefixes become an
+# || group rather than a list.
 if [ -n "${PATHS:-}" ]; then
-	prefixes=$(printf '%s' "$PATHS" | tr ',' '\n' | sed 's/^/`/;s/$/`/' | paste -sd, -)
-	RULE="Host(\`$HOST\`) && PathPrefix($prefixes)"
+	group=""
+	for p in ${PATHS//,/ }; do
+		group="${group:+$group || }PathPrefix(\`$p\`)"
+	done
+	RULE="Host(\`$HOST\`) && ($group)"
 else
 	RULE="Host(\`$HOST\`)"
 fi
