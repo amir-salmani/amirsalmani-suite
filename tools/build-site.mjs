@@ -16,7 +16,8 @@
 import { readFile, writeFile, mkdir, rm, cp, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ITEMS, CATEGORIES, byName } from '../src/manifest.mjs';
+import { ITEMS, RETIRED, CATEGORIES, byName } from '../src/manifest.mjs';
+import { head, nav, footer, close, NAV_CSS, esc as escape, attr as attribute } from './lib/shell.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.resolve(process.argv[2] ?? path.join(ROOT, 'dist'));
@@ -36,7 +37,7 @@ async function svgDemo(dir) {
   const names = (await readdir(d)).filter(f => f.endsWith('.svg') && !f.endsWith('-bold.svg')).sort();
   const cells = await Promise.all(names.map(async f => {
     const svg = (await readFile(path.join(d, f), 'utf8')).trim();
-    return `  <figure class="glyph">${svg}<figcaption class="as-label as-label--faint">${esc(f.replace('.svg', ''))}</figcaption></figure>`;
+    return `  <figure class="glyph">${svg}<figcaption class="as-label as-label--fg-faint">${esc(f.replace('.svg', ''))}</figcaption></figure>`;
   }));
   return `<div class="glyphs">\n${cells.join('\n')}\n</div>`;
 }
@@ -53,9 +54,14 @@ async function demoFor(item) {
 const stripScript = s => s.replace(/\n?[ \t]*<script[\s\S]*?<\/script>/g, '');
 
 // ── the CSS bundle, in manifest order so tokens land first ──────────────────
+//
+// RETIRED is included. Those fifteen no longer ship as registry items
+// (decisions/0019), but this page is still built out of them — its nav, its
+// buttons and its fields are that CSS. Dropping them here left every link at
+// the UA default blue, which tools/contrast.mjs caught at 1.54:1.
 const cssParts = [];
-for (const item of ITEMS) {
-  if (item.css) cssParts.push(await read(`src/components/${item.css}`));
+for (const item of [...ITEMS, ...RETIRED]) {
+  if (item.css && !item.tier) cssParts.push(await read(`src/components/${item.css}`));
 }
 cssParts.push(await read('src/made-by/made-by.css'));
 
@@ -103,12 +109,12 @@ for (const item of ITEMS) {
       <section class="item" id="${item.name}">
         <div class="item__head">
           <h2 class="item__title">${esc(item.title)}</h2>
-          <span class="as-label as-label--faint">${esc(item.category)}</span>
+          <span class="as-label as-label--fg-faint">${esc(item.category)}</span>
           <span class="as-sec-head__rule"></span>
         </div>
         <p class="item__desc">${esc(item.description)}</p>
-${deps.length ? `        <p class="item__deps"><span class="as-label as-label--faint">Needs</span> ${deps.map(d => `<a class="as-link" href="#${d}">${esc(byName[d].title)}</a>`).join(', ')}</p>\n` : ''}${bundleOf ? `        <p class="item__deps"><span class="as-label as-label--faint">Installs</span> ${bundleOf.map(d => `<a class="as-link" href="#${d}">${esc(byName[d].title)}</a>`).join(', ')}</p>\n` : ''}        <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/${item.name}</code></pre>
-${demo ? `        <div class="preview"><span class="as-label as-label--faint preview__tag">Live</span>
+${deps.length ? `        <p class="item__deps"><span class="as-label as-label--fg-faint">Needs</span> ${deps.map(d => `<a class="as-link" href="#${d}">${esc(byName[d].title)}</a>`).join(', ')}</p>\n` : ''}${bundleOf ? `        <p class="item__deps"><span class="as-label as-label--fg-faint">Installs</span> ${bundleOf.map(d => `<a class="as-link" href="#${d}">${esc(byName[d].title)}</a>`).join(', ')}</p>\n` : ''}        <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/${item.name}</code></pre>
+${demo ? `        <div class="preview"><span class="as-label as-label--fg-faint preview__tag">Live</span>
           <div class="preview__stage">
 ${stripScript(demo).split('\n').map(l => '            ' + l).join('\n')}
           </div>
@@ -120,36 +126,47 @@ ${stripScript(demo).split('\n').map(l => '            ' + l).join('\n')}
       </section>`;
 }
 
-const page = `<!doctype html>
-<html lang="en" data-theme="dark">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The suite — ${components.length} components, drawn to one brand | Amir Salmani</title>
-<meta name="description" content="${components.length} copy-in components across ${CATEGORIES.length} categories, served as a shadcn registry. Two grounds, no accent hue, MIT, no attribution required.">
-<meta name="theme-color" content="#212842">
-<link rel="canonical" href="https://amirsalmani.com/suite/">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="/">
-<link rel="stylesheet" href="suite.css">
-<script src="theme.js"></script>
-</head>
-<body class="band">
+/* ── the three surfaces ─────────────────────────────────────────────────────
+ *
+ * A landing that sells, a catalogue that browses, and a page per item that
+ * documents (decisions/0019). One page doing all three was dense at thirty
+ * items and unusable at 120, and it never told a reader which of the three
+ * they had arrived at.
+ */
 
-<nav class="as-nav">
-  <a class="as-nav__brand" href="/">
-    <svg viewBox="6.2 6.2 51.6 51.6" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 51 L32 13 L52 51"/><path d="M20.5 35 H43.5"/><g fill="currentColor" stroke="none"><circle cx="32" cy="13" r="3.8"/><circle cx="12" cy="51" r="3.8"/><circle cx="52" cy="51" r="3.8"/></g></svg>
-    Amir Salmani
-  </a>
-  <div class="as-nav__links">
-    <a href="/aboutme/">About</a>
-    <a href="/services/">Services</a>
-    <a href="/projects/">Projects</a>
-    <a href="/suite/" aria-current="page">Suite</a>
-    <button class="as-switch" id="theme" role="switch" aria-checked="true" aria-label="Dark theme" data-spring></button>
-  </div>
-</nav>
+const recorded = new Set(await readdir(path.join(ROOT, 'src', 'demos-video')).then(
+  f => f.filter(n => n.endsWith('.webm')).map(n => n.replace('.webm', '')), () => []));
 
+/* Four, out of 120. The landing page withholds the rest — which is the whole
+ * restraint being borrowed from obsidianui.dev, and it costs nothing. One per
+ * category so the four say "there are kinds of thing here". */
+const featured = (() => {
+  const seen = new Set();
+  return az.filter(i => recorded.has(i.name) && !seen.has(i.category) && seen.add(i.category)).slice(0, 4);
+})();
+
+const tile = i => `
+        <a class="tile" href="docs/${i.name}/">
+          <span class="tile__media">
+            <video class="tile__video" src="demos/${i.name}.webm" poster="demos/${i.name}.png"
+                   muted loop autoplay playsinline preload="none" aria-hidden="true"></video>
+          </span>
+          <span class="tile__name">${esc(i.title)}</span>
+          <span class="tile__cat">${esc(i.category)}</span>
+        </a>`;
+
+const FAQ = [
+  ['Is the suite free?', 'MIT, including the marks. No attribution required — though the marks are a signature, so use them to credit the suite rather than to identify yourself.'],
+  ['Where do the components come from?', 'The component tier is imported from ObsidianUI and re-pointed onto the brand: no colour below the token layer, and nothing shipping motion a reader cannot stop. The brand tier — tokens, type, layout, the marks — is written here.'],
+  ['Do I need a framework?', 'For the brand tier, no: it is CSS and HTML, and it works on a static page. The component tier is React and needs Tailwind v4.'],
+  ['What am I depending on?', 'Nothing. The CLI copies source into your project and you own it from then on. There is no package and no version to track.'],
+];
+
+const landing = `${head({
+  title: `The suite — ${components.length} components, drawn to one brand | Amir Salmani`,
+  description: `${components.length} copy-in components across ${CATEGORIES.length} categories, served as a shadcn registry. Two grounds, no accent hue, MIT.`,
+  canonical: '/suite/',
+})}${nav({ current: 'home' })}
 <header class="as-section">
   <div class="as-section__inner">
     <div class="as-stack as-stack--s hero">
@@ -159,29 +176,58 @@ const page = `<!doctype html>
       in one command.
     </h1>
     <p class="as-lede">
-      ${components.length} components and ${bundles.length} bundles across ${CATEGORIES.length} categories, served as a shadcn registry.
-      The CLI copies the source into your project and you own it from then on —
-      there is no package to depend on and no version to track.
+      ${components.length} components across ${CATEGORIES.length} categories, served as a shadcn
+      registry. The CLI copies the source into your project and you own it from
+      then on — there is no package to depend on and no version to track.
     </p>
     <pre class="as-code hero__install"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/tokens
 npx shadcn@latest add @amirsalmani/suite</code></pre>
-    <div class="as-grid as-grid--narrow hero__figures">
-      <div class="as-figure"><span class="as-figure__value">${ITEMS.length}</span><span class="as-figure__label">Items in the registry</span><span class="as-figure__source">src/manifest.mjs</span></div>
-      <div class="as-figure"><span class="as-figure__value">0</span><span class="as-figure__label">Hex codes below the token layer</span><span class="as-figure__source">tools/contrast.mjs</span></div>
-      <div class="as-figure"><span class="as-figure__value">MIT</span><span class="as-figure__label">No attribution required</span><span class="as-figure__source">LICENCE</span></div>
-    </div>
+    <p class="hero__actions">
+      <a class="as-btn as-btn--solid" href="components/">Browse components</a>
+      <a class="as-btn" href="docs/">Read the docs</a>
+    </p>
   </div>
 </header>
 
+<section class="as-section">
+  <div class="as-section__inner">
+    <div class="as-sec-head">
+      <h2 class="as-sec-head__title">A few of them</h2>
+      <span class="as-sec-head__rule"></span>
+    </div>
+    <p class="as-lede">Four of ${components.length}. The rest are in <a class="as-link" href="components/">the catalogue</a>.</p>
+    <div class="tiles">${featured.map(tile).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="as-section">
+  <div class="as-section__inner">
+    <div class="as-sec-head">
+      <h2 class="as-sec-head__title">Questions</h2>
+      <span class="as-sec-head__rule"></span>
+    </div>
+    <div class="faq">${FAQ.map(([q, a]) => `
+      <details class="faq__item">
+        <summary class="faq__q">${esc(q)}</summary>
+        <p class="as-card__body faq__a">${esc(a)}</p>
+      </details>`).join('')}
+    </div>
+  </div>
+</section>
+${footer()}${close({})}`;
+
+const catalogue = `${head({
+  title: `Components — the suite | Amir Salmani`,
+  description: `All ${ITEMS.length} items, by category and A–Z.`,
+  canonical: '/suite/components/', up: 1,
+})}${nav({ current: 'components', up: 1 })}
 <div class="shell">
   <aside class="rail" aria-label="Components by category">
     <span class="as-label">By category</span>${rail}
     <div class="rail__licence">
       <p class="as-card__body">Free for personal and commercial use. No attribution required.
-      <a class="as-link" href="https://github.com/amir-salmani/amirsalmani-suite/blob/main/LICENCE">MIT</a>,
-      including the marks. They are also a signature, so use them to credit the
-      suite rather than to identify yourself —
-      <a class="as-link" href="https://github.com/amir-salmani/amirsalmani-suite/blob/main/docs/using-the-mark.md">using the mark</a>.</p>
+      <a class="as-link" href="https://github.com/amir-salmani/amirsalmani-suite/blob/main/LICENCE">MIT</a>.</p>
     </div>
   </aside>
 
@@ -201,26 +247,60 @@ npx shadcn@latest add @amirsalmani/suite</code></pre>
       </label>
       <div class="rows">${flat}
       </div>
-      <p class="as-label as-label--faint index__nohit" id="nohit" hidden>Nothing matches.</p>
+      <p class="as-label as-label--fg-faint index__nohit" id="nohit" hidden>Nothing matches.</p>
     </section>
-${sections}
   </main>
 </div>
+${footer()}${close({ up: 1 })}`;
 
-<footer class="as-colophon">
-  <div class="as-colophon__inner">
-    <span class="as-colophon__legal">&copy; 2026 Rhinocloud Ltd. &middot; MIT</span>
-    <span class="made-by">
-      <svg class="made-by__mark" viewBox="6.2 6.2 51.6 51.6" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Amir Salmani"><path d="M12 51 L32 13 L52 51"/><path d="M20.5 35 H43.5"/><g fill="currentColor" stroke="none"><circle cx="32" cy="13" r="3.8"/><circle cx="12" cy="51" r="3.8"/><circle cx="52" cy="51" r="3.8"/></g></svg>
-      <span>Made with <svg class="made-by__glyph" viewBox="6.2 6.2 51.6 51.6" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="love"><path d="M32 50 L14.5 32.5 A12.375 12.375 0 0 1 32 15 A12.375 12.375 0 0 1 49.5 32.5 Z"/></svg> and good tools by <a href="https://amirsalmani.com" class="made-by__link">Amir Salmani</a></span>
-    </span>
+const docsIndex = `${head({
+  title: 'Docs — the suite | Amir Salmani',
+  description: 'One page per item: what it is, what it needs, and how to install it.',
+  canonical: '/suite/docs/', up: 1,
+})}${nav({ current: 'docs', up: 1 })}
+<main class="as-section">
+  <div class="as-section__inner">
+    <div class="as-sec-head"><h2 class="as-sec-head__title">Docs</h2><span class="as-sec-head__rule"></span></div>
+    <p class="as-lede">One page per item. ${recorded.size} of them carry a recording.</p>
+    <div class="rows">${az.map(i => `
+      <a class="row" href="${i.name}/">
+        <span class="row__ix" aria-hidden="true">${esc(i.title[0].toUpperCase())}</span>
+        <span class="row__name">${esc(i.title)}</span>
+        <span class="row__cat">/ ${esc(i.category)}</span>
+        <span class="row__blurb">${esc(i.blurb ?? '')}</span>
+        <span class="row__go" aria-hidden="true">&rsaquo;</span>
+      </a>`).join('')}
+    </div>
   </div>
-</footer>
+</main>
+${footer()}${close({ up: 1 })}`;
 
-<script type="module" src="catalogue.js"></script>
-</body>
-</html>
-`;
+const itemPage = (item, demo) => `${head({
+  title: `${item.title} — the suite | Amir Salmani`,
+  description: item.blurb ?? item.description ?? item.title,
+  canonical: `/suite/docs/${item.name}/`, up: 2,
+})}${nav({ current: 'docs', up: 2 })}
+<main class="as-section">
+  <div class="as-section__inner as-measure">
+    <span class="as-label">${esc(item.category)}</span>
+    <h1 class="as-headline">${esc(item.title)}</h1>
+    <p class="as-lede">${esc(item.description ?? item.blurb ?? '')}</p>
+
+    ${recorded.has(item.name) ? `<div class="item__media">
+      <video src="../../demos/${item.name}.webm" poster="../../demos/${item.name}.png"
+             muted loop autoplay playsinline preload="none" aria-label="${attr(item.title)} in motion"></video>
+    </div>` : ''}
+
+    <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/${item.name}</code></pre>
+
+    ${item.npm?.length ? `<p class="item__deps"><span class="as-label as-label--fg-faint">Needs</span> ${item.npm.map(d => `<code>${esc(d)}</code>`).join(', ')}</p>` : ''}
+    ${item.upstream ? `<p class="as-label as-label--fg-faint">Imported from ObsidianUI on ${esc(item.upstream.imported)} · ${esc(item.upstream.sha)}</p>` : ''}
+
+    ${demo ? `<div class="as-sec-head"><h2 class="as-sec-head__title">Usage</h2><span class="as-sec-head__rule"></span></div>
+    <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>${esc(demo)}</code></pre>` : ''}
+  </div>
+</main>
+${footer()}${close({ up: 2 })}`;
 
 // Runs before first paint, from its own file because the CSP is `script-src
 // 'self'` with no unsafe-inline. Classic script, not a module: a module is
@@ -309,6 +389,51 @@ if (find && q) {
 `;
 
 // ── the catalogue's own layout, which is not part of the suite ──────────────
+/* The three surfaces' own layout. Not suite components — they exist to show
+ * them. The tile is the one borrowed shape: a two-column grid of recordings,
+ * which is how a catalogue shows 120 animated components without running one. */
+const SURFACE_CSS = `
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--gap-s); margin-top: var(--gap-m); }
+
+.tiles { display: grid; gap: var(--gap-m); grid-template-columns: 1fr 1fr; margin-top: var(--gap-l); }
+@media (max-width: 40rem) { .tiles { grid-template-columns: 1fr; } }
+.tile {
+  display: grid; gap: .375rem; text-decoration: none; color: inherit;
+  padding: .75rem; border: 1px solid var(--rule); border-radius: var(--radius);
+  background: var(--glass);
+  transition: border-color var(--fast) var(--ease-out);
+}
+.tile:hover { border-color: var(--glass-top); }
+.tile__media {
+  display: block; aspect-ratio: 16 / 10; overflow: hidden;
+  border-radius: var(--radius-s);
+  /* Recordings are filmed on the component tier's own ground, which is #000 —
+     so the frame declares that ground rather than letting a dark recording read
+     as an empty box on indigo. */
+  background: var(--obsidian);
+  border: 1px solid var(--rule);
+}
+.tile__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile__name { font-weight: 600; }
+.tile__cat { font-family: var(--mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-faint); }
+
+.faq { display: grid; gap: 0; margin-top: var(--gap-m); border-top: 1px solid var(--rule); }
+.faq__item { border-bottom: 1px solid var(--rule); }
+.faq__q { cursor: pointer; padding: 1rem 0; min-height: 44px; display: flex; align-items: center; font-weight: 500; }
+.faq__a { padding: 0 0 1rem; color: var(--fg-muted); max-width: 60ch; }
+
+.item__media { margin: var(--gap-m) 0; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; background: var(--bg-alt); }
+.item__media video { width: 100%; display: block; }
+.item__deps code { font-family: var(--mono); font-size: .8125rem; }
+
+/* A recording is motion. Under reduce the poster stands in for it, which is the
+   same information without the loop. */
+@media (prefers-reduced-motion: reduce) {
+  .tile__video, .item__media video { display: none; }
+  .tile__media { background-image: var(--poster); background-size: cover; }
+}
+`;
+
 const shellCss = `/* The catalogue's own shell. Not a suite component — it exists to show them,
    and it derives from the same tokens so it cannot drift from what it displays. */
 
@@ -327,10 +452,10 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
 .rail { position: sticky; top: 4.5rem; display: flex; flex-direction: column; gap: var(--gap-m); max-height: calc(100vh - 6rem); overflow-y: auto; padding-right: .5rem; }
 .rail__group { display: flex; flex-direction: column; gap: .25rem; }
 .rail__cat { display: flex; align-items: baseline; gap: .5rem; font-weight: 700; letter-spacing: -.015em; color: var(--fg); text-decoration: none; }
-.rail__n { font-family: var(--mono); font-size: .66rem; color: var(--faint); }
-.rail__note { margin: 0 0 .35rem; font-size: .8rem; line-height: 1.5; color: var(--faint); }
+.rail__n { font-family: var(--mono); font-size: .66rem; color: var(--fg-faint); }
+.rail__note { margin: 0 0 .35rem; font-size: .8rem; line-height: 1.5; color: var(--fg-faint); }
 .rail__items { list-style: none; margin: 0; padding: 0 0 0 .1rem; display: flex; flex-direction: column; }
-.rail__items a { display: block; padding: .28rem 0; font-size: .9rem; color: var(--muted); text-decoration: none; border-left: 1px solid var(--rule); padding-left: .7rem; transition: color var(--fast) var(--ease-out), border-color var(--fast) var(--ease-out); }
+.rail__items a { display: block; padding: .28rem 0; font-size: .9rem; color: var(--fg-muted); text-decoration: none; border-left: 1px solid var(--rule); padding-left: .7rem; transition: color var(--fast) var(--ease-out), border-color var(--fast) var(--ease-out); }
 .rail__items a:hover, .rail__items a:focus-visible { color: var(--fg); border-color: var(--fg); }
 .rail__licence { padding-top: var(--gap-s); border-top: 1px solid var(--rule); font-size: .85rem; }
 .rail__licence .as-card__body { font-size: .85rem; }
@@ -353,12 +478,12 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
 }
 .row:last-child { border-bottom: 1px solid var(--rule); }
 .row:hover, .row:focus-visible { background: var(--wash); }
-.row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.row__ix { font-family: var(--mono); font-size: .64rem; font-weight: 500; color: var(--faint); text-align: center; }
+.row:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: -2px; }
+.row__ix { font-family: var(--mono); font-size: .64rem; font-weight: 500; color: var(--fg-faint); text-align: center; }
 .row__name { font-weight: 700; letter-spacing: -.012em; }
-.row__cat { color: var(--faint); font-size: .9rem; }
-.row__blurb { color: var(--muted); font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.row__go { color: var(--faint); justify-self: end; }
+.row__cat { color: var(--fg-faint); font-size: .9rem; }
+.row__blurb { color: var(--fg-muted); font-size: .88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row__go { color: var(--fg-faint); justify-self: end; }
 @media (max-width: 52rem) {
   .row { grid-template-columns: 1.5rem 1fr 1rem; row-gap: .1rem; }
   .row__cat { grid-column: 2; }
@@ -372,8 +497,8 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
 .index, .cat-head { scroll-margin-top: 5rem; }
 .item__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--gap-s); }
 .item__title { font-family: var(--sans); font-size: clamp(1.3rem, 2.4vw, 1.75rem); font-weight: 700; letter-spacing: -.022em; margin: 0; color: var(--fg); }
-.item__desc { margin: 0; max-width: 62ch; line-height: 1.7; color: var(--muted); }
-.item__deps { margin: 0; font-size: .9rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; }
+.item__desc { margin: 0; max-width: 62ch; line-height: 1.7; color: var(--fg-muted); }
+.item__deps { margin: 0; font-size: .9rem; color: var(--fg-muted); display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; }
 
 .preview { position: relative; border: 1px solid var(--rule); border-radius: var(--radius); }
 .preview__tag { position: absolute; top: .55rem; right: .75rem; }
@@ -383,7 +508,7 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
 .src summary { cursor: pointer; padding: .35rem 0; list-style: none; }
 .src summary::-webkit-details-marker { display: none; }
 .src summary .as-label { border-bottom: 1px dashed var(--rule); padding-bottom: .15rem; }
-.src summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.src summary:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 3px; }
 .src[open] summary { margin-bottom: .5rem; }
 
 .glyphs { display: flex; flex-wrap: wrap; gap: var(--gap-m); }
@@ -404,15 +529,30 @@ body.band { background: var(--bg); color: var(--fg); min-height: 100vh; margin: 
 await rm(OUT, { recursive: true, force: true });
 await mkdir(path.join(OUT, 'suite', 'lib'), { recursive: true });
 await cp(path.join(ROOT, 'registry', 'r'), path.join(OUT, 'r'), { recursive: true });
-await writeFile(path.join(OUT, 'suite', 'index.html'), page);
-await writeFile(path.join(OUT, 'suite', 'suite.css'), cssParts.join('\n') + '\n' + shellCss);
+await writeFile(path.join(OUT, 'suite', 'index.html'), landing);
+await mkdir(path.join(OUT, 'suite', 'components'), { recursive: true });
+await writeFile(path.join(OUT, 'suite', 'components', 'index.html'), catalogue);
+await mkdir(path.join(OUT, 'suite', 'docs'), { recursive: true });
+await writeFile(path.join(OUT, 'suite', 'docs', 'index.html'), docsIndex);
+
+const usage = await readFile(path.join(ROOT, 'upstream', 'docs.json'), 'utf8').then(JSON.parse).catch(() => ({}));
+for (const item of ITEMS) {
+  await mkdir(path.join(OUT, 'suite', 'docs', item.name), { recursive: true });
+  await writeFile(path.join(OUT, 'suite', 'docs', item.name, 'index.html'), itemPage(item, usage[item.name]?.demo));
+}
+
+// The recordings, beside the pages that play them.
+await cp(path.join(ROOT, 'src', 'demos-video'), path.join(OUT, 'suite', 'demos'), { recursive: true }).catch(() => {});
+await writeFile(path.join(OUT, 'suite', 'suite.css'), cssParts.join('\n') + '\n' + shellCss + NAV_CSS + SURFACE_CSS);
 await writeFile(path.join(OUT, 'suite', 'catalogue.js'), js);
 await writeFile(path.join(OUT, 'suite', 'theme.js'), themeJs);
 await cp(path.join(ROOT, 'src', 'motion', 'motion.js'), path.join(OUT, 'suite', 'lib', 'motion.js'));
 
 const kb = n => (n / 1024).toFixed(1) + 'KB';
 console.log(`${path.relative(ROOT, OUT)}/`);
-console.log(`  suite/index.html  ${kb(page.length)}  · ${ITEMS.length} items, ${CATEGORIES.length} categories`);
+console.log(`  suite/index.html            ${kb(landing.length)}  · ${featured.length} featured of ${components.length}`);
+console.log(`  suite/components/index.html ${kb(catalogue.length)}  · ${ITEMS.length} items, ${CATEGORIES.length} categories`);
+console.log(`  suite/docs/                 ${ITEMS.length + 1} pages · ${recorded.size} with a recording`);
 console.log(`  suite/suite.css   ${kb(cssParts.join('').length + shellCss.length)}`);
 console.log(`  suite/catalogue.js ${kb(js.length)}`);
 console.log(`  r/                ${(await readdir(path.join(OUT, 'r'))).length} JSON`);

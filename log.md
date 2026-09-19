@@ -61,3 +61,43 @@ timestamp: 2026-09-15
   believed.
 - Distribution follows `microkit.co` — a shadcn registry, one JSON per item,
   `npx shadcn@latest add @amirsalmani/made-by`. No package, no version to track.
+
+## 2026-09-19 — the component tier
+
+**The suite stopped authoring components.** Per
+[decisions/0019](https://github.com/amir-salmani/codebase/blob/main/decisions/0019-one-source-of-components.md),
+everything above the brand tier now comes from ObsidianUI: 103 items imported,
+re-pointed onto the brand, and served from the same registry. Fifteen brand-tier
+items retired to their upstream peers; their CSS stays because the catalogue is
+built out of it.
+
+- **A third ground.** `#000` with `#0f0f0f` and `#1a1a1a`, beside cream and
+  indigo — the component tier was built against it and reads wrong on indigo.
+  `contrast.mjs` went from 100 checks to 140.
+- **Two of shadcn's token names meant the opposite of ours.** Its `--muted` and
+  `--accent` are surfaces; ours were foregrounds. Ours were renamed to
+  `--fg-muted` and `--fg-accent` rather than fight for the name, because the
+  imported source cannot be asked to change and ours can.
+- **The import is a script and the judgement is a patch.** `src/imported/` is
+  wiped on every run; `patches/<name>.mjs` is re-applied on top. A rule that
+  matches nothing fails the run — that is the whole staleness mechanism, and it
+  fired three times for imports anchored differently than assumed.
+- **Four gates, each written after something was already wrong.**
+  `semantic-only` found 359 Tailwind palette utilities that a hex scan could not
+  see. `stage` found five conflicting copies of one shared file — caused by a
+  patch rule of ours that was too broad. `verify` found ten components that only
+  render inside Next.js, and one that does not build against its own declared
+  dependency. `motion-proof` found the reduced-motion gap was **six** items, not
+  the seventy-four a grep had claimed: 47 have no motion and 24 animate only in
+  CSS, which `tokens.css` already stops.
+- **One page became three.** The landing surface is 7.3KB because it shows four
+  of 118 and withholds the rest. The two indexes over one set moved to
+  `/components`; every item gained a page. All three are still bytes on disk
+  under `script-src 'self'`.
+- **Forty recordings.** Filmed from upstream's own usage examples, which are the
+  only written record of what props each component needs — and three of which do
+  not run as published.
+- **`upstream/` is committed.** The exact bytes imported, so the import is
+  reproducible offline, survives upstream disappearing, and turns drift into a
+  git diff. Upstream has no tags and gained an item during the afternoon this
+  was written.

@@ -14,18 +14,35 @@ related:
 
 # The catalogue
 
-`amirsalmani.com/suite/` — one static HTML file, every item, live.
+**Three static surfaces**, built 2026-09-19 per
+[decisions/0019](https://github.com/amir-salmani/codebase/blob/main/decisions/0019-one-source-of-components.md):
+
+| | | |
+|---|---|---|
+| `/suite/` | **sells** | hero, four recordings, FAQ. 7.3KB, because it withholds the other 114 |
+| `/suite/components/` | **browses** | the two indexes over one set, finally on their own page |
+| `/suite/docs/<name>/` | **documents** | 121 pages: the recording, the install command, the dependencies, the upstream sha, the usage |
+
+One page used to do all three. That was dense at thirty items and unusable at
+120, and it never told a reader which of the three they had arrived at.
+
+**The shape is obsidianui.dev's; the delivery is not.** Theirs is Next.js with 37
+scripts and first paint gated on its bundle — the pattern that cost
+opensourceui.in 2796ms, and the first of the four refusals below. These are bytes
+on disk under `script-src 'self'`, and every refusal survived the rebuild.
 
 ## Where the shape came from
 
-Two teardowns, and they supply different halves:
+Three teardowns now, and they supply different parts:
 
 | | |
 |---|---|
 | [microkit.co](https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/microkit-co.md) | **Distribution.** A shadcn registry: one JSON per item, no package, no version, the consumer owns the copy |
 | [opensourceui.in/components](https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/opensourceui-in-components.md) | **The catalogue in front of it.** Two indexes over one set |
 
-The second is the load-bearing one and it is worth stating plainly:
+| [obsidianui.dev](https://github.com/amir-salmani/codebase/blob/main/skills/atelier/library/teardowns/obsidianui-dev.md) | **The split, and the recordings.** A landing that shows four of 102, and demos played rather than instantiated — which is how a 102-item page costs 802KB at CLS 0 |
+
+The opensourceui one is still load-bearing, and it is worth stating plainly:
 
 > A left rail groups the items **by category**, with counts. The body lists the
 > same items **flat and alphabetical**, with the category demoted to a
@@ -47,7 +64,9 @@ screen and the thing you copy cannot disagree — they are one file.
 
 - **Client-side rendering.** opensourceui pays **2796ms to first paint** for a
   page whose whole content is 207 links; FCP and LCP are the same number, which
-  means it shows nothing until the bundle has run. This page is bytes on disk.
+  means it shows nothing until the bundle has run. obsidianui.dev does the same.
+  These pages are bytes on disk — **the component tier ships React, and the site
+  that sells it runs none.**
 - **The sponsor slot.** A legitimate way to fund a free library. Not something a
   personal suite has any use for.
 - **Their row density.** Right on a desktop, and **210 undersized tap targets**
@@ -73,6 +92,22 @@ by `tools/gates.py`. That means:
 
 `tools/catalogue-proof.mjs` serves the real policy and fails on any console
 error, so this is checked rather than remembered.
+
+## Recordings, not instances
+
+Forty items carry a `.webm` and a poster in `src/demos-video/`, filmed by
+`tools/record-demos.mjs` from upstream's own published usage examples — the only
+place the props each component needs are written down.
+
+**webm, not mp4**: Playwright ships an ffmpeg with libvpx and no H.264. The
+poster covers any browser that will not play webm, and the grid needs one
+anyway. Under `prefers-reduced-motion: reduce` the video is hidden and the
+poster stands in — a catalogue of motion that could not be calmed would be a
+poor advertisement for a gate that refuses exactly that in the components.
+
+The recordings are filmed on the component tier's own ground, `#000`, so each
+tile declares that ground rather than letting a dark recording read as an empty
+box on indigo.
 
 ## Adding an item
 

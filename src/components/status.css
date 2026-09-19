@@ -17,7 +17,7 @@
   font-weight: 500;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--fg-muted);
   white-space: nowrap;
 }
 .as-status--live { background: var(--fg); border-color: var(--fg); color: var(--bg); }
@@ -29,6 +29,6 @@
   background: currentColor;
 }
 .as-status--idle { color: var(--fg); border-color: var(--glass-edge); }
-.as-status--retired { color: var(--faint); border-style: dashed; }
+.as-status--retired { color: var(--fg-faint); border-style: dashed; }
 
 @media (prefers-contrast: more) { .as-status { border-color: var(--fg); color: var(--fg); } }

@@ -1,0 +1,3 @@
+@media (prefers-reduced-motion: reduce) {
+  .obsidian-svg-pixel-image { filter: none !important; }
+}

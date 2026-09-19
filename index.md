@@ -19,14 +19,31 @@ project:
 
 # The Amir Salmani suite
 
-**28 components, 2 bundles, 8 categories.** Two grounds, no accent hue, MIT.
+**118 components, 3 bundles, 15 categories.** Three grounds, no accent hue, MIT.
 Browse it at [amirsalmani.com/suite](https://amirsalmani.com/suite/); install any
 of it with one command.
 
 ```bash
-npx shadcn@latest add @amirsalmani/tokens    # first — everything derives from it
-npx shadcn@latest add @amirsalmani/suite     # or all of it at once
+npx shadcn@latest add @amirsalmani/tokens        # first — everything derives from it
+npx shadcn@latest add @amirsalmani/suite         # the brand tier: framework-free CSS
+npx shadcn@latest add @amirsalmani/suite-react   # the component tier: React, Tailwind v4
 ```
+
+## Two tiers
+
+Per [decisions/0019](https://github.com/amir-salmani/codebase/blob/main/decisions/0019-one-source-of-components.md),
+**nothing above the brand tier is authored here.**
+
+| | | |
+|---|---|---|
+| **brand** | 15 items | tokens, type, layout, marks, the spring, the attribution lockup. Framework-free CSS, written here |
+| **component** | 103 items | imported from [ObsidianUI](https://www.obsidianui.dev/) and re-pointed onto the brand. React, Tailwind v4 |
+
+Fifteen brand-tier items retired when the component tier arrived — `button`,
+`card`, `input` and the rest have an upstream peer. Their source stays in
+`src/manifest.mjs` behind a `retiredBy` line, because retirement should be one
+line to reverse rather than an exercise in archaeology, and because the
+catalogue is still built out of that CSS.
 
 | | |
 |---|---|
@@ -38,16 +55,44 @@ npx shadcn@latest add @amirsalmani/suite     # or all of it at once
 ## What is here
 
 ```
-src/manifest.mjs   the one dataset — every item, its category, its dependencies
-src/components/    one CSS file per item. Nothing below tokens.css has a hex
-src/demos/         one HTML fragment per item — the live preview and the
-                   copy-paste snippet are the same file, so they cannot disagree
-src/motion/        the spring, extracted from amirsalmani.com/app.js
-src/marks/         frame · heart · heart-solid · tool     (+ bold weights)
-src/icons/         node · stack · hex · check             (+ bold weights)
-registry/          generated: the shadcn registry served from amirsalmani.com/r/
-dist/              generated: the catalogue, copied into amirsalmani-com/site/
+src/manifest.mjs        the one dataset. The brand tier is written in it; the
+                        component tier is appended from the generated file below
+src/components/         one CSS file per brand item. Nothing below tokens.css has a hex
+src/demos/              one HTML fragment per brand item — the live preview and the
+                        copy-paste snippet are the same file, so they cannot disagree
+src/lib/                token-colour: a custom property resolved, for canvas and WebGL
+src/motion/             the spring, extracted from amirsalmani.com/app.js
+src/marks/  src/icons/  the drawn set (+ bold weights)
+
+src/imported-categories.mjs   authored: where each imported item lands, and its title
+patches/<name>.mjs            authored: how each imported item is re-pointed, and why
+upstream/                     committed: the exact bytes imported, so it is reproducible
+src/imported/                 generated and wiped on every import — never edit
+src/demos-video/              generated: one recording and one poster per documented item
+
+registry/               generated: the shadcn registry served from amirsalmani.com/r/
+dist/                   generated: the three surfaces
+verify/                 not shipped: proves the component tier builds, and is the
+                        stage the recordings are filmed on
 ```
+
+## The pipeline
+
+```bash
+npm run import      # fetch upstream, write src/imported/, apply patches/
+npm run verify      # build all 103 in a real bundler
+npm run record      # film one demo per documented item
+npm run build       # registry + the three surfaces
+npm run proof       # every gate
+npm run reconcile   # has upstream moved under us?
+```
+
+Each gate exists because something was wrong. `semantic-only` found 359 Tailwind
+palette utilities a hex scan could not see. `stage` found five conflicting copies
+of one shared file. `verify` found ten components that only work inside Next.js
+and one that does not build against its own declared dependency. `motion-proof`
+found that the reduced-motion gap was six items and not the seventy-four a grep
+had claimed.
 
 | Category | |
 |---|---|

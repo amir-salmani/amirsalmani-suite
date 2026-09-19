@@ -34,8 +34,8 @@
   background: var(--fg);
   transform: translate(calc(var(--t) * (3.25rem - var(--knob) - .5rem)), -50%);
 }
-.as-switch:hover, .as-switch:focus-visible { border-color: var(--accent); }
-.as-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.as-switch:hover, .as-switch:focus-visible { border-color: var(--fg-accent); }
+.as-switch:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 3px; }
 .as-switch[aria-checked="true"] { --t: 1; }
 
 /* Without JS the knob still has to move, so the fallback is a transition. With

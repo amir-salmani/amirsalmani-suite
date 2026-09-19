@@ -29,14 +29,14 @@
               background var(--fast) var(--ease-out),
               color var(--fast) var(--ease-out);
 }
-.as-btn:hover, .as-btn:focus-visible { border-color: var(--accent); color: var(--accent); }
+.as-btn:hover, .as-btn:focus-visible { border-color: var(--fg-accent); color: var(--fg-accent); }
 .as-btn:active { background: var(--wash); }
-.as-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.as-btn:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 3px; }
 .as-btn[disabled], .as-btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
 
 .as-btn--solid { background: var(--fg); color: var(--bg); border-color: var(--fg); }
 .as-btn--solid:hover, .as-btn--solid:focus-visible { color: var(--bg); opacity: .88; }
-.as-btn--quiet { background: transparent; border-color: var(--rule); color: var(--muted); }
+.as-btn--quiet { background: transparent; border-color: var(--rule); color: var(--fg-muted); }
 .as-btn--quiet:hover, .as-btn--quiet:focus-visible { color: var(--fg); border-color: var(--fg); }
 
 @media (prefers-reduced-transparency: reduce) {

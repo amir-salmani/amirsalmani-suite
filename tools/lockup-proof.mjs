@@ -23,7 +23,7 @@ const variants = {
 };
 
 const ground = (name, bg, fg) => `
-  <section style="--bg:${bg};--fg:${fg};--faint:color-mix(in srgb, ${fg} 62%, ${bg});background:${bg};color:${fg}">
+  <section style="--bg:${bg};--fg:${fg};--fg-faint:color-mix(in srgb, ${fg} 62%, ${bg});background:${bg};color:${fg}">
     <h3>${name}</h3>
     ${Object.entries(variants).map(([k,v]) => `<div class="row"><code>${k}</code>${v}</div>`).join('')}
   </section>`;
