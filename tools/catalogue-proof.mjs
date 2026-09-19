@@ -23,12 +23,13 @@ const CSP = "default-src 'self'; script-src 'self' https://static.cloudflareinsi
   + "style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; "
   + "manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'";
 
-// The four woff2 files are deliberately not in this repository — the `fonts`
-// item ships the @font-face block and says the files are yours to serve. So the
-// proof has to be told where they are, or it measures a page missing its type
-// and blames the page. $SUITE_FONTS overrides; the default is the deploy target.
-const FONTS = process.env.SUITE_FONTS
-  ?? path.join(ROOT, '..', 'amirsalmani-com', 'site', 'fonts');
+// The `fonts` item ships the @font-face block and says the four woff2 files are
+// yours to serve — on amirsalmani.com they come from /fonts/, which is the other
+// service's path. The proof cannot reach that, and pointing it at a sibling
+// checkout worked here and failed the moment CI ran with only this repository
+// cloned. So they are vendored: 108KB, and this repository can now prove itself
+// alone. $SUITE_FONTS still overrides.
+const FONTS = process.env.SUITE_FONTS ?? path.join(ROOT, 'src', 'fonts');
 
 const server = createServer(async (req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]);
