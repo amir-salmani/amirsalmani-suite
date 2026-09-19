@@ -53,7 +53,10 @@ await rm(TMP, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
 
 const browser = await chromium.launch();
-const W = 1280, H = 800;
+/* 16:10, and deliberately small. A demo filmed at 1280 and shown in a 480px
+ * tile renders its own type at a third the size — the grid read as a wall of
+ * empty black boxes. Filming closer makes the component the frame's subject. */
+const W = 900, H = 563;
 let done = 0;
 const failed = [];
 

@@ -70,17 +70,17 @@ const counts = Object.fromEntries(CATEGORIES.map(([c]) => [c, ITEMS.filter(i => 
 
 const rail = CATEGORIES.map(([cat, note]) => `
       <div class="rail__group">
-        <a class="rail__cat" href="#cat-${cat.toLowerCase()}">${esc(cat)}<span class="rail__n">${counts[cat]}</span></a>
+        <span class="rail__cat">${esc(cat)}<span class="rail__n">${counts[cat]}</span></span>
         <p class="rail__note">${esc(note)}</p>
         <ul class="rail__items">
-${ITEMS.filter(i => i.category === cat).map(i => `          <li><a href="#${i.name}">${esc(i.title)}</a></li>`).join('\n')}
+${ITEMS.filter(i => i.category === cat).map(i => `          <li><a href="../docs/${i.name}/">${esc(i.title)}</a></li>`).join('\n')}
         </ul>
       </div>`).join('');
 
 // The flat A–Z list: the category is a slash-suffix in a lighter weight, not a
 // folder. A reader who knows what they want never touches the rail.
 const flat = az.map(i => `
-        <a class="row" href="#${i.name}" data-search="${attr((i.title + ' ' + i.category + ' ' + i.blurb).toLowerCase())}">
+        <a class="row" href="../docs/${i.name}/" data-search="${attr((i.title + ' ' + i.category + ' ' + i.blurb).toLowerCase())}">
           <span class="row__ix" aria-hidden="true">${esc(i.title[0].toUpperCase())}</span>
           <span class="row__name">${esc(i.title)}</span>
           <span class="row__cat">/ ${esc(i.category)}</span>
@@ -169,24 +169,29 @@ const landing = `${head({
 })}${nav({ current: 'home' })}
 <header class="as-section">
   <div class="as-section__inner">
-    <div class="as-stack as-stack--s hero">
-    <span class="as-label">Suite / Registry</span>
-    <h1 class="as-headline">
-      <span class="as-headline__setup">Every surface I build on,</span>
-      in one command.
-    </h1>
-    <p class="as-lede">
-      ${components.length} components across ${CATEGORIES.length} categories, served as a shadcn
-      registry. The CLI copies the source into your project and you own it from
-      then on — there is no package to depend on and no version to track.
-    </p>
-    <pre class="as-code hero__install"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/tokens
+    <div class="hero">
+      <div class="hero__say">
+        <span class="as-label">Suite / Registry</span>
+        <h1 class="as-headline">
+          <span class="as-headline__setup">Every surface I build on,</span>
+          in one command.
+        </h1>
+      </div>
+      <div class="hero__do">
+        <p class="as-lede">
+          ${components.length} components across ${CATEGORIES.length} categories, served as a shadcn
+          registry. The CLI copies the source into your project and you own it
+          from then on — there is no package to depend on and no version to
+          track.
+        </p>
+        <pre class="as-code hero__install"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/tokens
 npx shadcn@latest add @amirsalmani/suite</code></pre>
-    <p class="hero__actions">
-      <a class="as-btn as-btn--solid" href="components/">Browse components</a>
-      <a class="as-btn" href="docs/">Read the docs</a>
-    </p>
-  </div>
+        <p class="hero__actions">
+          <a class="as-btn as-btn--solid" href="components/">Browse components</a>
+          <a class="as-btn" href="docs/">Read the docs</a>
+        </p>
+      </div>
+    </div>
 </header>
 
 <section class="as-section">
@@ -207,8 +212,8 @@ npx shadcn@latest add @amirsalmani/suite</code></pre>
       <h2 class="as-sec-head__title">Questions</h2>
       <span class="as-sec-head__rule"></span>
     </div>
-    <div class="faq">${FAQ.map(([q, a]) => `
-      <details class="faq__item">
+    <div class="faq">${FAQ.map(([q, a], i) => `
+      <details class="faq__item"${i === 0 ? ' open' : ''}>
         <summary class="faq__q">${esc(q)}</summary>
         <p class="as-card__body faq__a">${esc(a)}</p>
       </details>`).join('')}
@@ -253,24 +258,64 @@ const catalogue = `${head({
 </div>
 ${footer()}${close({ up: 1 })}`;
 
+/* Not a second catalogue. /components browses the items; this is how you get
+ * them working — installation, the two tiers, the grounds. Duplicating the item
+ * list here was the first thing a reader noticed was wrong. */
+const DOC_SECTIONS = [
+  ['Install', `Tokens first: every other item derives from them, and nothing below that layer contains a colour.
+
+<pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/tokens
+npx shadcn@latest add @amirsalmani/button</code></pre>
+
+The CLI copies the source into your project and you own it from then on. There is no package to depend on and no version to track, so nothing here can break you on a Tuesday.`],
+
+  ['The two tiers', `The <strong>brand tier</strong> — tokens, type, layout, the marks, the spring — is written here and is framework-free CSS. It works on a static page with no build step.
+
+<pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/suite</code></pre>
+
+The <strong>component tier</strong> is imported from <a class="as-link" href="https://www.obsidianui.dev/">ObsidianUI</a> and re-pointed onto the brand. It is React and needs Tailwind v4.
+
+<pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/tokens-shadcn
+npx shadcn@latest add @amirsalmani/suite-react</code></pre>
+
+<code>tokens-shadcn</code> is the bridge: it maps shadcn's semantic names onto the brand, so an imported component arrives on your ground rather than its own. Install it before anything from that tier.`],
+
+  ['Three grounds', `<code>cream</code> and <code>indigo</code> are the brand's two. <code>obsidian</code> — <code>#000</code> with two lift steps — is the component tier's, because those components were built against it and read wrong on indigo.
+
+<pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>&lt;html data-theme="cream"&gt;     &lt;!-- light --&gt;
+&lt;html data-theme="dark"&gt;      &lt;!-- indigo --&gt;
+&lt;html data-theme="obsidian"&gt;  &lt;!-- black --&gt;</code></pre>
+
+There is no accent hue on any of them. Emphasis is inversion, and every foreground role is measured against every ground it can land on — 140 checks, and the build fails on any that drops below 4.5:1.`],
+
+  ['Motion', `Nothing here ships motion a reader cannot stop. A component animating from JavaScript carries a reduced-motion path or it does not enter the registry; CSS animation is neutralised by <code>tokens.css</code> for everything beneath it.
+
+One item is exempt and says so: a scroll indicator whose bars <em>are</em> the position readout. Freezing it would blank the readout rather than calm it.`],
+
+  ['Canvas and WebGL', `A canvas takes a colour string, not a <code>var()</code>. <code>token-colour</code> resolves a custom property to a value and re-reads it when the theme changes — <code>data-theme</code> is an attribute swap, so nothing re-renders on its own and a canvas otherwise keeps yesterday's palette.
+
+<pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/token-colour</code></pre>`],
+];
+
 const docsIndex = `${head({
   title: 'Docs — the suite | Amir Salmani',
-  description: 'One page per item: what it is, what it needs, and how to install it.',
+  description: 'Install it, the two tiers, the three grounds, and what the gates guarantee.',
   canonical: '/suite/docs/', up: 1,
 })}${nav({ current: 'docs', up: 1 })}
-<main class="as-section">
-  <div class="as-section__inner">
-    <div class="as-sec-head"><h2 class="as-sec-head__title">Docs</h2><span class="as-sec-head__rule"></span></div>
-    <p class="as-lede">One page per item. ${recorded.size} of them carry a recording.</p>
-    <div class="rows">${az.map(i => `
-      <a class="row" href="${i.name}/">
-        <span class="row__ix" aria-hidden="true">${esc(i.title[0].toUpperCase())}</span>
-        <span class="row__name">${esc(i.title)}</span>
-        <span class="row__cat">/ ${esc(i.category)}</span>
-        <span class="row__blurb">${esc(i.blurb ?? '')}</span>
-        <span class="row__go" aria-hidden="true">&rsaquo;</span>
-      </a>`).join('')}
-    </div>
+<main class="page">
+  <div class="page__inner as-measure">
+    <span class="as-label">Suite / Docs</span>
+    <h1 class="as-headline">Getting it working.</h1>
+    <p class="as-lede">
+      Install, the two tiers and the grounds they sit on. Every item has
+      <a class="as-link" href="../components/">its own page</a> with a recording
+      and its usage.
+    </p>
+${DOC_SECTIONS.map(([t, body]) => `
+    <section class="doc">
+      <div class="as-sec-head"><h2 class="as-sec-head__title">${esc(t)}</h2><span class="as-sec-head__rule"></span></div>
+      ${body.split('\n\n').map(par => par.trim().startsWith('<pre') ? par : `<p class="doc__p">${par}</p>`).join('\n      ')}
+    </section>`).join('')}
   </div>
 </main>
 ${footer()}${close({ up: 1 })}`;
@@ -280,8 +325,9 @@ const itemPage = (item, demo) => `${head({
   description: item.blurb ?? item.description ?? item.title,
   canonical: `/suite/docs/${item.name}/`, up: 2,
 })}${nav({ current: 'docs', up: 2 })}
-<main class="as-section">
-  <div class="as-section__inner as-measure">
+<main class="page">
+  <div class="page__inner">
+    <p class="item__back"><a class="as-link" href="../../components/">&lsaquo; All ${ITEMS.length} components</a></p>
     <span class="as-label">${esc(item.category)}</span>
     <h1 class="as-headline">${esc(item.title)}</h1>
     <p class="as-lede">${esc(item.description ?? item.blurb ?? '')}</p>
@@ -293,7 +339,7 @@ const itemPage = (item, demo) => `${head({
 
     <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/${item.name}</code></pre>
 
-    ${item.npm?.length ? `<p class="item__deps"><span class="as-label as-label--fg-faint">Needs</span> ${item.npm.map(d => `<code>${esc(d)}</code>`).join(', ')}</p>` : ''}
+    ${item.npm?.length ? `<p class="item__deps"><span class="as-label as-label--fg-faint">Needs</span> ${item.npm.map(d => `<code>${esc(d)}</code>`).join('<span class="item__sep">,</span> ')}</p>` : ''}
     ${item.upstream ? `<p class="as-label as-label--fg-faint">Imported from ObsidianUI on ${esc(item.upstream.imported)} · ${esc(item.upstream.sha)}</p>` : ''}
 
     ${demo ? `<div class="as-sec-head"><h2 class="as-sec-head__title">Usage</h2><span class="as-sec-head__rule"></span></div>
@@ -393,7 +439,29 @@ if (find && q) {
  * them. The tile is the one borrowed shape: a two-column grid of recordings,
  * which is how a catalogue shows 120 animated components without running one. */
 const SURFACE_CSS = `
-.hero__actions { display: flex; flex-wrap: wrap; gap: var(--gap-s); margin-top: var(--gap-m); }
+body > .as-section:first-of-type, body > header.as-section { padding-block-start: var(--band-y); }
+
+/* Two columns: the claim on the left, what to do about it on the right. Stacked
+   in one column the headline left two thirds of the band empty and the page
+   read as unfinished rather than spare. */
+.hero { display: grid; gap: var(--gap-l) var(--gap-xl); align-items: start; }
+@media (min-width: 64rem) { .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.hero__say, .hero__do { display: flex; flex-direction: column; gap: var(--gap-m); min-width: 0; }
+
+/* Inside the hero the column is already the measure. A second max-width on the
+   lede made it break every six words. */
+.hero .as-lede { max-width: none; }
+
+/* A command line is one line. Let it scroll rather than clip, and never wrap —
+   a copied command broken across lines is a command that does not run. */
+.hero__install { overflow-x: auto; }
+.hero__install code { white-space: pre; }
+.hero__actions { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--gap-m); margin-top: var(--gap-l); }
+@media (max-width: 30rem) { .hero__actions { flex-wrap: wrap; } }
+
+/* One measure for prose across all three surfaces. Ragged lines at different
+   widths on each page is what made the FAQ read as unfinished. */
+.as-lede, .faq__a, .doc__p { max-width: 68ch; }
 
 .tiles { display: grid; gap: var(--gap-m); grid-template-columns: 1fr 1fr; margin-top: var(--gap-l); }
 @media (max-width: 40rem) { .tiles { grid-template-columns: 1fr; } }
@@ -419,9 +487,15 @@ const SURFACE_CSS = `
 
 .faq { display: grid; gap: 0; margin-top: var(--gap-m); border-top: 1px solid var(--rule); }
 .faq__item { border-bottom: 1px solid var(--rule); }
-.faq__q { cursor: pointer; padding: 1rem 0; min-height: 44px; display: flex; align-items: center; font-weight: 500; }
-.faq__a { padding: 0 0 1rem; color: var(--fg-muted); max-width: 60ch; }
+.faq__q { cursor: pointer; padding: 1.125rem 0; min-height: 44px; display: flex; align-items: center; gap: var(--gap-s); font-weight: 500; }
+.faq__q::marker, .faq__q::-webkit-details-marker { content: ''; }
+.faq__q::after { content: '+'; margin-left: auto; font-family: var(--mono); color: var(--fg-faint); }
+.faq__item[open] .faq__q::after { content: '\\2212'; }
+.faq__a { padding: 0 0 1.25rem; color: var(--fg-muted); }
 
+.item__back { margin-bottom: var(--gap-s); }
+.item__deps { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; color: var(--fg-muted); }
+.item__sep { margin-left: -.4rem; }
 .item__media { margin: var(--gap-m) 0; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; background: var(--bg-alt); }
 .item__media video { width: 100%; display: block; }
 .item__deps code { font-family: var(--mono); font-size: .8125rem; }
@@ -437,16 +511,25 @@ const SURFACE_CSS = `
 const shellCss = `/* The catalogue's own shell. Not a suite component — it exists to show them,
    and it derives from the same tokens so it cannot drift from what it displays. */
 
+/* The nav is sticky, so every surface needs its own clearance beneath it —
+   without this the first heading sits against the pill and the page reads as
+   cramped from the first glance. */
+.shell, .page__inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+  padding-block: var(--band-y) var(--gap-xl);
+}
 .shell {
   display: grid;
   grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
   gap: var(--gap-xl);
-  max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--pad-x);
-  padding-bottom: var(--gap-xl);
   align-items: start;
 }
+.page__inner { display: flex; flex-direction: column; gap: var(--gap-l); }
+.doc { display: flex; flex-direction: column; gap: var(--gap-s); }
+.doc__p { color: var(--fg-muted); max-width: 68ch; }
+.doc__p code, .item__deps code { font-family: var(--mono); font-size: .8125rem; }
 @media (max-width: 62rem) { .shell { grid-template-columns: minmax(0, 1fr); } .rail { position: static; } }
 
 .rail { position: sticky; top: 4.5rem; display: flex; flex-direction: column; gap: var(--gap-m); max-height: calc(100vh - 6rem); overflow-y: auto; padding-right: .5rem; }
