@@ -19,7 +19,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = [path.join(ROOT, 'verify', 'public', 'plates'), path.join(ROOT, 'src', 'plates')];
+/* Served from /suite/plates/, not the site root: the suite owns /suite and
+ * nothing outside it. verify/ mirrors that path so a demo's src resolves the
+ * same in the recorder as on the site. */
+const OUT = [path.join(ROOT, 'verify', 'public', 'suite', 'plates'), path.join(ROOT, 'src', 'plates')];
 
 /* Filmed on the component tier's ground, so the ramp is white into black. The
  * plates are assets, not components: they cannot carry a var() through an

@@ -60,6 +60,9 @@ export function nav({ current, up = 0 }) {
 `;
 }
 
+/* No heart glyph. amirsalmani.com retired it — tools/gates.py in that repo
+ * fails any page carrying `made-by__glyph`, and /suite is a section of that
+ * site rather than a site of its own. The colophon line is the site's. */
 export function footer() {
   return `
 <footer class="as-colophon">
@@ -67,7 +70,7 @@ export function footer() {
     <span class="as-colophon__legal">&copy; 2026 Rhinocloud Ltd. &middot; MIT</span>
     <span class="made-by">
       <svg class="made-by__mark" viewBox="6.2 6.2 51.6 51.6" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Amir Salmani"><path d="M12 51 L32 13 L52 51"/><path d="M20.5 35 H43.5"/><g fill="currentColor" stroke="none"><circle cx="32" cy="13" r="3.8"/><circle cx="12" cy="51" r="3.8"/><circle cx="52" cy="51" r="3.8"/></g></svg>
-      <span>Made with <svg class="made-by__glyph" viewBox="6.2 6.2 51.6 51.6" fill="none" stroke="currentColor" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="love"><path d="M32 50 L14.5 32.5 A12.375 12.375 0 0 1 32 15 A12.375 12.375 0 0 1 49.5 32.5 Z"/></svg> and good tools by <a href="https://amirsalmani.com" class="made-by__link">Amir Salmani</a></span>
+      <span>Made with <a href="/designbook/" class="made-by__link">passion</a> in-house, avoiding cookies too</span>
     </span>
   </div>
 </footer>

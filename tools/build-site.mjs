@@ -535,13 +535,19 @@ await writeFile(path.join(OUT, 'suite', 'components', 'index.html'), catalogue);
 await mkdir(path.join(OUT, 'suite', 'docs'), { recursive: true });
 await writeFile(path.join(OUT, 'suite', 'docs', 'index.html'), docsIndex);
 
-const usage = await readFile(path.join(ROOT, 'upstream', 'docs.json'), 'utf8').then(JSON.parse).catch(() => ({}));
+/* The re-pointed usage, not upstream's original. Reading upstream/docs.json
+ * here showed every item an example in upstream's colours, with links to
+ * upstream's paths — which tools/gates.py in amirsalmani-com caught as two dead
+ * references. */
+const usage = await readFile(path.join(ROOT, 'src', 'demos-usage.json'), 'utf8').then(JSON.parse).catch(() => ({}));
 for (const item of ITEMS) {
   await mkdir(path.join(OUT, 'suite', 'docs', item.name), { recursive: true });
-  await writeFile(path.join(OUT, 'suite', 'docs', item.name, 'index.html'), itemPage(item, usage[item.name]?.demo));
+  await writeFile(path.join(OUT, 'suite', 'docs', item.name, 'index.html'), itemPage(item, usage[item.name]));
 }
 
-// The recordings, beside the pages that play them.
+// The plates the demos draw, and the recordings, beside the pages that use them.
+await cp(path.join(ROOT, 'src', 'plates'), path.join(OUT, 'suite', 'plates'), { recursive: true }).catch(() => {});
+
 await cp(path.join(ROOT, 'src', 'demos-video'), path.join(OUT, 'suite', 'demos'), { recursive: true }).catch(() => {});
 await writeFile(path.join(OUT, 'suite', 'suite.css'), cssParts.join('\n') + '\n' + shellCss + NAV_CSS + SURFACE_CSS);
 await writeFile(path.join(OUT, 'suite', 'catalogue.js'), js);
