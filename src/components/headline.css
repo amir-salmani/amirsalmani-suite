@@ -39,5 +39,4 @@
   font-size: clamp(1.02rem, 1.35vw, 1.175rem);
   line-height: 1.7;
   color: var(--fg-muted);
-  max-width: 44ch;
 }

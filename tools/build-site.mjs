@@ -88,44 +88,6 @@ const flat = az.map(i => `
           <span class="row__go" aria-hidden="true">&rsaquo;</span>
         </a>`).join('');
 
-let sections = '';
-let lastCat = null;
-for (const item of ITEMS) {
-  if (item.category !== lastCat) {
-    lastCat = item.category;
-    const note = CATEGORIES.find(([c]) => c === lastCat)[1];
-    sections += `
-      <div class="cat-head" id="cat-${lastCat.toLowerCase()}">
-        <span class="as-label">${esc(lastCat)}</span>
-        <p class="as-card__body">${esc(note)}</p>
-      </div>`;
-  }
-
-  const demo = await demoFor(item);
-  const deps = (item.deps ?? []).filter(d => byName[d]);
-  const bundleOf = Array.isArray(item.bundle) ? item.bundle : item.bundle === 'all' ? installable.map(i => i.name) : null;
-
-  sections += `
-      <section class="item" id="${item.name}">
-        <div class="item__head">
-          <h2 class="item__title">${esc(item.title)}</h2>
-          <span class="as-label as-label--fg-faint">${esc(item.category)}</span>
-          <span class="as-sec-head__rule"></span>
-        </div>
-        <p class="item__desc">${esc(item.description)}</p>
-${deps.length ? `        <p class="item__deps"><span class="as-label as-label--fg-faint">Needs</span> ${deps.map(d => `<a class="as-link" href="#${d}">${esc(byName[d].title)}</a>`).join(', ')}</p>\n` : ''}${bundleOf ? `        <p class="item__deps"><span class="as-label as-label--fg-faint">Installs</span> ${bundleOf.map(d => `<a class="as-link" href="#${d}">${esc(byName[d].title)}</a>`).join(', ')}</p>\n` : ''}        <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>npx shadcn@latest add @amirsalmani/${item.name}</code></pre>
-${demo ? `        <div class="preview"><span class="as-label as-label--fg-faint preview__tag">Live</span>
-          <div class="preview__stage">
-${stripScript(demo).split('\n').map(l => '            ' + l).join('\n')}
-          </div>
-        </div>
-        <details class="src">
-          <summary><span class="as-label">Markup</span></summary>
-          <pre class="as-code"><button class="as-code__copy" type="button">Copy</button><code>${esc(demo)}</code></pre>
-        </details>` : ''}
-      </section>`;
-}
-
 /* ── the three surfaces ─────────────────────────────────────────────────────
  *
  * A landing that sells, a catalogue that browses, and a page per item that
@@ -490,9 +452,6 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
 @media (min-width: 64rem) { .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 .hero__say, .hero__do { display: flex; flex-direction: column; gap: var(--gap-m); min-width: 0; }
 
-/* Inside the hero the column is already the measure. A second max-width on the
-   lede made it break every six words. */
-.hero .as-lede { max-width: none; }
 
 /* The install line spans both columns. Inside a half-width one it was cut
    mid-package-name behind a scrollbar, which is the worst way to show a command
@@ -502,9 +461,6 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
 .hero__actions { display: flex; flex-wrap: nowrap; align-items: center; gap: var(--gap-m); margin-top: var(--gap-l); }
 @media (max-width: 30rem) { .hero__actions { flex-wrap: wrap; } }
 
-/* One measure for prose across all three surfaces. Ragged lines at different
-   widths on each page is what made the FAQ read as unfinished. */
-.as-lede, .faq__a, .doc__p { max-width: 68ch; }
 
 .cats { display: grid; gap: var(--gap-s); grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); margin-top: var(--gap-l); }
 .cat {
@@ -541,7 +497,7 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
 .item__tag { position: absolute; top: .625rem; right: .875rem; }
 .item__files { display: flex; flex-direction: column; gap: .25rem; list-style: none; padding: 0; }
 .item__files code { font-family: var(--mono); font-size: .8125rem; color: var(--fg-muted); }
-.item__deps { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; color: var(--fg-muted); }
+.item__deps { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem; color: var(--fg-muted); }
 .item__sep { margin-left: -.4rem; }
 .item__media { margin: var(--gap-m) 0; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; background: var(--bg-alt); }
 .item__media video { width: 100%; display: block; }
@@ -550,8 +506,7 @@ body > .as-section:first-of-type, body > header.as-section { padding-block-start
 /* A recording is motion. Under reduce the poster stands in for it, which is the
    same information without the loop. */
 @media (prefers-reduced-motion: reduce) {
-  .tile__video, .item__media video { display: none; }
-  .tile__media { background-image: var(--poster); background-size: cover; }
+  .item__media video { display: none; }
 }
 `;
 
@@ -575,7 +530,7 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
 }
 .page__inner { display: flex; flex-direction: column; gap: var(--gap-l); }
 .doc { display: flex; flex-direction: column; gap: var(--gap-s); }
-.doc__p { color: var(--fg-muted); max-width: 68ch; }
+.doc__p { color: var(--fg-muted); }
 .doc__p code, .item__deps code { font-family: var(--mono); font-size: .8125rem; }
 @media (max-width: 62rem) { .shell { grid-template-columns: minmax(0, 1fr); } .rail { position: static; } }
 
@@ -620,20 +575,12 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
   .row__blurb { grid-column: 2; white-space: normal; }
 }
 
-.cat-head { padding-top: var(--gap-m); border-top: 1px solid var(--rule); }
-.cat-head .as-card__body { margin: .35rem 0 0; }
 
 .item { display: flex; flex-direction: column; gap: var(--gap-s); scroll-margin-top: 5rem; }
-.index, .cat-head, .rail__group { scroll-margin-top: 6rem; }
+.index, .rail__group { scroll-margin-top: 6rem; }
 .item__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--gap-s); }
-.item__title { font-family: var(--sans); font-size: clamp(1.3rem, 2.4vw, 1.75rem); font-weight: 700; letter-spacing: -.022em; margin: 0; color: var(--fg); }
-.item__desc { margin: 0; max-width: 62ch; line-height: 1.7; color: var(--fg-muted); }
 .item__deps { margin: 0; font-size: .9rem; color: var(--fg-muted); display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; }
 
-.preview { position: relative; border: 1px solid var(--rule); border-radius: var(--radius); }
-.preview__tag { position: absolute; top: .55rem; right: .75rem; }
-.preview__stage { padding: clamp(1.25rem, 3vw, 2.25rem); display: flex; flex-direction: column; gap: var(--gap-m); }
-.preview__stage > * { max-width: 100%; }
 
 .src summary { cursor: pointer; padding: .35rem 0; list-style: none; }
 .src summary::-webkit-details-marker { display: none; }
@@ -649,7 +596,6 @@ const shellCss = `/* The catalogue's own shell. Not a suite component — it exi
    42rem on the install line. Against the two-column hero they held it to two
    thirds of the band and left the last third empty, which read as a layout
    mistake because it was one. The columns are the measure now. */
-.hero__figures { margin-top: var(--gap-l); }
 .index__note { margin-bottom: var(--gap-l); }
 .index__find { margin-bottom: var(--gap-m); }
 .index__nohit { margin-top: var(--gap-m); }

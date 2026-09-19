@@ -17,7 +17,7 @@
 }
 .as-empty__glyph { width: 2rem; height: 2rem; color: var(--fg-faint); }
 .as-empty__title { font-family: var(--sans); font-size: 1.0625rem; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin: 0; }
-.as-empty__body { color: var(--fg-muted); line-height: 1.7; max-width: 42ch; margin: 0; }
+.as-empty__body { color: var(--fg-muted); line-height: 1.7; margin: 0; }
 .as-empty__action { margin-top: var(--gap-xs); }
 
 @media (prefers-contrast: more) { .as-empty { border-color: var(--fg); border-style: solid; } }
