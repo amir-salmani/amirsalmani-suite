@@ -10,7 +10,9 @@
 # running one, so a two-minute timer is cheap.
 set -euo pipefail
 
-REPO_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+# Carried across the re-exec below. Recomputing it from BASH_SOURCE after the
+# copy would resolve against /run and land at /, where deploy/ does not exist.
+REPO_DIR=${RECONCILE_REPO:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}
 cd "$REPO_DIR"
 
 # shellcheck disable=SC1091
@@ -26,7 +28,7 @@ git reset --hard --quiet origin/main
 # versions. Re-exec the fresh copy from a stable path, exactly once.
 if [ "${RECONCILE_FRESH:-}" != "1" ]; then
 	install -m 700 deploy/reconcile.sh "/run/$SERVICE-reconcile.sh"
-	RECONCILE_FRESH=1 exec "/run/$SERVICE-reconcile.sh" "$@"
+	RECONCILE_FRESH=1 RECONCILE_REPO="$REPO_DIR" exec "/run/$SERVICE-reconcile.sh" "$@"
 fi
 
 # shellcheck disable=SC1091
