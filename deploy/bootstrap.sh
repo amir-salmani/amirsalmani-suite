@@ -1,13 +1,20 @@
 #!/usr/bin/env bash
 # One-time setup on the box. Everything after this is pull-only.
 #
-#   sudo deploy/bootstrap.sh
+#   sudo deploy/bootstrap.sh            units, timer, network, credential check
+#   sudo deploy/bootstrap.sh --route    the Traefik route, once the container is up
 #
 # CI cannot do this: the box drops port 22 and the only way in is Cloudflare
 # Access, so the first placement of the unit, the timer and the route is a
 # person's job. It is also the only step that handles a secret.
 #
-# Idempotent. Re-run it after changing service.env or a unit file.
+# **Two phases, and the order matters.** A route pointing at a container that
+# does not exist yet returns 502 — and for a service owning a path prefix, that
+# path is usually already being served by something else. So the route goes in
+# last, after the first image has landed and the container is healthy. Until
+# then the old answer keeps working.
+#
+# Idempotent. Re-run either phase after changing service.env or a unit file.
 set -euo pipefail
 
 REPO_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
@@ -28,6 +35,9 @@ if [ -n "${PATHS:-}" ]; then
 else
 	RULE="Host(\`$HOST\`)"
 fi
+
+ROUTE_ONLY=0
+[ "${1:-}" = "--route" ] && ROUTE_ONLY=1
 
 mkdir -p "$BASE"
 echo "base:    $BASE"
@@ -50,11 +60,18 @@ chmod 600 "$BASE/gh-app.pem" "$BASE/app.env"
 
 sub() { sed -e "s#__SERVICE__#$SERVICE#g" -e "s#__REPO__#$REPO_DIR#g" -e "s#__HOST__#$HOST#g" -e "s#__RULE__#$RULE#g" "$1"; }
 
+if [ "$ROUTE_ONLY" = 1 ]; then
+	# Refuse rather than take a working path down.
+	health=$(docker inspect -f '{{.State.Health.Status}}' "$SERVICE" 2>/dev/null || echo absent)
+	[ "$health" = healthy ] || { echo "container is '$health', not healthy — refusing to route to it"; exit 1; }
+	mkdir -p "$TRAEFIK"
+	sub deploy/traefik/route.yaml > "$TRAEFIK/$SERVICE.yaml"
+	echo "routed: $RULE -> $SERVICE"
+	exit 0
+fi
+
 sub deploy/systemd/reconcile.service > "/etc/systemd/system/$SERVICE-reconcile.service"
 sub deploy/systemd/reconcile.timer   > "/etc/systemd/system/$SERVICE-reconcile.timer"
-
-mkdir -p "$TRAEFIK"
-sub deploy/traefik/route.yaml > "$TRAEFIK/$SERVICE.yaml"
 
 # The shared edge network Traefik and every service sit on.
 docker network inspect edge >/dev/null 2>&1 || docker network create edge
@@ -63,5 +80,9 @@ systemctl daemon-reload
 systemctl enable --now "$SERVICE-reconcile.timer"
 
 echo
-echo "installed. first rotation happens within two minutes of a pin landing on main:"
+echo "installed, not yet routed. the timer rotates within two minutes of a pin"
+echo "landing on main:"
 echo "  journalctl -u $SERVICE-reconcile -f"
+echo
+echo "once the container is healthy, publish the route:"
+echo "  sudo deploy/bootstrap.sh --route"
