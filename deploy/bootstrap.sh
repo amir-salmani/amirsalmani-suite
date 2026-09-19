@@ -58,9 +58,13 @@ MSG
 fi
 chmod 600 "$BASE/gh-app.pem" "$BASE/app.env"
 
-# Bash, not sed. A sed replacement treats & as "the whole match", so the rule's
-# && expanded into two copies of the placeholder and Traefik rejected the router.
-# Parameter expansion has no metacharacters to escape.
+# Bash, not sed — and with patsub_replacement off.
+#
+# A sed replacement treats & as "the whole match", so the rule's && expanded into
+# two copies of the placeholder. Bash 5.2 added exactly the same behaviour to
+# ${var//pat/repl}, on by default, so moving off sed reproduced the bug
+# identically. Turning the shopt off is what actually fixes it.
+shopt -u patsub_replacement 2>/dev/null || true
 sub() {
 	local t
 	t=$(cat "$1")
