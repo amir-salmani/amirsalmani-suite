@@ -1,0 +1,22 @@
+# A file route, not docker labels. Traefik's docker event stream does not fire
+# against Docker 29.8 on this box, so a label-defined route disappears the first
+# time its container restarts — which is every deploy.
+#
+# __SERVICE__, __HOST__ and __RULE__ are substituted by deploy/bootstrap.sh.
+# A service owning path prefixes rather than a whole host gets a PathPrefix rule
+# and a higher priority, so it wins against the host's catch-all router.
+http:
+  routers:
+    __SERVICE__:
+      rule: "__RULE__"
+      priority: 100
+      entryPoints: [websecure]
+      service: __SERVICE__
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    __SERVICE__:
+      loadBalancer:
+        servers:
+          - url: "http://__SERVICE__:80"

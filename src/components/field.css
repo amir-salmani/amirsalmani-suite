@@ -9,7 +9,7 @@
  */
 
 .as-field { display: flex; flex-direction: column; gap: .4rem; }
-.as-field__hint { font-size: .85rem; line-height: 1.55; color: var(--muted); }
+.as-field__hint { font-size: .85rem; line-height: 1.55; color: var(--fg-muted); }
 .as-field__error {
   display: flex;
   align-items: flex-start;
@@ -27,7 +27,7 @@
   width: 2px;
   align-self: stretch;
   min-height: 1em;
-  background: var(--accent);
+  background: var(--fg-accent);
 }
 .as-field[data-invalid] .as-input,
-.as-field[data-invalid] .as-select { border-color: var(--accent); }
+.as-field[data-invalid] .as-select { border-color: var(--fg-accent); }

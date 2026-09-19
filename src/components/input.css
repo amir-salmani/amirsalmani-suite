@@ -1,7 +1,7 @@
 /* amirsalmani/input — a ruled well, not a box.
  *
  * Requires tokens.css. The value is what the reader typed, so it is sans; a
- * placeholder is a hint and sits at --faint. Focus is a full-strength border
+ * placeholder is a hint and sits at --fg-faint. Focus is a full-strength border
  * plus the standard outline, because there is no accent hue to glow with.
  */
 
@@ -18,9 +18,9 @@
   line-height: 1.4;
   transition: border-color var(--fast) var(--ease-out), background var(--fast) var(--ease-out);
 }
-.as-input::placeholder { color: var(--faint); }
+.as-input::placeholder { color: var(--fg-faint); }
 .as-input:hover { border-color: var(--glass-edge); }
-.as-input:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+.as-input:focus { outline: 2px solid var(--fg-accent); outline-offset: 2px; border-color: var(--fg-accent); }
 .as-input[disabled] { opacity: .5; cursor: not-allowed; }
 .as-input[readonly] { background: transparent; }
 

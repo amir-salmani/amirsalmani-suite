@@ -6,7 +6,7 @@
  * no-JS fallback, so nothing is ever unstyled.
  *
  * There is no accent hue. Two grounds are the whole palette and emphasis is
- * carried by contrast, weight, scale and rules. `--accent` survives as a role
+ * carried by contrast, weight, scale and rules. `--fg-accent` survives as a role
  * name resolving to the full-strength foreground, so a component never has to
  * know which ground it is on.
  */
@@ -15,6 +15,9 @@
   --indigo:      #212842;
   --indigo-deep: #141A2D;
   --cream:       #F0E7D5;
+  --obsidian:      #000000;
+  --obsidian-lift: #0F0F0F;
+  --obsidian-high: #1A1A1A;
 
   --on-indigo-fg:    #F0E7D5;  /* 11.82:1 */
   --on-indigo-muted: #A8AEC4;  /*  6.58:1 */
@@ -22,6 +25,9 @@
   --on-cream-fg:     #212842;  /* 11.82:1 */
   --on-cream-muted:  #565D75;  /*  5.31:1 */
   --on-cream-faint:  #5D6478;  /*  4.80:1 */
+  --on-obsidian-fg:    #FAFAFA;
+  --on-obsidian-muted: #A1A1A1;
+  --on-obsidian-faint: #8A8A8A;
 
   --sans: "Schibsted Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -47,23 +53,33 @@
 
 :root, [data-theme="dark"] {
   --bg: var(--indigo); --bg-alt: var(--indigo-deep);
-  --fg: var(--on-indigo-fg); --muted: var(--on-indigo-muted); --faint: var(--on-indigo-faint);
-  --accent: var(--on-indigo-fg);
+  --fg: var(--on-indigo-fg); --fg-muted: var(--on-indigo-muted); --fg-faint: var(--on-indigo-faint);
+  --fg-accent: var(--on-indigo-fg);
   --shadow: 0 30px 60px -32px rgb(0 0 0 / .85);
+  color-scheme: dark;
+}
+/* The component tier's ground. ObsidianUI's own components were built against
+   #000 and read wrong on indigo — its dark theme measures rgb(0,0,0) ×69 with
+   #0f0f0f and #1a1a1a as the only elevation steps (decisions/0019). */
+[data-theme="obsidian"] {
+  --bg: var(--obsidian); --bg-alt: var(--obsidian-lift);
+  --fg: var(--on-obsidian-fg); --fg-muted: var(--on-obsidian-muted); --fg-faint: var(--on-obsidian-faint);
+  --fg-accent: var(--on-obsidian-fg);
+  --shadow: 0 30px 60px -32px rgb(0 0 0 / .9);
   color-scheme: dark;
 }
 [data-theme="light"] {
   --bg: var(--cream); --bg-alt: var(--indigo);
-  --fg: var(--on-cream-fg); --muted: var(--on-cream-muted); --faint: var(--on-cream-faint);
-  --accent: var(--on-cream-fg);
+  --fg: var(--on-cream-fg); --fg-muted: var(--on-cream-muted); --fg-faint: var(--on-cream-faint);
+  --fg-accent: var(--on-cream-fg);
   --shadow: 0 26px 50px -30px rgb(33 40 66 / .38);
   color-scheme: light;
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
     --bg: var(--cream); --bg-alt: var(--indigo);
-    --fg: var(--on-cream-fg); --muted: var(--on-cream-muted); --faint: var(--on-cream-faint);
-    --accent: var(--on-cream-fg);
+    --fg: var(--on-cream-fg); --fg-muted: var(--on-cream-muted); --fg-faint: var(--on-cream-faint);
+    --fg-accent: var(--on-cream-fg);
     --shadow: 0 26px 50px -30px rgb(33 40 66 / .38);
     color-scheme: light;
   }
@@ -101,7 +117,7 @@
 .band { background: var(--bg); color: var(--fg); }
 :where([data-theme="light"], [data-theme="light"] *).band--alt {
   --bg: var(--indigo); --fg: var(--on-indigo-fg);
-  --muted: var(--on-indigo-muted); --faint: var(--on-indigo-faint); --accent: var(--on-indigo-fg);
+  --fg-muted: var(--on-indigo-muted); --fg-faint: var(--on-indigo-faint); --fg-accent: var(--on-indigo-fg);
   background: var(--bg); color: var(--fg);
 }
 :where([data-theme="dark"], [data-theme="dark"] *, :root:not([data-theme]), :root:not([data-theme]) *).band--alt {

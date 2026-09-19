@@ -10,6 +10,11 @@
  * exist.
  */
 
+import { IMPORTED_ITEMS } from './imported/manifest.generated.mjs';
+import { IMPORTED_CATEGORIES } from './imported-categories.mjs';
+
+const BRAND_CATEGORIES = new Set(['Foundation','Type','Layout','Controls','Feedback','Data','Brand','Bundles']);
+
 export const CATEGORIES = [
   ['Foundation', 'The layer everything else derives from. Install tokens first.'],
   ['Type',       'What a human wrote, and what a machine would emit.'],
@@ -19,10 +24,16 @@ export const CATEGORIES = [
   ['Data',       'Keys, values and text you are meant to copy.'],
   ['Brand',      'The mark, and the line that says who made it.'],
   ['Bundles',    'Several items in one command.'],
+  ...IMPORTED_CATEGORIES.filter(([c]) => !BRAND_CATEGORIES.has(c)),
 ];
 
-/** type: registry:file unless stated. deps are other item names. */
-export const ITEMS = [
+/** Two tiers (decisions/0019). `brand` is authored here — tokens, type, layout,
+ *  the marks. `component` is imported from ObsidianUI and re-pointed onto the
+ *  brand; nothing in it is invented. Absent means brand, because everything
+ *  that predates the decision is.
+ *
+ *  type: registry:file unless stated. deps are other item names. */
+const BRAND_ITEMS = [
   // ── Foundation ────────────────────────────────────────────────────────────
   { name: 'fonts', category: 'Foundation',
     title: 'Fonts',
@@ -35,6 +46,22 @@ export const ITEMS = [
     blurb: 'Two grounds, no accent hue, both themes first-class with a no-JS fallback.',
     description: 'Two grounds, no accent hue, both themes first-class with a no-JS fallback. Every other item derives from these; nothing below this layer may contain a hex.',
     css: 'tokens.css', target: 'styles/amirsalmani-tokens.css', demo: 'tokens' },
+
+  { name: 'tokens-shadcn', category: 'Foundation',
+    title: 'Tokens — the shadcn bridge',
+    blurb: 'The component tier arrives naming shadcn\u2019s tokens. This is the only place the two vocabularies meet.',
+    description: 'Maps shadcn\u2019s semantic names onto the brand: emphasis is inversion, destructive is the foreground rather than a red, and charts separate by lightness. Tailwind v4 only \u2014 the @theme block is a Tailwind directive. Needed by every component-tier item and by nothing in the brand tier.',
+    tier: 'component',
+    css: 'tokens-shadcn.css', target: 'styles/amirsalmani-tokens-shadcn.css',
+    deps: ['tokens'], demo: null },
+
+  { name: 'token-colour', category: 'Foundation',
+    title: 'Token colour — a custom property, resolved',
+    blurb: 'Canvas takes a colour string, not a var(). This is how a painted component stays on the brand.',
+    description: 'Reads a CSS custom property to a concrete value, and a React hook that re-reads it when the theme changes — data-theme is an attribute swap, so nothing re-renders on its own and a canvas keeps yesterday\u2019s palette. SSR-safe by fallback. React only.',
+    type: 'registry:lib',
+    js: 'token-colour.js', dir: 'lib', target: 'lib/token-colour.js',
+    deps: ['tokens'], demo: null },
 
   { name: 'motion', category: 'Foundation',
     title: 'Motion — the spring',
@@ -50,7 +77,8 @@ export const ITEMS = [
     description: 'One sentence, two voices. The setup clause is muted at weight 500, the payoff is full strength at 800 — a typographic device, not decoration. Tracking is size-specific because one value is wrong somewhere.',
     css: 'headline.css', deps: ['tokens'], demo: 'headline' },
 
-  { name: 'label', category: 'Type',
+  // Retired by decisions/0019 — the component tier supplies `label`.
+  { retiredBy: 'label', name: 'label', category: 'Type',
     title: 'Label',
     blurb: 'The eyebrow, section number, status key and source line.',
     description: 'Mono, uppercase, wide tracking. Mono is for what a machine would emit, so this and only this carries indices, keys and attributions.',
@@ -81,7 +109,8 @@ export const ITEMS = [
     description: 'Set --as-grid-min and the column count follows from the space available. There are no media queries in this file and there do not need to be.',
     css: 'grid.css', deps: ['tokens'], demo: 'grid' },
 
-  { name: 'card', category: 'Layout',
+  // Retired by decisions/0019 — the component tier supplies `card`.
+  { retiredBy: 'card', name: 'card', category: 'Layout',
     title: 'Card',
     blurb: 'A rule and some padding. No shadow, no gradient, no glass.',
     description: 'Glass is reserved for things that float, and a card in a grid does not float. Works as a whole link, in which case the border goes full strength on hover.',
@@ -93,13 +122,15 @@ export const ITEMS = [
     description: 'Translucency used where Apple uses it — floating chrome and elevated surfaces. Carries a lit top edge, and turns solid under prefers-reduced-transparency.',
     css: 'glass.css', deps: ['tokens'], demo: 'glass' },
 
-  { name: 'nav', category: 'Layout',
+  // Retired by decisions/0019 — the component tier supplies `navigation-menu`.
+  { retiredBy: 'navigation-menu', name: 'nav', category: 'Layout',
     title: 'Nav',
     blurb: 'Sticky chrome, mono labels, a full-strength bar under the current page.',
     description: 'A nav label is a key rather than prose, so it is mono. The active item is marked by a bar at full strength — emphasis without a hue.',
     css: 'nav.css', deps: ['tokens'], demo: 'nav' },
 
-  { name: 'footer', category: 'Layout',
+  // Retired by decisions/0019 — the component tier supplies `footer`.
+  { retiredBy: 'footer', name: 'footer', category: 'Layout',
     title: 'Footer — the colophon',
     blurb: 'Two lines that are not the same claim: who is liable, and who built it.',
     description: 'The legal line names the entity that is liable. The maker line names the person. Keeping them apart is the point of the component.',
@@ -112,69 +143,80 @@ export const ITEMS = [
     description: 'There is no accent hue to change to, so the underline carries the state. Goes solid on hover and on focus.',
     css: 'link.css', deps: ['tokens'], demo: 'link' },
 
-  { name: 'button', category: 'Controls',
+  // Retired by decisions/0019 — the component tier supplies `button`.
+  { retiredBy: 'button', name: 'button', category: 'Controls',
     title: 'Button',
     blurb: 'Emphasis by inversion. Responds on press, not on release.',
     description: 'Three weights — glass, solid and quiet — where solid is simply the foreground and background swapped. 44px minimum height on every viewport.',
     css: 'button.css', deps: ['tokens'], demo: 'button' },
 
-  { name: 'field', category: 'Controls',
+  // Retired by decisions/0019 — the component tier supplies `field`.
+  { retiredBy: 'field', name: 'field', category: 'Controls',
     title: 'Field',
     blurb: 'The wrapper every control shares. The error has no red in it.',
     description: 'A hint is prose and stays sans; an error is a machine verdict and goes mono. The error is carried by a full-strength bar and full-strength text, because there is no red to reach for.',
     css: 'field.css', deps: ['tokens', 'label'], demo: 'field' },
 
-  { name: 'input', category: 'Controls',
+  // Retired by decisions/0019 — the component tier supplies `input`.
+  { retiredBy: 'input', name: 'input', category: 'Controls',
     title: 'Input',
     blurb: 'A ruled well, not a box. Textarea and mono variants included.',
     description: 'The value is what the reader typed, so it is sans; a placeholder is a hint and sits at faint. Focus is a full-strength border plus the standard outline.',
     css: 'input.css', deps: ['tokens'], demo: 'input' },
 
-  { name: 'select', category: 'Controls',
+  // Retired by decisions/0019 — the component tier supplies `select`.
+  { retiredBy: 'select', name: 'select', category: 'Controls',
     title: 'Select',
     blurb: 'The native control, re-skinned. The chevron inherits currentColor.',
     description: 'Two straight strokes with the mark’s own geometry, drawn in gradients so they flip with the ground rather than shipping two images.',
     css: 'select.css', deps: ['tokens', 'input'], demo: 'select' },
 
-  { name: 'checkbox', category: 'Controls',
+  // Retired by decisions/0019 — the component tier supplies `checkbox`.
+  { retiredBy: 'checkbox', name: 'checkbox', category: 'Controls',
     title: 'Checkbox & radio',
     blurb: 'The same control, rounded. The tick is the suite’s own check path.',
     description: 'Checked inverts rather than filling with a hue. The 44px target is on the label, not the 20px box, so the hit area is the whole row.',
     css: 'checkbox.css', deps: ['tokens'], demo: 'checkbox' },
 
-  { name: 'switch', category: 'Controls',
+  // Retired by decisions/0019 — the component tier supplies `switch`.
+  { retiredBy: 'switch', name: 'switch', category: 'Controls',
     title: 'Switch',
     blurb: 'A physical switch, not an icon button. Drivable by the spring.',
     description: 'The knob position is a custom property from 0 to 1, so it can be handed to motion.js and re-targeted mid-flight. Without JS it falls back to a transition.',
     css: 'switch.css', deps: ['tokens'], demo: 'switch' },
 
   // ── Feedback ──────────────────────────────────────────────────────────────
-  { name: 'status', category: 'Feedback',
+  // Retired by decisions/0019 — the component tier supplies `badge`.
+  { retiredBy: 'badge', name: 'status', category: 'Feedback',
     title: 'Status',
     blurb: 'A state, not a badge. No green-amber-red, because there is no hue.',
     description: 'State is carried by fill: live is inverted, idle is outlined, retired is faint and dashed. The dot marks live only, and it does not pulse.',
     css: 'status.css', deps: ['tokens'], demo: 'status' },
 
-  { name: 'empty', category: 'Feedback',
+  // Retired by decisions/0019 — the component tier supplies `empty`.
+  { retiredBy: 'empty', name: 'empty', category: 'Feedback',
     title: 'Empty state',
     blurb: 'Names what is missing and what to do. Does not apologise.',
     description: 'The glyph slot takes a mark from the suite at faint, so it reads as furniture rather than an illustration. There is no cartoon.',
     css: 'empty.css', deps: ['tokens'], demo: 'empty' },
 
-  { name: 'toast', category: 'Feedback',
+  // Retired by decisions/0019 — the component tier supplies `sonner`.
+  { retiredBy: 'sonner', name: 'toast', category: 'Feedback',
     title: 'Toast',
     blurb: 'Opacity and 6px of travel. Cross-fades in place under reduced motion.',
     description: 'Floating chrome, so it is the one place glass belongs. A notification that slides across the viewport is asking for attention it has not earned.',
     css: 'toast.css', deps: ['tokens', 'glass'], demo: 'toast' },
 
   // ── Data ──────────────────────────────────────────────────────────────────
-  { name: 'kv', category: 'Data',
+  // Retired by decisions/0019 — the component tier supplies `item`.
+  { retiredBy: 'item', name: 'kv', category: 'Data',
     title: 'Key–value table',
     blurb: 'Rules between rows, never zebra striping. Collapses to one column.',
     description: 'The key is mono because a machine would emit it. The value is sans if it is a word and mono if it is an identifier.',
     css: 'kv.css', deps: ['tokens'], demo: 'kv' },
 
-  { name: 'code', category: 'Data',
+  // Retired by decisions/0019 — the component tier supplies `kbd`.
+  { retiredBy: 'kbd', name: 'code', category: 'Data',
     title: 'Code block',
     blurb: 'No syntax highlighting: that needs colour, and there is none to spend.',
     description: 'A copy control in the corner, mono uppercase so it reads as a key rather than a button competing with the code. Always visible on touch.',
@@ -199,7 +241,9 @@ export const ITEMS = [
     description: 'Straight strokes, round caps, filled nodes at termini, hexagons for anything mechanical. A filled node is a terminus; an open node is a working end.',
     special: 'svgdir', dir: 'icons', demo: 'icons' },
 
-  // ── Bundles ───────────────────────────────────────────────────────────────
+];
+
+const BUNDLES = [
   { name: 'primitives', category: 'Bundles',
     title: 'Primitives',
     blurb: 'label · link · button · glass · figure in one command.',
@@ -211,6 +255,23 @@ export const ITEMS = [
     blurb: 'Every item above, in one command.',
     description: 'Tokens, type, layout, controls, feedback, data and brand. Roughly 30KB of CSS before compression, and you own all of it on copy.',
     bundle: 'all', deps: [] },
+
+  { name: 'suite-react', category: 'Bundles', tier: 'component',
+    title: 'The component tier',
+    blurb: 'Every React component in one command. Needs Tailwind v4.',
+    description: 'The whole component tier, imported from ObsidianUI and re-pointed onto the brand. Pulls a large dependency tree — three animation runtimes and WebGL — so prefer installing the handful you actually use.',
+    bundle: 'all', deps: ['tokens', 'tokens-shadcn'] },
+
 ];
+
+/* The component tier, generated by tools/import-obsidian.mjs. It is appended
+ * rather than merged: the brand tier above is authored and reviewed line by
+ * line, and nothing below this point is. */
+/* Fifteen brand-tier items have an upstream peer and retire (decisions/0019).
+ * Their source stays in this file and on disk: retirement is a line, so a
+ * successor that fails verification is reversible without archaeology. */
+export const RETIRED = BRAND_ITEMS.filter(i => i.retiredBy);
+
+export const ITEMS = [...BRAND_ITEMS.filter(i => !i.retiredBy), ...IMPORTED_ITEMS, ...BUNDLES];
 
 export const byName = Object.fromEntries(ITEMS.map(i => [i.name, i]));

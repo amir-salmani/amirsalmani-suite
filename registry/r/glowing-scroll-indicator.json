@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glowing-scroll-indicator",
+  "type": "registry:block",
+  "title": "Glowing Scroll Indicator",
+  "description": "React block, re-pointed onto the brand. Needs motion.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "scroll"
+  ],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/block/glowing-scroll-indicator.tsx",
+      "type": "registry:block",
+      "target": "@components/block/glowing-scroll-indicator.tsx",
+      "content": "'use client';\n\nimport { motion, MotionValue, useScroll, useTransform } from 'motion/react';\nimport React, { useSyncExternalStore } from 'react';\n\nconst subscribeToDom = (notify: () => void) => {\n    const observer = new MutationObserver(notify);\n    observer.observe(document.body, { childList: true, subtree: true });\n    return () => observer.disconnect();\n};\n\nconst BARS = 40;\n\nconst ScrollBar = ({\n    index,\n    scrollProgress\n}: {\n    index: number;\n    scrollProgress: MotionValue<number>;\n}) => {\n    const thisBarPosition = index / BARS;\n    const preStep = Math.max(0, (index - 3) / BARS);\n    const postStep = Math.min(1, (index + 3) / BARS);\n\n    const height = useTransform(\n        scrollProgress,\n        [0, preStep, thisBarPosition, postStep, 1],\n        [5, 15, 35, 15, 5]\n    );\n    const opacity = useTransform(\n        scrollProgress,\n        [0, preStep, thisBarPosition, postStep, 1],\n        [0.1, 0.4, 1, 0.4, 0.1]\n    );\n    const width = useTransform(scrollProgress, [0, thisBarPosition, 1], [1.5, 5, 1.5]);\n\n    return (\n        <motion.div\n            className=\"bg-[var(--fg)] dark:bg-[var(--fg)]\"\n            style={{\n                height: height,\n                opacity: useTransform(opacity, (value) => `${value}`),\n                width: useTransform(width, (value) => `${value}px`)\n            }}\n        />\n    );\n};\n\nconst ScrollIndicatorBars = ({\n    container,\n    direction\n}: {\n    container: HTMLElement;\n    direction: 'vertical' | 'horizontal';\n}) => {\n    const ref = React.useRef<HTMLElement>(container);\n\n    React.useEffect(() => {\n        ref.current = container;\n    }, [container]);\n\n    const { scrollXProgress, scrollYProgress } = useScroll({ container: ref });\n\n    const scrollProgress = direction === 'vertical' ? scrollYProgress : scrollXProgress;\n    const left = useTransform(scrollProgress, [0, 1], [0, 100]);\n\n    return (\n        <div className=\"flex items-end justify-center gap-1 md:gap-2 relative w-fit\">\n            {Array.from({ length: BARS }).map((_, index) => (\n                <ScrollBar\n                    key={`scroll-bar-${index}`}\n                    index={index}\n                    scrollProgress={scrollProgress}\n                />\n            ))}\n            <motion.div\n                className=\"h-20 bg-[color-mix(in_srgb,var(--fg)_37%,var(--bg))] w-1 absolute bottom-0 left-1/2 -translate-x-1/2\"\n                style={{ left: useTransform(left, (value) => `${value}%`) }}\n            >\n                <div className=\"w-3.5 h-3.5 rounded-full shadow-sm bg-[color-mix(in_srgb,var(--fg)_55%,var(--bg))] absolute top-0 left-1/2 -translate-x-1/2\" />\n            </motion.div>\n        </div>\n    );\n};\n\ninterface GlowingScrollIndicatorProps {\n    scrollContainerId?: string;\n    direction?: 'vertical' | 'horizontal';\n}\n\nexport function GlowingScrollIndicator({\n    scrollContainerId = 'scroll-target',\n    direction = 'vertical'\n}: GlowingScrollIndicatorProps) {\n    const container = useSyncExternalStore(\n        subscribeToDom,\n        () => document.getElementById(scrollContainerId),\n        () => null\n    );\n\n    if (!container) return null;\n\n    return <ScrollIndicatorBars container={container} direction={direction} />;\n}\n\nexport default GlowingScrollIndicator;\n\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "57c7600a323d"
+    }
+  }
+}

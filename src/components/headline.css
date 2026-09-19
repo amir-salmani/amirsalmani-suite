@@ -1,6 +1,6 @@
 /* amirsalmani/headline — the tonal split.
  *
- * Requires tokens.css. The setup clause recedes in --muted at weight 500, the
+ * Requires tokens.css. The setup clause recedes in --fg-muted at weight 500, the
  * payoff lands in --fg at 800. One sentence, two voices (brand.md §3) — a
  * typographic device, not decoration.
  *
@@ -21,7 +21,7 @@
 .as-headline__setup {
   display: block;
   font-weight: 500;
-  color: var(--muted);
+  color: var(--fg-muted);
 }
 
 .as-title {                        /* the page head, one step down */
@@ -38,6 +38,6 @@
 .as-lede {
   font-size: clamp(1.02rem, 1.35vw, 1.175rem);
   line-height: 1.7;
-  color: var(--muted);
+  color: var(--fg-muted);
   max-width: 44ch;
 }

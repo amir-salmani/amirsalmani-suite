@@ -1,22 +1,42 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "button",
-  "type": "registry:file",
+  "type": "registry:ui",
   "title": "Button",
-  "description": "Three weights — glass, solid and quiet — where solid is simply the foreground and background swapped. 44px minimum height on every viewport.",
+  "description": "shadcn primitive, re-pointed onto the brand. Needs @radix-ui/react-slot.",
   "author": "Amir Salmani <hi@amirsalmani.com>",
   "categories": [
     "controls"
   ],
+  "dependencies": [
+    "@radix-ui/react-slot",
+    "class-variance-authority",
+    "clsx",
+    "tailwind-merge"
+  ],
   "registryDependencies": [
-    "tokens"
+    "tokens",
+    "tokens-shadcn"
   ],
   "files": [
     {
-      "path": "styles/button.css",
-      "type": "registry:file",
-      "target": "styles/amirsalmani-button.css",
-      "content": "/* amirsalmani/button — emphasis by inversion, because there is no accent hue.\n *\n * Requires tokens.css. Buttons respond on :active (press), not on release\n * (brand.md §4).\n */\n\n.as-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: .625rem;\n  min-height: 44px;                 /* a tap target, on every viewport */\n  padding: .875rem 1.5rem;\n  border: 1px solid var(--glass-edge);\n  border-radius: 999px;\n  background: var(--glass);\n  -webkit-backdrop-filter: blur(14px) saturate(150%);\n          backdrop-filter: blur(14px) saturate(150%);\n  color: var(--fg);\n  font-family: var(--mono);\n  font-size: .715rem;\n  font-weight: 500;\n  letter-spacing: .16em;\n  text-transform: uppercase;\n  white-space: nowrap;\n  cursor: pointer;\n  text-decoration: none;\n  transition: border-color var(--fast) var(--ease-out),\n              background var(--fast) var(--ease-out),\n              color var(--fast) var(--ease-out);\n}\n.as-btn:hover, .as-btn:focus-visible { border-color: var(--accent); color: var(--accent); }\n.as-btn:active { background: var(--wash); }\n.as-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }\n.as-btn[disabled], .as-btn[aria-disabled=\"true\"] { opacity: .5; pointer-events: none; }\n\n.as-btn--solid { background: var(--fg); color: var(--bg); border-color: var(--fg); }\n.as-btn--solid:hover, .as-btn--solid:focus-visible { color: var(--bg); opacity: .88; }\n.as-btn--quiet { background: transparent; border-color: var(--rule); color: var(--muted); }\n.as-btn--quiet:hover, .as-btn--quiet:focus-visible { color: var(--fg); border-color: var(--fg); }\n\n@media (prefers-reduced-transparency: reduce) {\n  .as-btn {\n    -webkit-backdrop-filter: none; backdrop-filter: none;\n    background: color-mix(in srgb, var(--fg) 9%, var(--bg));\n  }\n  .as-btn--solid { background: var(--fg); }\n  .as-btn--quiet { background: transparent; }\n}\n@media (prefers-contrast: more) {\n  .as-btn { background: var(--bg); border-color: var(--fg); color: var(--fg); }\n  .as-btn--solid { background: var(--fg); color: var(--bg); }\n}\n"
+      "path": "components/ui/button.tsx",
+      "type": "registry:ui",
+      "target": "@ui/button.tsx",
+      "content": "import * as React from \"react\";\nimport { Slot } from \"@radix-ui/react-slot\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst buttonVariants = cva(\n  \"inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive\",\n  {\n    variants: {\n      variant: {\n        default: \"bg-primary text-primary-foreground hover:bg-primary/90\",\n        destructive:\n          \"bg-destructive text-[var(--fg)] hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60\",\n        outline:\n          \"border border-border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50\",\n        secondary:\n          \"bg-secondary text-secondary-foreground hover:bg-secondary/80\",\n        ghost:\n          \"hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50\",\n        link: \"text-primary underline-offset-4 hover:underline\",\n      },\n      size: {\n        default: \"h-9 px-4 py-2 has-[>svg]:px-3\",\n        sm: \"h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5\",\n        lg: \"h-10 rounded-xl px-6 has-[>svg]:px-4\",\n        icon: \"size-9 rounded-full\",\n        \"icon-sm\": \"size-8 rounded-full\",\n        \"icon-lg\": \"size-10 rounded-full\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n);\n\nfunction Button({\n  className,\n  variant,\n  size,\n  asChild = false,\n  ...props\n}: React.ComponentProps<\"button\"> &\n  VariantProps<typeof buttonVariants> & {\n    asChild?: boolean;\n  }) {\n  const Comp = asChild ? Slot : \"button\";\n\n  return (\n    <Comp\n      data-slot=\"button\"\n      className={cn(buttonVariants({ variant, size, className }))}\n      {...props}\n    />\n  );\n}\n\nexport { Button, buttonVariants };\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "@lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n"
     }
-  ]
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "d29b32262520"
+    }
+  }
 }

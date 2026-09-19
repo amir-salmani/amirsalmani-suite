@@ -1,0 +1,16 @@
+.obsidian-scroll-stack[data-contained] .scroll-stack-card {
+  width: 94%;
+  height: calc(var(--scroll-stack-viewport) * 0.64);
+  min-height: 150px;
+  border-radius: 24px;
+  padding: 6%;
+  flex-direction: row;
+}
+.obsidian-scroll-stack[data-contained] .scroll-stack-title { font-size: clamp(22px, 5.5cqw, 44px); }
+.obsidian-scroll-stack[data-contained] .scroll-stack-description { font-size: clamp(12px, 2cqw, 17px); text-align: left; }
+@media (prefers-reduced-motion: reduce) {
+  .obsidian-scroll-stack .scroll-stack-row { min-height: 0; margin-top: 0; padding-bottom: 24px; }
+  .obsidian-scroll-stack .scroll-stack-sticky { position: relative; top: 0; }
+}
+.obsidian-scroll-stack[data-contained] { padding: 0; }
+.obsidian-scroll-stack[data-contained] > div { padding: 8% 4%; }

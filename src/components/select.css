@@ -27,7 +27,7 @@
   transition: border-color var(--fast) var(--ease-out);
 }
 .as-select:hover { border-color: var(--glass-edge); }
-.as-select:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+.as-select:focus { outline: 2px solid var(--fg-accent); outline-offset: 2px; border-color: var(--fg-accent); }
 .as-select[disabled] { opacity: .5; cursor: not-allowed; }
 .as-select option { background: var(--bg); color: var(--fg); }
 

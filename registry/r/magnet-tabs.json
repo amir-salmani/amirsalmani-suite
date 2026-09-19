@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "magnet-tabs",
+  "type": "registry:block",
+  "title": "Magnet Tabs",
+  "description": "React block, re-pointed onto the brand. Needs motion.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "navigation"
+  ],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/block/magnet-tabs.tsx",
+      "type": "registry:block",
+      "target": "@components/block/magnet-tabs.tsx",
+      "content": "'use client';\n\nimport React from 'react';\nimport { motion } from 'motion/react';\n\ninterface MagnetTabsProps {\n    slug: string;\n    options: string[];\n    onSelect: (option: string) => void;\n    activeTab: string;\n}\n\nexport function MagnetTabs({ slug, options, onSelect, activeTab }: MagnetTabsProps) {\n    const [hovered, setHovered] = React.useState<string | undefined>(undefined);\n\n    return (\n        <div className=\"flex items-start justify-start\">\n            <ul className=\"flex border-[1px] border-[var(--bg)]/10 dark:border-[var(--fg)]/10 border-b-0\">\n                {options.map((option) => {\n                    const isActive = activeTab === option;\n                    return (\n                        <li\n                            onMouseEnter={() => setHovered(option)}\n                            onMouseLeave={() => setHovered(undefined)}\n                            key={slug + option}\n                            onClick={() => onSelect(option)}\n                            className=\"relative cursor-pointer shrink-0\"\n                        >\n                            <p\n                                className={`z-10 relative px-3 py-2 transition-all text-sm ${isActive ? 'opacity-100' : 'opacity-50 hover:opacity-100'\n                                    }`}\n                            >\n                                {option}\n                            </p>\n\n                            {isActive && (\n                                <motion.div\n                                    layout\n                                    layoutId={slug + 'magnet'}\n                                    transition={{ duration: 0.2, type: 'spring', bounce: 0.2 }}\n                                    className=\"w-full h-1 absolute bottom-full left-0 bg-[color-mix(in_srgb,var(--fg)_55%,var(--bg))] rounded-sm\"\n                                />\n                            )}\n\n                            {(hovered === option || (hovered === undefined && isActive)) && (\n                                <motion.div\n                                    layout\n                                    layoutId={slug + 'tab-bar-highlight'}\n                                    transition={{ duration: 0.2, type: 'spring', bounce: 0 }}\n                                    className=\"w-full h-full absolute bottom-0 left-0 bg-[var(--bg)]/5 dark:bg-[var(--fg)]/10 rounded-sm\"\n                                />\n                            )}\n                        </li>\n                    );\n                })}\n            </ul>\n        </div>\n    );\n}\n\nexport default MagnetTabs;\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "2df1e34346ba"
+    }
+  }
+}

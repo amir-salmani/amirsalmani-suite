@@ -30,7 +30,7 @@
   border: 1px solid var(--rule);
   border-radius: 6px;
   background: var(--bg);
-  color: var(--muted);
+  color: var(--fg-muted);
   font-family: var(--mono);
   font-size: .62rem;
   font-weight: 500;
@@ -43,7 +43,7 @@
 .as-code:hover .as-code__copy,
 .as-code__copy:focus-visible { opacity: 1; }
 .as-code__copy:hover { color: var(--fg); border-color: var(--fg); }
-.as-code__copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.as-code__copy:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 2px; }
 .as-code__copy[data-copied] { opacity: 1; color: var(--fg); border-color: var(--fg); }
 
 /* A pointer is not guaranteed, so on touch the control is simply always there. */

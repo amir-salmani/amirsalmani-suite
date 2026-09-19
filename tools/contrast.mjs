@@ -15,17 +15,20 @@ import { readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
-import { ITEMS } from '../src/manifest.mjs';
+import { ITEMS, RETIRED } from '../src/manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const css = [];
-for (const item of ITEMS) if (item.css && item.name !== 'fonts') css.push(await readFile(path.join(ROOT, 'src/components', item.css), 'utf8'));
+// RETIRED too: these roles are still drawn by that CSS (decisions/0019).
+for (const item of [...ITEMS, ...RETIRED]) if (item.css && !item.tier && item.name !== 'fonts') css.push(await readFile(path.join(ROOT, 'src/components', item.css), 'utf8'));
 
 const SURFACES = [
   ['dark',                     'data-theme="dark" class="band"'],
   ['light',                    'data-theme="light" class="band"'],
   ['light · alt band, self',   'data-theme="light" class="band band--alt"'],
   ['dark · alt band',          'data-theme="dark" class="band band--alt"'],
+  ['obsidian',                 'data-theme="obsidian" class="band"'],
+  ['obsidian · alt band',      'data-theme="obsidian" class="band band--alt"'],
 ];
 const NESTED = ['light · alt band, nested', 'data-theme="light"', 'class="band band--alt"'];
 
@@ -33,10 +36,10 @@ const NESTED = ['light · alt band, nested', 'data-theme="light"', 'class="band 
 // AA for body text; 3.0 is AA for a ≥24px or bold-≥18.66px figure.
 const PROBES = [
   ['--fg plain',        4.5, '<p style="color:var(--fg)">x</p>'],
-  ['--muted plain',     4.5, '<p style="color:var(--muted)">x</p>'],
-  ['--faint plain',     4.5, '<p style="color:var(--faint)">x</p>'],
+  ['--fg-muted plain',     4.5, '<p style="color:var(--fg-muted)">x</p>'],
+  ['--fg-faint plain',     4.5, '<p style="color:var(--fg-faint)">x</p>'],
   ['label on band',     4.5, '<span class="as-label">x</span>'],
-  ['label faint',       4.5, '<span class="as-label as-label--faint">x</span>'],
+  ['label faint',       4.5, '<span class="as-label as-label--fg-faint">x</span>'],
   ['btn on glass',      4.5, '<button class="as-btn">x</button>'],
   ['btn solid',         4.5, '<button class="as-btn as-btn--solid">x</button>'],
   ['btn quiet',         4.5, '<button class="as-btn as-btn--quiet">x</button>'],

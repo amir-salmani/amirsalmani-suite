@@ -9,6 +9,8 @@ import { readdir, readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ITEMS, byName } from '../src/manifest.mjs';
+import { stat } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'registry', 'r');
@@ -27,8 +29,19 @@ async function svgs(dir) {
   })));
 }
 
-/** The files one item installs, not counting its dependencies'. */
+/** The files one item installs, not counting its dependencies'.
+ *
+ * An imported item carries its own file list, because upstream decides how many
+ * files it is and where they land. tools/import-obsidian.mjs writes those
+ * entries; nothing here is hand-authored. */
 async function filesFor(item) {
+  if (item.files) return Promise.all(item.files.map(async f => ({
+    path: f.path,
+    type: f.type ?? 'registry:file',
+    target: f.target,
+    content: await read(path.join('src/imported', item.name, f.path)),
+  })));
+
   if (item.css) return [{
     path: `styles/${item.css}`,
     type: 'registry:file',
@@ -40,7 +53,7 @@ async function filesFor(item) {
     path: `lib/${item.js}`,
     type: 'registry:file',
     target: item.target ?? `lib/${item.js}`,
-    content: await read(`src/motion/${item.js}`),
+    content: await read(`src/${item.dir ?? 'motion'}/${item.js}`),
   }];
 
   if (item.special === 'made-by') return [
@@ -61,21 +74,47 @@ async function filesFor(item) {
   return [];                                   // a bundle installs nothing itself
 }
 
-/** A bundle is expressed as registryDependencies, so the CLI resolves it. */
+/** A bundle is expressed as registryDependencies, so the CLI resolves it.
+ *
+ * `all` means all of one tier, never both: the brand tier is framework-free CSS
+ * and the component tier needs Tailwind and React. Sweeping them into one
+ * command would hand a plain-CSS consumer a build step they did not ask for. */
 function depsFor(item) {
   if (item.bundle === 'all') {
-    return ITEMS.filter(i => !i.bundle).map(i => i.name);
+    const tier = item.tier ?? 'brand';
+    return ITEMS.filter(i => !i.bundle && (i.tier ?? 'brand') === tier).map(i => i.name);
   }
   return [...new Set([...(item.deps ?? []), ...(item.bundle ?? [])])];
+}
+
+// Two tiers can name the same thing — `button` is authored here and imported
+// from upstream. Last-write-wins produced a registry ten items short and said
+// nothing, so this is fatal: retire one in src/manifest.mjs or rename it.
+const dupes = Object.entries(ITEMS.reduce((m, i) => ((m[i.name] = (m[i.name] ?? 0) + 1), m), {}))
+  .filter(([, n]) => n > 1).map(([n]) => n);
+if (dupes.length) {
+  console.error(`${dupes.length} name collision(s) across tiers:\n  ${dupes.join('\n  ')}`);
+  process.exit(1);
 }
 
 await rm(path.join(ROOT, 'registry'), { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
 
+/* A patch that rewrites an import has changed what the item depends on. Saying
+ * so in the patch keeps the two facts in one file; deriving it from the source
+ * would be a parser, and a wrong one. */
+async function patchMeta(name) {
+  const p = path.join(ROOT, 'patches', `${name}.mjs`);
+  try { await stat(p); } catch { return {}; }
+  return import(pathToFileURL(p).href);
+}
+
 const index = [];
 for (const item of ITEMS) {
   const files = await filesFor(item);
-  const deps = depsFor(item);
+  const { dropNpm = [], addRegistry = [] } = item.tier === 'component' ? await patchMeta(item.name) : {};
+  const deps = [...new Set([...depsFor(item), ...addRegistry])];
+  item.npm = (item.npm ?? []).filter(d => !dropNpm.includes(d));
   const body = {
     $schema: 'https://ui.shadcn.com/schema/registry-item.json',
     name: item.name,
@@ -84,11 +123,13 @@ for (const item of ITEMS) {
     description: item.description,
     author: AUTHOR,
     categories: [item.category.toLowerCase()],
+    ...(item.npm?.length ? { dependencies: item.npm } : {}),
     ...(deps.length ? { registryDependencies: deps } : {}),
     ...(files.length ? { files } : {}),
   };
+  if (item.upstream) body.meta = { upstream: item.upstream };
   await writeFile(path.join(OUT, `${item.name}.json`), JSON.stringify(body, null, 2) + '\n');
-  index.push({ name: item.name, type: body.type, title: item.title, description: item.description, categories: body.categories });
+  index.push({ name: item.name, type: body.type, title: item.title, description: item.description, categories: body.categories, tier: item.tier ?? 'brand' });
 }
 
 await writeFile(path.join(OUT, 'registry.json'), JSON.stringify({

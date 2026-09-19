@@ -12,5 +12,5 @@
   text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
   transition: text-decoration-color var(--fast) var(--ease-out), color var(--fast) var(--ease-out);
 }
-.as-link:hover, .as-link:focus-visible { color: var(--accent); text-decoration-color: currentColor; }
-.as-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.as-link:hover, .as-link:focus-visible { color: var(--fg-accent); text-decoration-color: currentColor; }
+.as-link:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 3px; border-radius: 2px; }

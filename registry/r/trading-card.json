@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "trading-card",
+  "type": "registry:block",
+  "title": "Trading Card",
+  "description": "React block, re-pointed onto the brand. Needs motion.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "dimensional"
+  ],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/block/trading-card.tsx",
+      "type": "registry:block",
+      "target": "@components/block/trading-card.tsx",
+      "content": "\"use client\";\n\nimport { motion, useAnimationControls } from 'motion/react';\nimport React, { useRef } from 'react';\n\ninterface TradingCardProps {\n  imageUrl: string;\n  rank: number;\n  name: string;\n  description: string;\n}\n\nconst TradingCard: React.FC<TradingCardProps> = ({ imageUrl, rank, name, description }) => {\n  const cardRef = useRef<HTMLDivElement>(null);\n\n  const backgroundControls = useAnimationControls();\n  const contentControls = useAnimationControls();\n  const cardControls = useAnimationControls();\n\n  const onMouseEnter: React.MouseEventHandler<HTMLDivElement> = () => {\n    contentControls.start({ x: -300 });\n    backgroundControls.start({ scale: 1.05, opacity: 1 });\n  };\n\n  const onMouseLeave = () => {\n    contentControls.start({ x: 0, transition: { delay: 0.5 } });\n    backgroundControls.start({ scale: 0.95, opacity: 0.4 });\n    cardControls.start({ transform: `rotateY(0deg) rotateX(0deg)` });\n  };\n\n  const onMouseMove: React.MouseEventHandler<HTMLDivElement> = (e) => {\n    if (!cardRef.current) return;\n\n    const rect = cardRef.current?.getBoundingClientRect();\n    if (!rect) return;\n\n    const mx = e.clientX - rect.left;\n    const my = e.clientY - rect.top;\n\n    const width = rect.right - rect.left;\n    const height = rect.bottom - rect.top;\n\n    const xd = (mx - width / 2) / 10;\n    const yd = (height / 2 - my) / 10;\n\n    cardRef.current.style.transform = `perspective(1000px) rotateY(${xd}deg) rotateX(${yd}deg)`;\n  };\n\n  return (\n    <motion.div\n      ref={cardRef}\n      onMouseMove={onMouseMove}\n      onMouseEnter={onMouseEnter}\n      onMouseLeave={onMouseLeave}\n      initial={{\n        transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)'\n      }}\n      style={{\n        transformStyle: 'preserve-3d'\n      }}\n      animate={cardControls}\n      className=\"flex flex-col hover:scale-105 transition-all duration-200 ease-linear items-start justify-end rounded-lg relative shadow-xl overflow-hidden h-[400px] w-[300px] cursor-pointer border-[1px] border-[color-mix(in_srgb,var(--fg)_28%,var(--bg))]\"\n    >\n      <motion.div\n        className=\"h-full w-full absolute z-0\"\n        initial={{\n          opacity: 0.4,\n          scale: 0.95\n        }}\n        animate={backgroundControls}\n        transition={{ duration: 0.7, ease: 'backOut' }}\n      >\n        <div className=\"h-full w-full inset-0 bg-cover bg-center\">\n          <img src={imageUrl} alt={name} fill className=\"object-cover\" />\n        </div>\n      </motion.div>\n      <div className=\"font-semibold absolute top-5 right-5 z-10 text-[var(--fg)]/70\">#{rank}</div>\n      <motion.div\n        animate={contentControls}\n        transition={{ duration: 0.5, ease: 'backOut' }}\n        className=\"p-5 h-full w-full flex flex-col justify-end bg-transparent z-10 opacity-90\"\n      >\n        <div className=\"font-medium\">\n          {name.split(' ').map((word) => {\n            return (\n              <div\n                key={word}\n                className=\"flex flex-col items-start justify-start text-4xl font-bold\"\n              >\n                {word} <br />\n              </div>\n            );\n          })}\n        </div>\n        <p className=\"text-sm text-[var(--fg)]/90\">{description}</p>\n      </motion.div>\n    </motion.div>\n  );\n};\n\nexport default TradingCard;\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "d94924f51bdc"
+    }
+  }
+}

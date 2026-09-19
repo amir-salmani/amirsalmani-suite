@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-stack",
+  "type": "registry:block",
+  "title": "Scroll Stack",
+  "description": "React block, re-pointed onto the brand. Needs gsap.",
+  "author": "Amir Salmani <hi@amirsalmani.com>",
+  "categories": [
+    "scroll"
+  ],
+  "dependencies": [
+    "gsap"
+  ],
+  "registryDependencies": [
+    "tokens",
+    "tokens-shadcn"
+  ],
+  "files": [
+    {
+      "path": "components/block/scroll-stack.jsx",
+      "type": "registry:block",
+      "target": "@components/block/scroll-stack.jsx",
+      "content": "\"use client\";\n\nimport { useEffect, useRef } from \"react\";\nimport gsap from \"gsap\";\nimport ScrollTrigger from \"gsap/ScrollTrigger\";\nimport \"@/lib/effects/scroll-stack/styles.css\";\n\nif (typeof window !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n/** @param {{bgColor?: string, cards?: Array<{id: string | number, title: string, description: string, bgColor: string, textColor: string}>,\n * scroller?: HTMLElement | import('react').RefObject<HTMLElement | null>, viewportHeight?: string, contained?: boolean, className?: string}} props */\nexport function ScrollStack({ bgColor = \"bg-[var(--fg)]\", cards = [], scroller, viewportHeight = \"100vh\", contained = false, className = \"\" }) {\n  const sectionRef = useRef(null);\n  const rowRefs = useRef([]);\n  const cardRefs = useRef([]);\n\n  useEffect(() => {\n    rowRefs.current = rowRefs.current.slice(0, cards.length);\n    cardRefs.current = cardRefs.current.slice(0, cards.length);\n\n    const media = gsap.matchMedia();\n    media.add(\"(prefers-reduced-motion: no-preference)\", () => {\n      const currentCards = cardRefs.current.filter(Boolean);\n      const currentRows = rowRefs.current.filter(Boolean);\n\n      currentCards.forEach((card, index) => {\n        gsap.set(card, {\n          autoAlpha: 1,\n          scale: index === 0 ? 1 : 1.1,\n          transformOrigin: \"center center\",\n        });\n      });\n\n      currentCards.slice(0, -1).forEach((card, index) => {\n        const nextRow = currentRows[index + 1];\n        const nextCard = currentCards[index + 1];\n        if (!nextRow || !nextCard) return;\n\n        const handoff = gsap.timeline({\n          scrollTrigger: {\n            trigger: nextRow,\n            scroller: scroller?.current !== undefined ? scroller.current : scroller,\n            start: \"top bottom+=20%\",\n            end: \"top top-=28%\",\n            scrub: true,\n            invalidateOnRefresh: true,\n          },\n        });\n\n        handoff.to(nextCard, { scale: 1, ease: \"none\" }, 0);\n\n        gsap.to(card, {\n          autoAlpha: 0,\n          ease: \"none\",\n          scrollTrigger: {\n            trigger: nextRow,\n            scroller: scroller?.current !== undefined ? scroller.current : scroller,\n            start: \"top top+=14%\",\n            end: \"top top+=2%\",\n            scrub: true,\n            invalidateOnRefresh: true,\n          },\n        });\n      });\n\n    }, sectionRef);\n\n    return () => media.revert();\n  }, [cards, scroller]);\n\n  return (\n    <section\n      ref={sectionRef}\n      data-contained={contained || undefined}\n      className={`obsidian-scroll-stack py-[7%] max-sm:py-[15%] font-body ${bgColor} ${className}`}\n      style={{ '--scroll-stack-viewport': viewportHeight, containerType: 'inline-size' }}\n    >\n      <div className=\"flex w-full flex-col items-center px-[5%] py-[10cqw]\">\n        {cards.map((item, index) => (\n          <div\n            key={item.id}\n            ref={(element) => {\n              rowRefs.current[index] = element;\n            }}\n            className={`scroll-stack-row relative w-full min-h-[calc(var(--scroll-stack-viewport)*1.8)] max-sm:min-h-[calc(var(--scroll-stack-viewport)*1.3)] ${\n              index === 0 ? \"\" : \"-mt-[calc(var(--scroll-stack-viewport)*0.7)] max-sm:-mt-[calc(var(--scroll-stack-viewport)*0.5)]\"\n            }`}\n          >\n            <div className=\"scroll-stack-sticky sticky top-[calc(var(--scroll-stack-viewport)*0.15)] max-sm:top-[calc(var(--scroll-stack-viewport)*0.1)]\" style={{ zIndex: index + 1 }}>\n              <div\n                ref={(element) => {\n                  cardRefs.current[index] = element;\n                }}\n                className=\"scroll-stack-card mx-auto flex h-[32cqw] w-[80%] items-center justify-between gap-[4cqw] rounded-[45px] px-[4cqw] py-[3cqw] max-sm:h-auto max-sm:min-h-[50cqw] max-sm:w-full max-sm:flex-col max-sm:rounded-[9cqw] max-sm:px-[8cqw] max-sm:py-[15cqw]\"\n                style={{ backgroundColor: item.bgColor }}\n              >\n                <div className=\"w-[50%] max-sm:w-full\">\n                  <h2\n                    className=\"scroll-stack-title w-full font-heading text-[5.5cqw] font-medium leading-[1.1] max-sm:text-[10cqw]\"\n                    style={{ color: item.textColor }}\n                  >\n                    {item.title}\n                  </h2>\n                </div>\n                <div className=\"flex w-[50%] flex-col justify-center gap-[2cqw] max-sm:w-full max-sm:gap-[7cqw]\">\n                  <p\n                    className=\"scroll-stack-description w-full text-justify text-[1.3cqw] leading-[1.5] max-sm:text-center max-sm:text-[4.5cqw]\"\n                    style={{ color: item.textColor }}\n                  >\n                    {item.description}\n                  </p>\n                </div>\n              </div>\n            </div>\n          </div>\n        ))}\n      </div>\n    </section>\n  );\n}\n\n"
+    },
+    {
+      "path": "lib/effects/scroll-stack/styles.css",
+      "type": "registry:file",
+      "target": "@lib/effects/scroll-stack/styles.css",
+      "content": ".obsidian-scroll-stack[data-contained] .scroll-stack-card {\n  width: 94%;\n  height: calc(var(--scroll-stack-viewport) * 0.64);\n  min-height: 150px;\n  border-radius: 24px;\n  padding: 6%;\n  flex-direction: row;\n}\n.obsidian-scroll-stack[data-contained] .scroll-stack-title { font-size: clamp(22px, 5.5cqw, 44px); }\n.obsidian-scroll-stack[data-contained] .scroll-stack-description { font-size: clamp(12px, 2cqw, 17px); text-align: left; }\n@media (prefers-reduced-motion: reduce) {\n  .obsidian-scroll-stack .scroll-stack-row { min-height: 0; margin-top: 0; padding-bottom: 24px; }\n  .obsidian-scroll-stack .scroll-stack-sticky { position: relative; top: 0; }\n}\n.obsidian-scroll-stack[data-contained] { padding: 0; }\n.obsidian-scroll-stack[data-contained] > div { padding: 8% 4%; }\n"
+    }
+  ],
+  "meta": {
+    "upstream": {
+      "source": "https://www.obsidianui.dev/r/registry.json",
+      "imported": "2026-09-19",
+      "sha": "099b222de9c4"
+    }
+  }
+}
