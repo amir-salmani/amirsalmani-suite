@@ -1,0 +1,27 @@
+{
+  "name": "amirsalmani-suite",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The Amir Salmani suite \u2014 a shadcn registry with a catalogue in front of it.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "import": "node tools/import-obsidian.mjs && node tools/repoint.mjs",
+    "build": "node tools/build-registry.mjs && node tools/build-site.mjs",
+    "proof": "node tools/semantic-only.mjs && node tools/motion-proof.mjs && node tools/stage.mjs && node tools/contrast.mjs && node tools/component-proof.mjs && node tools/catalogue-proof.mjs && node tools/lockup-proof.mjs",
+    "reconcile": "node tools/reconcile-upstream.mjs",
+    "repoint": "node tools/repoint.mjs",
+    "semantic": "node tools/semantic-only.mjs",
+    "stage": "node tools/stage.mjs",
+    "verify": "node tools/verify-scaffold.mjs && node tools/build-demos.mjs && node tools/stage.mjs && npm --prefix verify run build",
+    "docs": "node tools/fetch-docs.mjs",
+    "demos": "node tools/build-demos.mjs",
+    "record": "node tools/build-demos.mjs && node tools/verify-scaffold.mjs && node tools/stage.mjs && npm --prefix verify run build && node tools/record-demos.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.0"
+  }
+}

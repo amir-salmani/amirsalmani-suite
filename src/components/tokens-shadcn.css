@@ -1,0 +1,113 @@
+/* amirsalmani/tokens-shadcn — the bridge the component tier arrives through.
+ *
+ * Every component above the brand tier is imported from ObsidianUI
+ * (decisions/0019) and names shadcn's semantic tokens. None of them ship a
+ * theme: 0 of 102 registry items carry cssVars. This file is that theme, and
+ * it is the only place the two vocabularies meet — so a component is re-pointed
+ * once here rather than 102 times in its own source.
+ *
+ * Requires tokens.css. Tailwind v4 only: the @theme block is a Tailwind
+ * directive and plain-CSS consumers must not load this file.
+ *
+ * Two of shadcn's names mean the opposite of what this suite used them for.
+ * shadcn's --muted and --accent are *surfaces*; ours were *foregrounds*. Ours
+ * were renamed to --fg-muted and --fg-accent rather than fight for the name,
+ * because the imported source cannot be asked to change and ours can.
+ */
+
+:root {
+  /* Ground and ink. */
+  --background: var(--bg);
+  --foreground: var(--fg);
+
+  /* Cards and popovers sit on the ground and are separated by a rule and a
+     shadow, not by a fill. One mapping then works on cream, on indigo and on
+     black — a lifted fill would need re-picking per ground. */
+  --card: var(--bg);
+  --card-foreground: var(--fg);
+  --popover: var(--bg);
+  --popover-foreground: var(--fg);
+
+  /* Emphasis is inversion, because there is no accent hue to spend. This is
+     the same argument button.css already makes. */
+  --primary: var(--fg);
+  --primary-foreground: var(--bg);
+
+  --secondary: var(--wash);
+  --secondary-foreground: var(--fg);
+
+  --muted: var(--wash);
+  --muted-foreground: var(--fg-muted);
+
+  /* shadcn's accent is the hover surface, not an accent colour. */
+  --accent: var(--glass);
+  --accent-foreground: var(--fg);
+
+  /* No red. field.css already marks an invalid control with the full-strength
+     foreground; state is carried by fill, weight and rules throughout. */
+  --destructive: var(--fg-accent);
+  --destructive-foreground: var(--bg);
+
+  --border: var(--rule);
+  --input: var(--rule);
+  --ring: var(--fg-accent);
+
+  --sidebar: var(--bg);
+  --sidebar-foreground: var(--fg);
+  --sidebar-primary: var(--fg);
+  --sidebar-primary-foreground: var(--bg);
+  --sidebar-accent: var(--glass);
+  --sidebar-accent-foreground: var(--fg);
+  --sidebar-border: var(--rule);
+  --sidebar-ring: var(--fg-accent);
+
+  /* A chart with five hues would be the accent policy broken five times over,
+     so the series are separated by lightness against the ground instead. */
+  --chart-1: color-mix(in srgb, var(--fg) 100%, transparent);
+  --chart-2: color-mix(in srgb, var(--fg) 78%, transparent);
+  --chart-3: color-mix(in srgb, var(--fg) 58%, transparent);
+  --chart-4: color-mix(in srgb, var(--fg) 40%, transparent);
+  --chart-5: color-mix(in srgb, var(--fg) 26%, transparent);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+}
