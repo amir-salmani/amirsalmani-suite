@@ -11,7 +11,7 @@
   "scripts": {
     "import": "node tools/import-obsidian.mjs && node tools/repoint.mjs",
     "build": "node tools/build-registry.mjs && node tools/build-site.mjs",
-    "proof": "node tools/semantic-only.mjs && node tools/motion-proof.mjs && node tools/stage.mjs && node tools/contrast.mjs && node tools/component-proof.mjs && node tools/catalogue-proof.mjs && node tools/lockup-proof.mjs",
+    "proof": "node tools/semantic-only.mjs && node tools/motion-proof.mjs && node tools/stage.mjs && node tools/contrast.mjs && node tools/component-proof.mjs && node tools/catalogue-proof.mjs && node tools/lockup-proof.mjs && node tools/css-audit.mjs",
     "reconcile": "node tools/reconcile-upstream.mjs",
     "repoint": "node tools/repoint.mjs",
     "semantic": "node tools/semantic-only.mjs",
