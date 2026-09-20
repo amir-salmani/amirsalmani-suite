@@ -1,5 +1,6 @@
 node_modules/
 dist/
+registry/
 verify/src/suite/
 verify/src/demos/
 verify/src/demos.generated.ts
@@ -7,7 +8,17 @@ verify/public/suite/plates/
 .record-tmp/
 
 # Produced by CI and baked into the image (templates/deploy). Committing them
-# rewrote 2.6MB of binaries into history on every re-record.
+# rewrote megabytes of binaries into history on every run.
 src/demos-video/
 src/plates/
 src/demos-usage.json
+
+# Proof sheets, rewritten by every `npm run proof`. docs/proof.png and
+# docs/proof-icons.png are NOT here: geometry.md cites them, so they are
+# evidence rather than output.
+docs/catalogue-*.png
+docs/landing-*.png
+docs/item-*.png
+docs/lockup.png
+docs/proof-components.png
+docs/proof-prefs-transparency.png
