@@ -53,6 +53,12 @@ async function demoFor(item) {
 // live preview gets its behaviour from catalogue.js instead.
 const stripScript = s => s.replace(/\n?[ \t]*<script[\s\S]*?<\/script>/g, '');
 
+/* A demo is a specimen, and the headline specimen is an <h1> — correct on its
+ * own, wrong once it is injected into a page that already has one. Demoted two
+ * levels so the document keeps a single top heading and the outline still
+ * nests. */
+const demoteHeadings = s => s.replace(/<(\/?)h([1-4])\b/g, (_, close, n) => `<${close}h${Math.min(6, +n + 2)}`);
+
 // ── the CSS bundle, in manifest order so tokens land first ──────────────────
 //
 // RETIRED is included. Those fifteen no longer ship as registry items
@@ -211,7 +217,7 @@ const catalogue = `${head({
   <main class="main">
     <section class="index" id="index">
       <div class="as-sec-head">
-        <h2 class="as-sec-head__title">All ${ITEMS.length} items</h2>
+        <h1 class="as-sec-head__title">All ${ITEMS.length} items</h1>
         <span class="as-sec-head__rule"></span>
       </div>
       <p class="as-lede index__note">
@@ -327,7 +333,7 @@ ${item.upstream ? `        <p class="as-label as-label--fg-faint">Imported from 
     </div>
 
     ${preview ? `<div class="item__preview"><span class="as-label as-label--fg-faint item__tag">Live</span>
-${stripScript(preview)}
+${demoteHeadings(stripScript(preview))}
     </div>` : ''}
     ${recorded.has(item.name) ? `<div class="item__media">
       <video src="../../demos/${item.name}.webm" poster="../../demos/${item.name}.png"

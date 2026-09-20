@@ -1,10 +1,10 @@
 ---
 type: Index
 title: The Amir Salmani suite
-description: Thirty items drawn to one brand — two grounds, no accent hue — served as a shadcn registry with a static catalogue in front of it.
+description: Two tiers in one registry — a brand written here, 103 components imported from ObsidianUI and re-pointed onto it — served across three static surfaces on amirsalmani.com/suite.
 status: active
 created: 2026-09-15
-timestamp: 2026-09-15
+timestamp: 2026-09-20
 format: Open Knowledge Format
 tags: [brand, icons, components, design-system, registry, catalogue]
 project:
@@ -83,16 +83,26 @@ npm run import      # fetch upstream, write src/imported/, apply patches/
 npm run verify      # build all 103 in a real bundler
 npm run record      # film one demo per documented item
 npm run build       # registry + the three surfaces
-npm run proof       # every gate
+npm run proof       # every gate — each can fail, and each has
+npm run sheets      # the contact sheets. Generators, not gates
 npm run reconcile   # has upstream moved under us?
+npm run ci          # all of it, in the order CI runs it
 ```
+
+`proof` and `sheets` are separate because they are different things.
+`component-proof`, `lockup-proof` and `proof` render evidence and cannot fail;
+they sat inside a chain called `proof` and looked like checks. A check that has
+never failed may not be checking.
 
 Each gate exists because something was wrong. `semantic-only` found 359 Tailwind
 palette utilities a hex scan could not see. `stage` found five conflicting copies
 of one shared file. `verify` found ten components that only work inside Next.js
 and one that does not build against its own declared dependency. `motion-proof`
 found that the reduced-motion gap was six items and not the seventy-four a grep
-had claimed.
+had claimed. `css-audit` found a second stale width cap sitting beside the one
+that had already cost two rounds of bug reports. `html-audit` found a catalogue
+with no `h1` and an item page with two — its live specimen ships a heading,
+which is right in a specimen and wrong once injected into a page that has one.
 
 | Category | |
 |---|---|

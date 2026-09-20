@@ -11,7 +11,7 @@
   "scripts": {
     "import": "node tools/import-obsidian.mjs && node tools/repoint.mjs",
     "build": "node tools/build-registry.mjs && node tools/build-site.mjs",
-    "proof": "node tools/semantic-only.mjs && node tools/motion-proof.mjs && node tools/stage.mjs && node tools/contrast.mjs && node tools/component-proof.mjs && node tools/catalogue-proof.mjs && node tools/lockup-proof.mjs && node tools/css-audit.mjs",
+    "proof": "node tools/semantic-only.mjs && node tools/motion-proof.mjs && node tools/stage.mjs && node tools/contrast.mjs && node tools/catalogue-proof.mjs && node tools/html-audit.mjs && node tools/css-audit.mjs",
     "reconcile": "node tools/reconcile-upstream.mjs",
     "repoint": "node tools/repoint.mjs",
     "semantic": "node tools/semantic-only.mjs",
@@ -20,7 +20,8 @@
     "docs": "node tools/fetch-docs.mjs",
     "demos": "node tools/build-demos.mjs",
     "record": "node tools/build-demos.mjs && node tools/verify-scaffold.mjs && node tools/stage.mjs && npm --prefix verify run build && node tools/record-demos.mjs",
-    "ci": "node tools/import-obsidian.mjs --offline && node tools/repoint.mjs && node tools/build-plates.mjs && node tools/fetch-docs.mjs --offline && node tools/build-demos.mjs && node tools/verify-scaffold.mjs && node tools/stage.mjs && npm --prefix verify ci && npm --prefix verify run build && node tools/record-demos.mjs && node tools/build-registry.mjs && node tools/build-site.mjs && npm run proof"
+    "ci": "node tools/import-obsidian.mjs --offline && node tools/repoint.mjs && node tools/build-plates.mjs && node tools/fetch-docs.mjs --offline && node tools/build-demos.mjs && node tools/verify-scaffold.mjs && node tools/stage.mjs && npm --prefix verify ci && npm --prefix verify run build && node tools/record-demos.mjs && node tools/build-registry.mjs && node tools/build-site.mjs && npm run proof",
+    "sheets": "node tools/component-proof.mjs && node tools/lockup-proof.mjs && node tools/proof.mjs"
   },
   "devDependencies": {
     "playwright": "^1.62.0"
