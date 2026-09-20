@@ -66,6 +66,10 @@ if roll "$IMAGE"; then
 	printf '%s\n' "$IMAGE" > "$APPLIED"
 	docker image prune -f --filter 'until=168h' >/dev/null 2>&1 || true
 	echo "live: $IMAGE"
+	# Only here: the box is the one thing that knows a rotation came up healthy.
+	# No-ops unless the service configured a credential.
+	SERVICE="$SERVICE" HOST="$HOST" PATHS="${PATHS:-}" SERVICE_BASE="$BASE" \
+		deploy/purge.sh || true
 else
 	echo "FAILED to come up healthy on $IMAGE"
 	# A rollback that cannot run is worse than none: the previous image may have
