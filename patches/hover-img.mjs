@@ -15,8 +15,11 @@ export default [
   ['import React, { useRef, useEffect } from "react";',
    'import React, { useRef, useEffect } from "react";\nimport { useReducedMotion } from "motion/react";'],
   ['    useEffect(() => {', '    const reduceMotion = useReducedMotion();\n\n    useEffect(() => {'],
-  ['        xToRef.current = gsap.quickTo(projectThumbnail, "x", {',
-   '        xToRef.current = gsap.quickTo(projectThumbnail, "x", {\n            duration: reduceMotion ? 0 : undefined,'],
-  ['        yToRef.current = gsap.quickTo(projectThumbnail, "y", {',
-   '        yToRef.current = gsap.quickTo(projectThumbnail, "y", {\n            duration: reduceMotion ? 0 : undefined,'],
+  /* Replace the duration rather than prepend one. The first version inserted a
+   * second `duration:` above the existing `duration: 0.4`, so the later key won
+   * and the guard did nothing — a reduced-motion path that was never taken, and
+   * motion-proof could not see it because the file still said useReducedMotion.
+   * tsc caught it as a duplicate object key. */
+  ['            duration: 0.4,\n            ease: "power3.out",',
+   '            duration: reduceMotion ? 0 : 0.4,\n            ease: "power3.out",'],
 ];

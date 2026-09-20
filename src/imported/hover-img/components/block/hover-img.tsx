@@ -64,13 +64,11 @@ export function HoverImg({ projects = defaultProjects, className, isContained = 
         gsap.set(projectThumbnail, { scale: 0, xPercent: -50, yPercent: -50 });
 
         xToRef.current = gsap.quickTo(projectThumbnail, "x", {
-            duration: reduceMotion ? 0 : undefined,
-            duration: 0.4,
+            duration: reduceMotion ? 0 : 0.4,
             ease: "power3.out",
         });
         yToRef.current = gsap.quickTo(projectThumbnail, "y", {
-            duration: reduceMotion ? 0 : undefined,
-            duration: 0.4,
+            duration: reduceMotion ? 0 : 0.4,
             ease: "power3.out",
         });
 

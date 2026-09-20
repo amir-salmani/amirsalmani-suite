@@ -28,7 +28,19 @@ const IMPLIED = ['next', 'next-themes'];
  * and React shipped 19.3, so `latest` cannot be installed alongside the seven
  * WebGL items. This is a real constraint on anyone installing them, not a
  * quirk of this app — measured 2026-09-19. */
-const PINNED = { react: '~19.2.0', 'react-dom': '~19.2.0' };
+const PINNED = {
+  react: '~19.2.0',
+  'react-dom': '~19.2.0',
+
+  /* Three shadcn primitives upstream copied at an older major of their library,
+   * and the libraries have since renamed things. react-resizable-panels@4
+   * renamed PanelGroup to Group, so `ResizablePrimitive.PanelGroup` is undefined
+   * at render — and a namespace import means the bundler never complains. The
+   * component builds and then throws. Measured 2026-09-20; tsc is what found it. */
+  'react-resizable-panels': '^2.1.9',
+  recharts: '^2.15.4',
+  'react-day-picker': '^9.11.1',
+};
 
 const pkg = {
   name: 'amirsalmani-suite-verify',

@@ -71,7 +71,7 @@ const TradingCard: React.FC<TradingCardProps> = ({ imageUrl, rank, name, descrip
         transition={{ duration: 0.7, ease: 'backOut' }}
       >
         <div className="h-full w-full inset-0 bg-cover bg-center">
-          <img src={imageUrl} alt={name} fill className="object-cover" />
+          <img src={imageUrl} alt={name} className="absolute inset-0 h-full w-full object-cover" />
         </div>
       </motion.div>
       <div className="font-semibold absolute top-5 right-5 z-10 text-[var(--fg)]/70">#{rank}</div>

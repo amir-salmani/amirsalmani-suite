@@ -30,7 +30,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist', 'suite');
 const ALL = process.argv.includes('--all');
 
-const css = await readFile(path.join(DIST, 'suite.css'), 'utf8');
+// The stylesheet is named for a hash of its bytes, so it is found rather than named.
+const sheet = (await readdir(DIST)).find(f => /^suite\.[0-9a-f]{8}\.css$/.test(f));
+if (!sheet) { console.error('no built stylesheet in dist/suite — run npm run build'); process.exit(1); }
+const css = await readFile(path.join(DIST, sheet), 'utf8');
 
 async function* pages(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
