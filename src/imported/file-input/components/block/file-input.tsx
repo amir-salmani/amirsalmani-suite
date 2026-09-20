@@ -345,7 +345,6 @@ const Preview = ({ file }: { file: File }) => {
           onLoad={() => setPreviewLoaded(true)}
           src={imagePreview}
           alt="File preview"
-          fill
           className="w-full h-full object-cover"
         />
       ) : (

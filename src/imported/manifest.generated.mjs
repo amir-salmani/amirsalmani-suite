@@ -37,7 +37,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "57d55c8ae695"
     }
   },
@@ -74,7 +74,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "48fd32035cd3"
     }
   },
@@ -114,7 +114,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "85801ce47a06"
     }
   },
@@ -160,7 +160,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "8356935257d1"
     }
   },
@@ -196,7 +196,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "f1fff8611cfe"
     }
   },
@@ -233,7 +233,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "17cf0b386d3a"
     }
   },
@@ -292,7 +292,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "bddf83173f67"
     }
   },
@@ -329,7 +329,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "15a39ea3647d"
     }
   },
@@ -368,7 +368,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "eda0f1a75b2c"
     }
   },
@@ -405,7 +405,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "d29b32262520"
     }
   },
@@ -448,7 +448,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "f43392e5fc58"
     }
   },
@@ -492,7 +492,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "11e33e98f681"
     }
   },
@@ -527,7 +527,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "8dd02b3ca800"
     }
   },
@@ -571,7 +571,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "5bfe29cf8599"
     }
   },
@@ -607,7 +607,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "e31c16b2e826"
     }
   },
@@ -644,7 +644,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "cd39771de3b7"
     }
   },
@@ -681,7 +681,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "c736b4eb21dd"
     }
   },
@@ -711,7 +711,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "c0066632b050"
     }
   },
@@ -740,7 +740,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "38437c4c17d1"
     }
   },
@@ -777,7 +777,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "e03dbcdce8a7"
     }
   },
@@ -820,7 +820,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "1c8653919023"
     }
   },
@@ -857,7 +857,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "82cf43ef7e5a"
     }
   },
@@ -899,7 +899,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "aa762a9c9a78"
     }
   },
@@ -936,7 +936,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "7d7fb3af7361"
     }
   },
@@ -971,7 +971,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "1bee5c3275f4"
     }
   },
@@ -1006,7 +1006,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "ae764c1a860c"
     }
   },
@@ -1040,7 +1040,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "c6d1aff04c80"
     }
   },
@@ -1076,7 +1076,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "74ca24891353"
     }
   },
@@ -1113,7 +1113,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "7ea604131420"
     }
   },
@@ -1149,7 +1149,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "2687532758a0"
     }
   },
@@ -1197,7 +1197,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "15feae5b8395"
     }
   },
@@ -1234,7 +1234,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "b3b3d35ced84"
     }
   },
@@ -1263,7 +1263,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "3b7fdd5d9892"
     }
   },
@@ -1298,7 +1298,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "c09955410d61"
     }
   },
@@ -1327,7 +1327,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "be80d18cfdf2"
     }
   },
@@ -1388,7 +1388,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "fde85dfd6756"
     }
   },
@@ -1415,7 +1415,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "16ec22e8dafc"
     }
   },
@@ -1458,7 +1458,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "64e393669d72"
     }
   },
@@ -1499,7 +1499,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "ae7de9588958"
     }
   },
@@ -1528,7 +1528,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "57c7600a323d"
     }
   },
@@ -1568,7 +1568,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "249da41db73d"
     }
   },
@@ -1597,7 +1597,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "87227d96580e"
     }
   },
@@ -1633,7 +1633,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "1dcb59860848"
     }
   },
@@ -1667,7 +1667,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "50d42a84e335"
     }
   },
@@ -1702,7 +1702,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "1fa7deb4eecd"
     }
   },
@@ -1754,7 +1754,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "cc539017b0f6"
     }
   },
@@ -1791,7 +1791,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "51f51ab02050"
     }
   },
@@ -1864,7 +1864,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "5c85b69e666d"
     }
   },
@@ -1899,7 +1899,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "faaf374be3a1"
     }
   },
@@ -1935,7 +1935,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "fa9b9a52626b"
     }
   },
@@ -1977,7 +1977,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "e7e310db4bab"
     }
   },
@@ -2020,7 +2020,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "3ea9818e99b6"
     }
   },
@@ -2049,7 +2049,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "ec04d2737558"
     }
   },
@@ -2084,7 +2084,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "1b08288677fd"
     }
   },
@@ -2120,7 +2120,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "72612c5b0eb0"
     }
   },
@@ -2157,7 +2157,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "f4bc14f71848"
     }
   },
@@ -2186,7 +2186,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "2df1e34346ba"
     }
   },
@@ -2221,7 +2221,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "9d9f30f54bb9"
     }
   },
@@ -2257,7 +2257,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "341a581fc77d"
     }
   },
@@ -2286,7 +2286,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "97a818b620b0"
     }
   },
@@ -2323,7 +2323,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "38c947993999"
     }
   },
@@ -2361,7 +2361,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "fef567bf579f"
     }
   },
@@ -2398,7 +2398,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "b8161aa213e5"
     }
   },
@@ -2441,7 +2441,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "a857c111279b"
     }
   },
@@ -2471,7 +2471,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "4711be580cee"
     }
   },
@@ -2500,7 +2500,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "f9ecec09190c"
     }
   },
@@ -2542,7 +2542,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "a125d18e3c1f"
     }
   },
@@ -2571,7 +2571,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "2a68999cd5c9"
     }
   },
@@ -2607,7 +2607,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "e856abde4f21"
     }
   },
@@ -2643,7 +2643,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "967097d32d2b"
     }
   },
@@ -2680,7 +2680,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "8ad489bf9c28"
     }
   },
@@ -2722,7 +2722,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "f564438099ed"
     }
   },
@@ -2758,7 +2758,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "e5c0cb3f2675"
     }
   },
@@ -2795,7 +2795,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "45fadcca278a"
     }
   },
@@ -2830,7 +2830,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "7e1aa22065a0"
     }
   },
@@ -2867,7 +2867,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "08891504e4f5"
     }
   },
@@ -2903,7 +2903,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "8264e6a829f4"
     }
   },
@@ -2944,7 +2944,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "a9bb3591782c"
     }
   },
@@ -2978,7 +2978,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "099b222de9c4"
     }
   },
@@ -3015,7 +3015,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "5a44c1346fcd"
     }
   },
@@ -3051,7 +3051,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "6e1c1391cd11"
     }
   },
@@ -3088,7 +3088,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "d00cbf503986"
     }
   },
@@ -3164,7 +3164,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "051164b2a27e"
     }
   },
@@ -3201,7 +3201,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "ae9e09987a51"
     }
   },
@@ -3236,7 +3236,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "7b1262b4c849"
     }
   },
@@ -3265,7 +3265,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "946797713929"
     }
   },
@@ -3301,7 +3301,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "36ba77d52de0"
     }
   },
@@ -3330,7 +3330,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "2a937283c169"
     }
   },
@@ -3361,7 +3361,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "0fb454dbbe4d"
     }
   },
@@ -3397,7 +3397,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "d8046091e5ad"
     }
   },
@@ -3426,7 +3426,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "9b9f5eb3c4a3"
     }
   },
@@ -3460,7 +3460,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "ef93bbd9e889"
     }
   },
@@ -3496,7 +3496,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "248ee6bc304f"
     }
   },
@@ -3531,7 +3531,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "e83789032f2f"
     }
   },
@@ -3567,7 +3567,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "fbacb969032b"
     }
   },
@@ -3608,7 +3608,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "af006186aa35"
     }
   },
@@ -3649,7 +3649,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "eb341f3a6b32"
     }
   },
@@ -3684,7 +3684,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "f9478eb01780"
     }
   },
@@ -3721,7 +3721,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "287010db95e2"
     }
   },
@@ -3764,7 +3764,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "a752cd242e2f"
     }
   },
@@ -3800,7 +3800,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "60a8773ebb5c"
     }
   },
@@ -3829,7 +3829,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "d94924f51bdc"
     }
   },
@@ -3875,7 +3875,7 @@ export const IMPORTED_ITEMS = [
     ],
     "upstream": {
       "source": "https://www.obsidianui.dev/r/registry.json",
-      "imported": "2026-09-19",
+      "imported": "2026-09-20",
       "sha": "1a4409ec79e9"
     }
   }

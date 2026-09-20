@@ -4,6 +4,15 @@
 :80 {
 	root * /srv
 	encode zstd gzip
+
+	# Hashed assets are named for their own bytes: a change changes the URL, so
+	# they can be held for a year and never need purging. Everything else —
+	# HTML, the registry JSON, the recordings — revalidates, because those names
+	# are stable and their contents are not.
+	@immutable path_regexp \.[0-9a-f]{8}\.(css|js)$
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+	header Cache-Control "public, max-age=0, must-revalidate"
+
 	file_server {
 		precompressed br gzip
 	}

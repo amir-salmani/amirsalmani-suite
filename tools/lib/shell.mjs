@@ -10,6 +10,9 @@
  * attribution line — on amirsalmani.com, authorship is the domain.
  */
 
+/* Asset names are placeholders until build-site writes them: each file is named
+ * for a hash of its own bytes, which is only known once the bytes exist. That is
+ * what lets them be cached for a year and never purged. */
 export const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 export const attr = s => esc(s).replace(/"/g, '&quot;');
 
@@ -28,8 +31,8 @@ export function head({ title, description, canonical, up = 0 }) {
 <meta name="theme-color" content="#212842">
 <link rel="canonical" href="https://amirsalmani.com${canonical}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="${base}suite.css">
-<script src="${base}theme.js"></script>
+<link rel="stylesheet" href="${base}__ASSET_CSS__">
+<script src="${base}__ASSET_THEME__"></script>
 </head>
 <body class="band">
 `;
@@ -77,8 +80,8 @@ export function footer() {
 `;
 }
 
-export function close({ up = 0, script = 'catalogue.js' } = {}) {
-  return `<script type="module" src="${'../'.repeat(up)}${script}"></script>
+export function close({ up = 0 } = {}) {
+  return `<script type="module" src="${'../'.repeat(up)}__ASSET_JS__"></script>
 </body>
 </html>
 `;

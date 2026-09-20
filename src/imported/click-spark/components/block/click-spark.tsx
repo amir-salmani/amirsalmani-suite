@@ -41,7 +41,7 @@ export const ClickSpark = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let resizeTimeout: NodeJS.Timeout;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
 
     const resizeCanvas = () => {
       if (typeof window !== "undefined") {

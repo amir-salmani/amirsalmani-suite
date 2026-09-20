@@ -14,6 +14,7 @@
 // bytes on disk. See design-atelier/teardowns/opensourceui-in-components.md.
 
 import { readFile, writeFile, mkdir, rm, cp, readdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ITEMS, RETIRED, CATEGORIES, byName } from '../src/manifest.mjs';
@@ -22,6 +23,14 @@ import { head, nav, footer, close, NAV_CSS, esc as escape, attr as attribute } f
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.resolve(process.argv[2] ?? path.join(ROOT, 'dist'));
 const read = p => readFile(path.join(ROOT, p), 'utf8');
+
+async function* htmlFiles(dir) {
+  for (const e of await readdir(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) yield* htmlFiles(p);
+    else if (e.name.endsWith('.html')) yield p;
+  }
+}
 
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const attr = s => esc(s).replace(/"/g, '&quot;');
@@ -634,9 +643,30 @@ for (const item of ITEMS) {
 await cp(path.join(ROOT, 'src', 'plates'), path.join(OUT, 'suite', 'plates'), { recursive: true }).catch(() => {});
 
 await cp(path.join(ROOT, 'src', 'demos-video'), path.join(OUT, 'suite', 'demos'), { recursive: true }).catch(() => {});
-await writeFile(path.join(OUT, 'suite', 'suite.css'), cssParts.join('\n') + '\n' + shellCss + NAV_CSS + SURFACE_CSS);
-await writeFile(path.join(OUT, 'suite', 'catalogue.js'), js);
-await writeFile(path.join(OUT, 'suite', 'theme.js'), themeJs);
+/* Named for a hash of their own bytes, so a deploy that changes them changes the
+ * URL. The edge can then hold them for a year and there is nothing stale to
+ * purge — which is the whole reason the purge was a manual step. HTML keeps its
+ * own short life and points at whichever hash is current. */
+const asset = async (name, ext, body) => {
+  const hash = createHash('sha256').update(body).digest('hex').slice(0, 8);
+  const file = `${name}.${hash}.${ext}`;
+  await writeFile(path.join(OUT, 'suite', file), body);
+  return file;
+};
+
+const assets = {
+  __ASSET_CSS__: await asset('suite', 'css', cssParts.join('\n') + '\n' + shellCss + NAV_CSS + SURFACE_CSS),
+  __ASSET_JS__: await asset('catalogue', 'js', js),
+  __ASSET_THEME__: await asset('theme', 'js', themeJs),
+};
+
+// Every page was written with the placeholders; resolve them in place.
+let stamped = 0;
+for await (const file of htmlFiles(path.join(OUT, 'suite'))) {
+  const before = await readFile(file, 'utf8');
+  const after = Object.entries(assets).reduce((t, [k, v]) => t.replaceAll(k, v), before);
+  if (after !== before) { await writeFile(file, after); stamped++; }
+}
 await cp(path.join(ROOT, 'src', 'motion', 'motion.js'), path.join(OUT, 'suite', 'lib', 'motion.js'));
 
 const kb = n => (n / 1024).toFixed(1) + 'KB';
@@ -644,6 +674,5 @@ console.log(`${path.relative(ROOT, OUT)}/`);
 console.log(`  suite/index.html            ${kb(landing.length)}  · ${CATEGORIES.length - 1} categories, ${components.length} items`);
 console.log(`  suite/components/index.html ${kb(catalogue.length)}  · ${ITEMS.length} items, ${CATEGORIES.length} categories`);
 console.log(`  suite/docs/                 ${ITEMS.length + 1} pages · ${recorded.size} with a recording`);
-console.log(`  suite/suite.css   ${kb(cssParts.join('').length + shellCss.length)}`);
-console.log(`  suite/catalogue.js ${kb(js.length)}`);
+console.log(`  ${Object.values(assets).join('  ')}  · stamped into ${stamped} pages`);
 console.log(`  r/                ${(await readdir(path.join(OUT, 'r'))).length} JSON`);

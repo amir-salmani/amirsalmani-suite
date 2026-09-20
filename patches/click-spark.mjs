@@ -2,6 +2,10 @@
  * next-themes told it dark-or-light; --fg tells it which of three grounds.
  */
 export default [
+  /* NodeJS.Timeout in a browser component: the namespace only exists with
+   * @types/node installed, which a consumer has no reason to have. The return
+   * of setTimeout is the same thing and needs nothing. */
+  ['NodeJS.Timeout', 'ReturnType<typeof setTimeout>'],
   ['import { useTheme } from "next-themes";\n',
    'import { tokenColour } from "@lib/token-colour";\n', /click\-spark\.(jsx|tsx)$/],
   ['  const { resolvedTheme } = useTheme();\n', ''],

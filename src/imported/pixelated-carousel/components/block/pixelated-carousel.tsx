@@ -119,7 +119,6 @@ export function PixelatedCarousel({
                         src={image}
                         key={image + index}
                         alt="pixelated carousel"
-                        fill
                         className="object-cover absolute top-0 left-0 h-full w-full"
                         style={{ zIndex: activeImageIndex % images.length === index ? 10 : 0 }}
                     />
