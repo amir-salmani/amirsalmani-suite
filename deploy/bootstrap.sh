@@ -29,13 +29,23 @@ TRAEFIK=${TRAEFIK_DYNAMIC:-/opt/traefik/dynamic}
 
 # The rule. A service owning path prefixes shares its host with another service,
 # so it must match on both and outrank the host's own catch-all.
+#
 # Traefik v3's PathPrefix takes exactly one argument — PathPrefix(`/a`,`/b`) is
 # rejected as "unexpected number of parameters" — so several prefixes become an
 # || group rather than a list.
+#
+# And PathPrefix matches a *string* prefix, not a path segment: PathPrefix(`/r`)
+# takes /robots.txt and /runbook/ along with /r/button.json. A co-tenant claiming
+# /r therefore served this host's robots.txt as a 404 for four weeks, which only
+# surfaced when the other service next ran its conformance suite. So each prefix
+# is expanded to the segment-boundary pair instead — exact, or followed by a
+# slash — and a trailing slash in PATHS is stripped first so /r and /r/ cannot
+# produce different rules.
 if [ -n "${PATHS:-}" ]; then
 	group=""
 	for p in ${PATHS//,/ }; do
-		group="${group:+$group || }PathPrefix(\`$p\`)"
+		p=${p%/}
+		group="${group:+$group || }(Path(\`$p\`) || PathPrefix(\`$p/\`))"
 	done
 	RULE="Host(\`$HOST\`) && ($group)"
 else
