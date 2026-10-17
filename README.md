@@ -2,13 +2,21 @@
 type: Readme
 title: "The Amir Salmani suite"
 description: "Two tiers in one registry — a brand written here, 103 components imported from ObsidianUI and re-pointed onto it — served across three static surfaces on amirsalmani.com/suite."
-status: active
+status: superseded
 created: 2026-09-17
-timestamp: 2026-09-20
+timestamp: 2026-10-17
 tags: [readme]
 ---
 
 # The Amir Salmani suite
+
+> **Retired 2026-10-17.** This service is decommissioned —
+> `amirsalmani.com/suite` and `amirsalmani.com/r` return that site's 404, and
+> `npx shadcn@latest add @amirsalmani/*` no longer resolves. See
+> [index.md](index.md) and
+> [estate decisions/0024](https://github.com/amir-salmani/codebase/blob/main/decisions/0024-the-suite-is-retired.md).
+> What follows described a live service and is kept unchanged.
+
 
 **121 items across 15 categories, three grounds, no accent hue, MIT.**
 

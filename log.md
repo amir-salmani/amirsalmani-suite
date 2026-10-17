@@ -4,10 +4,28 @@ title: Suite log
 description: Newest first, one bullet per change.
 status: active
 created: 2026-09-15
-timestamp: 2026-09-15
+timestamp: 2026-10-17
 ---
 
 # Log
+
+## 2026-10-17 — retired
+
+- **Decommissioned.** Container, Traefik route and the `/r` registry are gone;
+  `amirsalmani.com/suite` and `/r` return that site's 404 and
+  `npx shadcn@latest add @amirsalmani/*` no longer resolves. Rationale in
+  [estate decisions/0024](https://github.com/amir-salmani/codebase/blob/main/decisions/0024-the-suite-is-retired.md);
+  this repository is the record and the local working copy is deleted.
+- **`reconcile-upstream` measured the reason.** 103 items imported on
+  2026-09-20 against 74 served upstream — 38 withdrawn, 5 changed, 9 new, **52
+  of 103 drifted in four weeks.** `butterfly-trail-cursor` and `fractal-glass`
+  fetch three assets from `www.obsidianui.dev/effects/` that now 404, so they
+  were broken for anyone who installed them and the build could not go green.
+- **The route bug this service caused, fixed on the way out.** Its rule claimed
+  ``PathPrefix(`/r`)``, a string prefix, so it answered `amirsalmani.com/robots.txt`
+  and `/runbook/` with its own 404 from its first deploy on 2026-09-20 until
+  2026-10-17. Each prefix now expands to ``(Path(`p`) || PathPrefix(`p/`))`` in
+  `deploy/bootstrap.sh` and in the estate template this was copied from.
 
 ## 2026-09-15 — the catalogue
 
