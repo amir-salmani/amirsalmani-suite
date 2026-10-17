@@ -1,33 +1,49 @@
 ---
 type: Index
 title: The Amir Salmani suite
-description: Two tiers in one registry — a brand written here, 103 components imported from ObsidianUI and re-pointed onto it — served across three static surfaces on amirsalmani.com/suite.
-status: active
+description: Retired 2026-10-17. A two-tier shadcn registry — a brand written here, 103 components imported from ObsidianUI — served on amirsalmani.com/suite until upstream withdrew 38 of them in four weeks. Decommissioned; the repository is the record.
+status: superseded
 created: 2026-09-15
-timestamp: 2026-09-20
+timestamp: 2026-10-17
 format: Open Knowledge Format
 tags: [brand, icons, components, design-system, registry, catalogue]
 project:
   id: amirsalmani-suite
   owner: amir
   kind: tool
-  lifecycle: active
+  lifecycle: frozen
   visibility: public
-  hosting: rhinocloud
+  hosting: none
   toolchain: node
+  archived_to: github.com/amir-salmani/amirsalmani-suite
 ---
 
 # The Amir Salmani suite
 
-**118 components, 3 bundles, 15 categories.** Three grounds, no accent hue, MIT.
-Browse it at [amirsalmani.com/suite](https://amirsalmani.com/suite/); install any
-of it with one command.
+> **Retired 2026-10-17.** The container, the Traefik route and the `/r` registry
+> are decommissioned: `amirsalmani.com/suite` and `amirsalmani.com/r` now return
+> that site's 404, and `npx shadcn@latest add @amirsalmani/*` no longer resolves.
+> This repository is the record. Rationale and consequences:
+> [estate decisions/0024](https://github.com/amir-salmani/codebase/blob/main/decisions/0024-the-suite-is-retired.md).
+>
+> **Why:** on 2026-10-17 `node tools/reconcile-upstream.mjs` measured 103 items
+> imported on 2026-09-20 against 74 served upstream — **38 withdrawn, 5 changed,
+> 9 new, 52 drifted in four weeks.** Two withdrawn items fetch assets from
+> `www.obsidianui.dev/effects/` that now 404, so they were broken for anyone who
+> installed them. A single upstream origin is only a simplification while it is
+> stable.
+>
+> **What survives and where:** the brand tier — tokens, type, motion, marks,
+> icons, `made-by` — is the part that was authored here, and it lives on in
+> `amirsalmani-com/site/styles.css`, served uncompiled at
+> [amirsalmani.com/styles.css](https://amirsalmani.com/styles.css). The 118
+> catalogue items are unpublished, not lost; `upstream/registry.json` is now the
+> only copy of the 38 items upstream withdrew.
+>
+> Everything below describes the suite as it stood on 2026-09-20 and is kept
+> unchanged, because a record that is edited to stay true is not a record.
 
-```bash
-npx shadcn@latest add @amirsalmani/tokens        # first — everything derives from it
-npx shadcn@latest add @amirsalmani/suite         # the brand tier: framework-free CSS
-npx shadcn@latest add @amirsalmani/suite-react   # the component tier: React, Tailwind v4
-```
+**118 components, 3 bundles, 15 categories.** Three grounds, no accent hue, MIT.
 
 ## Two tiers
 

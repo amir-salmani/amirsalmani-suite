@@ -2,13 +2,21 @@
 type: Guide
 title: Deploying the suite
 description: amirsalmani.com/suite is its own container on rhinocloud-de-1. Merge to main; the box pulls within two minutes.
-status: active
+status: superseded
 created: 2026-09-19
-timestamp: 2026-09-19
+timestamp: 2026-10-17
 tags: [deploy, ci]
 ---
 
 # Deploying the suite
+
+> **Retired 2026-10-17.** This service is decommissioned —
+> `amirsalmani.com/suite` and `amirsalmani.com/r` return that site's 404, and
+> `npx shadcn@latest add @amirsalmani/*` no longer resolves. See
+> [index.md](index.md) and
+> [estate decisions/0024](https://github.com/amir-salmani/codebase/blob/main/decisions/0024-the-suite-is-retired.md).
+> What follows described a live service and is kept unchanged.
+
 
 **Merge to `main`.** That is the whole procedure.
 
