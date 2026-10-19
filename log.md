@@ -14,7 +14,7 @@ timestamp: 2026-10-17
 - **Decommissioned.** Container, Traefik route and the `/r` registry are gone;
   `amirsalmani.com/suite` and `/r` return that site's 404 and
   `npx shadcn@latest add @amirsalmani/*` no longer resolves. Rationale in
-  [estate decisions/0024](https://github.com/amir-salmani/codebase/blob/main/decisions/0024-the-suite-is-retired.md);
+  [the estate's record](https://github.com/amir-salmani/codebase/blob/dev/offsite/amirsalmani-suite.md);
   this repository is the record and the local working copy is deleted.
 - **`reconcile-upstream` measured the reason.** 103 items imported on
   2026-09-20 against 74 served upstream — 38 withdrawn, 5 changed, 9 new, **52
