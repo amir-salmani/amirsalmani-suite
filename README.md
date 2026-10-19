@@ -14,7 +14,7 @@ tags: [readme]
 > `amirsalmani.com/suite` and `amirsalmani.com/r` return that site's 404, and
 > `npx shadcn@latest add @amirsalmani/*` no longer resolves. See
 > [index.md](index.md) and
-> [estate decisions/0024](https://github.com/amir-salmani/codebase/blob/main/decisions/0024-the-suite-is-retired.md).
+> [the estate's record](https://github.com/amir-salmani/codebase/blob/dev/offsite/amirsalmani-suite.md).
 > What follows described a live service and is kept unchanged.
 
 

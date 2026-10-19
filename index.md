@@ -24,7 +24,7 @@ project:
 > are decommissioned: `amirsalmani.com/suite` and `amirsalmani.com/r` now return
 > that site's 404, and `npx shadcn@latest add @amirsalmani/*` no longer resolves.
 > This repository is the record. Rationale and consequences:
-> [estate decisions/0024](https://github.com/amir-salmani/codebase/blob/main/decisions/0024-the-suite-is-retired.md).
+> [the estate's record](https://github.com/amir-salmani/codebase/blob/dev/offsite/amirsalmani-suite.md).
 >
 > **Why:** on 2026-10-17 `node tools/reconcile-upstream.mjs` measured 103 items
 > imported on 2026-09-20 against 74 served upstream — **38 withdrawn, 5 changed,
